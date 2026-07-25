@@ -30,14 +30,43 @@ htmlFiles.forEach(file => {
   // Replace external link rel="stylesheet" with inlined <style> tag
   html = html.replace(/<link[^>]*rel="stylesheet"[^>]*>/i, styleTag);
 
-  // Replace root-absolute links (/fees -> fees.html) for static host compatibility
-  html = html.replace(/href="\/fees"/g, 'href="fees.html"');
-  html = html.replace(/href="\/visit"/g, 'href="visit.html"');
-  html = html.replace(/href="\/our-promise"/g, 'href="our-promise.html"');
-  html = html.replace(/href="\/our-promise#safeguarding"/g, 'href="our-promise.html#safeguarding"');
-
   fs.writeFileSync(filePath, html, 'utf8');
   console.log(`Successfully inlined CSS into ${file}`);
 });
 
-console.log('✅ All HTML files now have CSS 100% inlined directly inside them!');
+// Create folder routes so both /fees and /fees.html work on Hostinger
+const routeFolders = [
+  { file: 'fees.html', folder: 'fees' },
+  { file: 'visit.html', folder: 'visit' },
+  { file: 'our-promise.html', folder: 'our-promise' }
+];
+
+routeFolders.forEach(({ file, folder }) => {
+  const srcPath = path.join(outDir, file);
+  const targetDir = path.join(outDir, folder);
+  if (fs.existsSync(srcPath)) {
+    fs.mkdirSync(targetDir, { recursive: true });
+    fs.copyFileSync(srcPath, path.join(targetDir, 'index.html'));
+    console.log(`Created route folder ${folder}/index.html`);
+  }
+});
+
+// Create .htaccess for Hostinger clean URL rewrites
+const htaccessContent = `RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+`;
+
+fs.writeFileSync(path.join(outDir, '.htaccess'), htaccessContent, 'utf8');
+console.log('Created Hostinger .htaccess rewrite file');
+
+// Copy video asset to out/
+const videoSrc = path.join(__dirname, '../public/daily-update-video.mp4');
+if (fs.existsSync(videoSrc)) {
+  fs.copyFileSync(videoSrc, path.join(outDir, 'daily-update-video.mp4'));
+  console.log('Copied daily-update-video.mp4 to out/ directory');
+}
+
+console.log('✅ Production build ready for Hostinger upload!');

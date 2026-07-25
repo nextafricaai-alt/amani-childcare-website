@@ -183,17 +183,23 @@ export default function HomePage() {
         <div className="container">
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
 
-            {/* Photo slot */}
+            {/* Video slot */}
             <Reveal direction="scale" className="md:w-2/5 w-full flex-shrink-0">
               <div className="card-shell">
-                <div className="card-core">
-                  <div
-                    className="photo-slot aspect-[3/4]"
-                    style={{ borderRadius: "calc(2rem - 0.375rem)", border: "none" }}
-                  >
-                    <div style={{ fontSize: "2rem", lineHeight: 1 }}>📱</div>
-                    <p style={{ marginTop: "0.5rem", fontWeight: 600 }}>PHOTO SLOT</p>
-                    <p style={{ marginTop: "0.25rem", opacity: 0.7 }}>Daily WhatsApp report<br />on phone screen</p>
+                <div className="card-core overflow-hidden">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
+                    <video
+                      src="daily-update-video.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] text-white font-sans font-semibold tracking-wider uppercase flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Live WhatsApp Preview
+                    </div>
                   </div>
                 </div>
               </div>
