@@ -84,7 +84,7 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 20;
-const MAX_SCROLL = 3000;
+const MAX_SCROLL = 500; // Quick morph range — finishes fast then seamlessly hands off page scroll!
 
 const IMAGES = [
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300&q=80",
@@ -143,6 +143,15 @@ export default function ScrollMorphHero() {
     if (!container) return;
 
     const handleWheel = (e: WheelEvent) => {
+      // If user is at MAX_SCROLL and scrolling down, let page scroll natively!
+      if (scrollRef.current >= MAX_SCROLL && e.deltaY > 0) {
+        return;
+      }
+      // If user is at 0 and scrolling up, let page scroll natively!
+      if (scrollRef.current <= 0 && e.deltaY < 0) {
+        return;
+      }
+
       e.preventDefault();
       const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
@@ -156,6 +165,14 @@ export default function ScrollMorphHero() {
     const handleTouchMove = (e: TouchEvent) => {
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
+
+      if (scrollRef.current >= MAX_SCROLL && deltaY > 0) {
+        return;
+      }
+      if (scrollRef.current <= 0 && deltaY < 0) {
+        return;
+      }
+
       touchStartY = touchY;
       const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);
       scrollRef.current = newScroll;
@@ -173,11 +190,11 @@ export default function ScrollMorphHero() {
     };
   }, [virtualScroll]);
 
-  const morphProgress = useTransform(virtualScroll, [0, 600], [0, 1]);
-  const smoothMorph = useSpring(morphProgress, { stiffness: 40, damping: 20 });
+  const morphProgress = useTransform(virtualScroll, [0, 450], [0, 1]);
+  const smoothMorph = useSpring(morphProgress, { stiffness: 45, damping: 22 });
 
-  const scrollRotate = useTransform(virtualScroll, [600, 3000], [0, 360]);
-  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 40, damping: 20 });
+  const scrollRotate = useTransform(virtualScroll, [450, 500], [0, 90]);
+  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 45, damping: 22 });
 
   const mouseX = useMotionValue(0);
   const smoothMouseX = useSpring(mouseX, { stiffness: 30, damping: 20 });
@@ -229,21 +246,47 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-  const contentOpacity = useTransform(smoothMorph, [0.8, 1], [0, 1]);
-  const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
+  const contentOpacity = useTransform(smoothMorph, [0.75, 1], [0, 1]);
+  const contentY = useTransform(smoothMorph, [0.75, 1], [20, 0]);
 
   return (
     <div
       ref={containerRef}
       className="relative w-full h-full overflow-hidden"
-      style={{ background: "oklch(97% 0.012 85)" }}
+      style={{
+        background: "oklch(97% 0.012 85)",
+      }}
     >
+      {/* ── Ethereal Ambient Mesh Gradients (Design Skill: Rich Background) ── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-80"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 18% 22%, oklch(68% 0.12 75 / 0.14) 0%, transparent 45%),
+            radial-gradient(circle at 82% 28%, oklch(22% 0.06 155 / 0.09) 0%, transparent 50%),
+            radial-gradient(circle at 50% 85%, oklch(68% 0.12 75 / 0.08) 0%, transparent 55%)
+          `,
+        }}
+      />
+
+      {/* ── Delicate Decorative Aura Ring (Grounds the Ring Composition) ── */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-0"
+        style={{
+          width: Math.min(containerSize.width * 0.76, 760),
+          height: Math.min(containerSize.width * 0.76, 760),
+          border: "1px dashed oklch(68% 0.12 75 / 0.18)",
+          opacity: introPhase === "circle" ? 1 - morphValue : 0,
+          transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1)",
+        }}
+      />
+
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
         {/* ── Central Hero Content (Inside the Animation Ring) ── */}
         <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 max-w-2xl">
 
-          {/* Eyebrow tag */}
+          {/* Eyebrow badge */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={
@@ -403,7 +446,7 @@ export default function ScrollMorphHero() {
               const startAngle = -90 - spreadAngle / 2;
               const step = spreadAngle / (TOTAL_IMAGES - 1);
 
-              const scrollProgress = Math.min(Math.max(rotateValue / 360, 0), 1);
+              const scrollProgress = Math.min(Math.max(rotateValue / 90, 0), 1);
               const maxRotation = spreadAngle * 0.8;
               const boundedRotation = -scrollProgress * maxRotation;
 
