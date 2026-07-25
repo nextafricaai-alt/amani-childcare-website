@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowUpRight, CheckCircle2, Shield, Users, Heart, MessageSquare, Star } from "lucide-react";
 import TrustStrip from "@/components/ui/trust-strip";
 import Reveal from "@/components/ui/reveal";
+import HeroWrapper from "@/components/ui/hero-wrapper";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -11,16 +11,6 @@ export const metadata: Metadata = {
   description: SITE_CONFIG.description,
 };
 
-const ScrollMorphHero = dynamic(
-  () => import("@/components/ui/scroll-morph-hero"),
-  { ssr: false, loading: () => <HeroFallback /> }
-);
-
-function HeroFallback() {
-  return (
-    <div className="w-full h-full flex items-center justify-center" style={{ background: "oklch(97% 0.012 85)" }} />
-  );
-}
 
 // ─── Sections ────────────────────────────────────────────────────────────────
 
@@ -80,7 +70,7 @@ export default function HomePage() {
         style={{ height: "100svh", minHeight: 640, maxHeight: 960 }}
       >
         {/* Interactive canvas */}
-        <ScrollMorphHero />
+        <HeroWrapper />
 
         {/* Editorial text overlay */}
         <div className="absolute inset-0 flex flex-col justify-end pb-16 px-6 md:px-12 z-20 pointer-events-none">

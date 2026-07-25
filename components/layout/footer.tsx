@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Sprout, MapPin, Clock, Phone, ArrowUpRight } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
