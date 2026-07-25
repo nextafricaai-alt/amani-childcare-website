@@ -110,7 +110,7 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 
 export default function ScrollMorphHero() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const [containerSize, setContainerSize] = useState({ width: 1200, height: 800 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
