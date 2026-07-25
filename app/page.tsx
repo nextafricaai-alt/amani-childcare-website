@@ -421,14 +421,13 @@ export default function HomePage() {
             {/* Photo */}
             <Reveal direction="scale" className="md:w-2/5 flex-shrink-0">
               <div className="card-shell">
-                <div className="card-core">
-                  <div
-                    className="photo-slot aspect-[3/4]"
-                    style={{ borderRadius: "calc(2rem - 0.375rem)", border: "none" }}
-                  >
-                    <div style={{ fontSize: "2rem" }}>📸</div>
-                    <p style={{ fontWeight: 600, marginTop: "0.5rem" }}>PHOTO SLOT</p>
-                    <p style={{ opacity: 0.7, marginTop: "0.25rem" }}>Founders portrait<br />(consented)</p>
+                <div className="card-core overflow-hidden">
+                  <div className="relative aspect-[3/4] w-full overflow-hidden">
+                    <img
+                      src="founders-portrait.jpg"
+                      alt="Hudson and Patience Tumusiime - Founders of Amani"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>

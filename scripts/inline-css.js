@@ -62,11 +62,17 @@ RewriteRule ^(.*)$ $1.html [L]
 fs.writeFileSync(path.join(outDir, '.htaccess'), htaccessContent, 'utf8');
 console.log('Created Hostinger .htaccess rewrite file');
 
-// Copy video asset to out/
+// Copy assets to out/
 const videoSrc = path.join(__dirname, '../public/daily-update-video.mp4');
 if (fs.existsSync(videoSrc)) {
   fs.copyFileSync(videoSrc, path.join(outDir, 'daily-update-video.mp4'));
   console.log('Copied daily-update-video.mp4 to out/ directory');
+}
+
+const portraitSrc = path.join(__dirname, '../public/founders-portrait.jpg');
+if (fs.existsSync(portraitSrc)) {
+  fs.copyFileSync(portraitSrc, path.join(outDir, 'founders-portrait.jpg'));
+  console.log('Copied founders-portrait.jpg to out/ directory');
 }
 
 console.log('✅ Production build ready for Hostinger upload!');
