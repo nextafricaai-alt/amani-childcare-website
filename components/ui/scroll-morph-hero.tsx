@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
-import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { motion, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, X, ZoomIn } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 // --- Types ---
@@ -11,17 +11,19 @@ export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
 
 interface FlipCardProps {
   src: string;
+  title: string;
   index: number;
   total: number;
   phase: AnimationPhase;
   target: { x: number; y: number; rotation: number; scale: number; opacity: number };
+  onClick: () => void;
 }
 
 // --- FlipCard Component ---
 const IMG_WIDTH = 60;
 const IMG_HEIGHT = 85;
 
-function FlipCard({ src, index, phase, target }: FlipCardProps) {
+function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) {
   return (
     <motion.div
       animate={{
@@ -40,6 +42,7 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
         perspective: "1000px",
       }}
       className="cursor-pointer group"
+      onClick={onClick}
     >
       <motion.div
         className="relative h-full w-full"
@@ -54,7 +57,7 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
         >
           <img
             src={src}
-            alt={`hero-${index}`}
+            alt={title}
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-transparent" />
@@ -62,7 +65,7 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
 
         {/* Back Face */}
         <div
-          className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg flex flex-col items-center justify-center p-4 border"
+          className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg flex flex-col items-center justify-center p-3 border"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
@@ -71,10 +74,10 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
           }}
         >
           <div className="text-center">
-            <p className="text-[8px] font-bold uppercase tracking-widest mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
-              View
+            <ZoomIn className="w-4 h-4 mx-auto mb-1 text-[oklch(68%_0.12_75)]" />
+            <p className="text-[8px] font-bold uppercase tracking-widest text-white leading-tight">
+              View Photo
             </p>
-            <p className="text-xs font-medium text-white">Details</p>
           </div>
         </div>
       </motion.div>
@@ -84,29 +87,29 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 20;
-const MAX_SCROLL = 500; // Quick morph range — finishes fast then seamlessly hands off page scroll!
+const MAX_SCROLL = 1800; // Original smooth, natural movement speed!
 
-const IMAGES = [
-  "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&q=80", // African children smiling in classroom
-  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&q=80", // Child reading book
-  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&q=80", // Students engaged in learning
-  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80", // Educational blocks and toys
-  "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&q=80", // Child learning in classroom
-  "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=400&q=80", // Outdoor play
-  "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=400&q=80", // Smiling child in nursery
-  "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400&q=80", // Wooden toys play
-  "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400&q=80", // Montessori blocks
-  "https://images.unsplash.com/photo-1567057419565-4349c679c078?w=400&q=80", // Arts and crafts
-  "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=400&q=80", // Shapes and learning
-  "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=80", // Young African students
-  "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&q=80", // Children laughing
-  "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400&q=80", // Kids in classroom
-  "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&q=80", // Educational toys
-  "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&q=80", // Creative drawing time
-  "https://images.unsplash.com/photo-1522661067900-ab829854a57f?w=400&q=80", // Storytime circle
-  "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80", // Outdoor nature play
-  "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400&q=80", // Nursery classroom space
-  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=80", // Joyful kids group
+const GALLERY_ITEMS = [
+  { src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80", title: "Interactive Classroom Learning" },
+  { src: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80", title: "Storytime & Literacy Corner" },
+  { src: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80", title: "Engaged Group Activities" },
+  { src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80", title: "Educational Wooden Blocks" },
+  { src: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80", title: "Guided Early Childhood Education" },
+  { src: "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=800&q=80", title: "Safe Outdoor Playground" },
+  { src: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=800&q=80", title: "Nursery & Care Environment" },
+  { src: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80", title: "Tactile Sensory Play" },
+  { src: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80", title: "Montessori Learning Tools" },
+  { src: "https://images.unsplash.com/photo-1567057419565-4349c679c078?w=800&q=80", title: "Creative Arts & Crafts" },
+  { src: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&q=80", title: "Early Mathematics & Logic" },
+  { src: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80", title: "Joyful Classmates & Community" },
+  { src: "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800&q=80", title: "Social Interaction & Play" },
+  { src: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80", title: "Structured Daily Classroom Rhythm" },
+  { src: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80", title: "Problem Solving & Discovery" },
+  { src: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=800&q=80", title: "Fine Motor Skills & Drawing" },
+  { src: "https://images.unsplash.com/photo-1522661067900-ab829854a57f?w=800&q=80", title: "Circle Time & Values Sharing" },
+  { src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800&q=80", title: "Nature Exploration & Physical Play" },
+  { src: "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80", title: "Bright, Hygienic Nursery Facilities" },
+  { src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80", title: "Amani Family & Child Development" },
 ];
 
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
@@ -114,6 +117,8 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 export default function ScrollMorphHero() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
   const [containerSize, setContainerSize] = useState({ width: 1200, height: 800 });
+  const [activeModalItem, setActiveModalItem] = useState<{ src: string; title: string } | null>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -143,11 +148,9 @@ export default function ScrollMorphHero() {
     if (!container) return;
 
     const handleWheel = (e: WheelEvent) => {
-      // If user is at MAX_SCROLL and scrolling down, let page scroll natively!
       if (scrollRef.current >= MAX_SCROLL && e.deltaY > 0) {
         return;
       }
-      // If user is at 0 and scrolling up, let page scroll natively!
       if (scrollRef.current <= 0 && e.deltaY < 0) {
         return;
       }
@@ -190,11 +193,12 @@ export default function ScrollMorphHero() {
     };
   }, [virtualScroll]);
 
-  const morphProgress = useTransform(virtualScroll, [0, 450], [0, 1]);
-  const smoothMorph = useSpring(morphProgress, { stiffness: 45, damping: 22 });
+  // Smooth, natural morphing speed
+  const morphProgress = useTransform(virtualScroll, [0, 1200], [0, 1]);
+  const smoothMorph = useSpring(morphProgress, { stiffness: 40, damping: 20 });
 
-  const scrollRotate = useTransform(virtualScroll, [450, 500], [0, 90]);
-  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 45, damping: 22 });
+  const scrollRotate = useTransform(virtualScroll, [1200, 1800], [0, 180]);
+  const smoothScrollRotate = useSpring(scrollRotate, { stiffness: 40, damping: 20 });
 
   const mouseX = useMotionValue(0);
   const smoothMouseX = useSpring(mouseX, { stiffness: 30, damping: 20 });
@@ -222,7 +226,7 @@ export default function ScrollMorphHero() {
   }, []);
 
   const scatterPositions = useMemo(() => {
-    return IMAGES.map(() => ({
+    return GALLERY_ITEMS.map(() => ({
       x: (Math.random() - 0.5) * 1500,
       y: (Math.random() - 0.5) * 1000,
       rotation: (Math.random() - 0.5) * 180,
@@ -249,6 +253,15 @@ export default function ScrollMorphHero() {
   const contentOpacity = useTransform(smoothMorph, [0.75, 1], [0, 1]);
   const contentY = useTransform(smoothMorph, [0.75, 1], [20, 0]);
 
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveModalItem(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div
       ref={containerRef}
@@ -257,7 +270,7 @@ export default function ScrollMorphHero() {
         background: "oklch(97% 0.012 85)",
       }}
     >
-      {/* ── Ethereal Ambient Mesh Gradients (Design Skill: Rich Background) ── */}
+      {/* ── Ethereal Ambient Mesh Gradients ── */}
       <div
         className="absolute inset-0 pointer-events-none z-0 opacity-80"
         style={{
@@ -269,7 +282,7 @@ export default function ScrollMorphHero() {
         }}
       />
 
-      {/* ── Delicate Decorative Aura Ring (Grounds the Ring Composition) ── */}
+      {/* ── Delicate Decorative Aura Ring ── */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-0"
         style={{
@@ -283,7 +296,7 @@ export default function ScrollMorphHero() {
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* ── Central Hero Content (Inside the Animation Ring) ── */}
+        {/* ── Central Hero Content ── */}
         <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 max-w-2xl">
 
           {/* Eyebrow badge */}
@@ -381,7 +394,7 @@ export default function ScrollMorphHero() {
           </motion.p>
         </div>
 
-        {/* ── Arc Active Content (Fades in when arc morphs) ── */}
+        {/* ── Arc Active Content ── */}
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
           className="absolute top-[12%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
@@ -414,7 +427,7 @@ export default function ScrollMorphHero() {
 
         {/* ── Animated Flip Cards Ring ── */}
         <div className="relative flex items-center justify-center w-full h-full">
-          {IMAGES.slice(0, TOTAL_IMAGES).map((src, i) => {
+          {GALLERY_ITEMS.slice(0, TOTAL_IMAGES).map((item, i) => {
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
             if (introPhase === "scatter") {
@@ -446,7 +459,7 @@ export default function ScrollMorphHero() {
               const startAngle = -90 - spreadAngle / 2;
               const step = spreadAngle / (TOTAL_IMAGES - 1);
 
-              const scrollProgress = Math.min(Math.max(rotateValue / 90, 0), 1);
+              const scrollProgress = Math.min(Math.max(rotateValue / 180, 0), 1);
               const maxRotation = spreadAngle * 0.8;
               const boundedRotation = -scrollProgress * maxRotation;
 
@@ -472,16 +485,93 @@ export default function ScrollMorphHero() {
             return (
               <FlipCard
                 key={i}
-                src={src}
+                src={item.src}
+                title={item.title}
                 index={i}
                 total={TOTAL_IMAGES}
                 phase={introPhase}
                 target={target}
+                onClick={() => setActiveModalItem(item)}
               />
             );
           })}
         </div>
       </div>
+
+      {/* ── Fullscreen Lightbox Modal (Appears when any card is clicked) ── */}
+      <AnimatePresence>
+        {activeModalItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-xl"
+            onClick={() => setActiveModalItem(null)}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setActiveModalItem(null)}
+              className="absolute top-6 right-6 z-10 w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="relative max-w-3xl w-full bg-[oklch(99%_0.006_85)] rounded-3xl overflow-hidden shadow-2xl border border-[oklch(68%_0.12_75_/0.25)] flex flex-col md:flex-row"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Image */}
+              <div className="md:w-3/5 aspect-[4/3] md:aspect-auto overflow-hidden bg-black">
+                <img
+                  src={activeModalItem.src}
+                  alt={activeModalItem.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Details & WhatsApp CTA */}
+              <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between" style={{ background: "oklch(97% 0.012 85)" }}>
+                <div>
+                  <span className="eyebrow mb-3 inline-flex">Gallery Feature</span>
+                  <h3 className="font-display font-medium text-2xl md:text-3xl mb-3" style={{ color: "oklch(22% 0.06 155)" }}>
+                    {activeModalItem.title}
+                  </h3>
+                  <p className="body-sm text-[oklch(30%_0.015_90)] font-sans leading-relaxed mb-6">
+                    A glimpse into daily life at Amani Child Development Centre in Najjera — built for safety, structured learning, and authentic care.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3 pt-4 border-t border-[oklch(68%_0.12_75_/0.15)]">
+                  <a
+                    href={getWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-gold !py-2.5 w-full justify-center"
+                  >
+                    Book a Visit to See This
+                    <span className="btn-arrow !w-6 !h-6">
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </span>
+                  </a>
+                  <button
+                    onClick={() => setActiveModalItem(null)}
+                    className="btn-ghost !py-2 w-full text-center justify-center !border-[oklch(22%_0.06_155_/0.2)]"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

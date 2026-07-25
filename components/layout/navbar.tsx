@@ -7,6 +7,7 @@ import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 const links = [
   { href: "/fees", label: "Fees" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/visit", label: "Visit Us" },
   { href: "/our-promise", label: "Our Promise" },
 ];

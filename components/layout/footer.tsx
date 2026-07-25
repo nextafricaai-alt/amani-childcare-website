@@ -6,6 +6,7 @@ import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 const colOne = [
   ["Fees", "/fees"],
+  ["Gallery", "/gallery"],
   ["Visit Us", "/visit"],
   ["Our Promise", "/our-promise"],
   ["Safeguarding", "/our-promise#safeguarding"],

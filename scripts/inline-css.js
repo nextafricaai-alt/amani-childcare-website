@@ -19,7 +19,7 @@ console.log(`Found CSS file (${cssFiles[0]}), size: ${cssContent.length} bytes.`
 const styleTag = `<style id="inlined-amani-css">\n${cssContent}\n</style>`;
 
 // List html files to process
-const htmlFiles = ['index.html', 'fees.html', 'visit.html', 'our-promise.html', '404.html'];
+const htmlFiles = ['index.html', 'fees.html', 'gallery.html', 'visit.html', 'our-promise.html', '404.html'];
 
 htmlFiles.forEach(file => {
   const filePath = path.join(outDir, file);
@@ -37,6 +37,7 @@ htmlFiles.forEach(file => {
 // Create folder routes so both /fees and /fees.html work on Hostinger
 const routeFolders = [
   { file: 'fees.html', folder: 'fees' },
+  { file: 'gallery.html', folder: 'gallery' },
   { file: 'visit.html', folder: 'visit' },
   { file: 'our-promise.html', folder: 'our-promise' }
 ];
