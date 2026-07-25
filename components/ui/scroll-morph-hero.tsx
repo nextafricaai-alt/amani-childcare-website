@@ -20,8 +20,8 @@ interface FlipCardProps {
 }
 
 // --- FlipCard Component ---
-const IMG_WIDTH = 60;
-const IMG_HEIGHT = 85;
+const IMG_WIDTH = 55;
+const IMG_HEIGHT = 78;
 
 function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) {
   return (
@@ -65,7 +65,7 @@ function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) 
 
         {/* Back Face */}
         <div
-          className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg flex flex-col items-center justify-center p-3 border"
+          className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg flex flex-col items-center justify-center p-2 border"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
@@ -74,9 +74,9 @@ function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) 
           }}
         >
           <div className="text-center">
-            <ZoomIn className="w-4 h-4 mx-auto mb-1 text-[oklch(68%_0.12_75)]" />
-            <p className="text-[8px] font-bold uppercase tracking-widest text-white leading-tight">
-              View Photo
+            <ZoomIn className="w-3.5 h-3.5 mx-auto mb-1 text-[oklch(68%_0.12_75)]" />
+            <p className="text-[7px] font-bold uppercase tracking-widest text-white leading-tight">
+              View
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) 
 
 // --- Main Hero Component ---
 const TOTAL_IMAGES = 20;
-const MAX_SCROLL = 1800; // Original smooth, natural movement speed!
+const MAX_SCROLL = 1800;
 
 const GALLERY_ITEMS = [
   { src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80", title: "Interactive Classroom Learning" },
@@ -116,13 +116,25 @@ const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * 
 
 export default function ScrollMorphHero() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
-  const [containerSize, setContainerSize] = useState({ width: 1200, height: 800 });
+  const [containerSize, setContainerSize] = useState({ width: 390, height: 750 });
   const [activeModalItem, setActiveModalItem] = useState<{ src: string; title: string } | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        setContainerSize({
+          width: containerRef.current.offsetWidth || window.innerWidth,
+          height: containerRef.current.offsetHeight || window.innerHeight,
+        });
+      }
+    };
+
+    updateDimensions();
+
     const handleResize = (entries: ResizeObserverEntry[]) => {
       for (const entry of entries) {
         setContainerSize({
@@ -131,12 +143,9 @@ export default function ScrollMorphHero() {
         });
       }
     };
+
     const observer = new ResizeObserver(handleResize);
     observer.observe(containerRef.current);
-    setContainerSize({
-      width: containerRef.current.offsetWidth,
-      height: containerRef.current.offsetHeight,
-    });
     return () => observer.disconnect();
   }, []);
 
@@ -148,12 +157,8 @@ export default function ScrollMorphHero() {
     if (!container) return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (scrollRef.current >= MAX_SCROLL && e.deltaY > 0) {
-        return;
-      }
-      if (scrollRef.current <= 0 && e.deltaY < 0) {
-        return;
-      }
+      if (scrollRef.current >= MAX_SCROLL && e.deltaY > 0) return;
+      if (scrollRef.current <= 0 && e.deltaY < 0) return;
 
       e.preventDefault();
       const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
@@ -169,12 +174,8 @@ export default function ScrollMorphHero() {
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
 
-      if (scrollRef.current >= MAX_SCROLL && deltaY > 0) {
-        return;
-      }
-      if (scrollRef.current <= 0 && deltaY < 0) {
-        return;
-      }
+      if (scrollRef.current >= MAX_SCROLL && deltaY > 0) return;
+      if (scrollRef.current <= 0 && deltaY < 0) return;
 
       touchStartY = touchY;
       const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);
@@ -193,7 +194,6 @@ export default function ScrollMorphHero() {
     };
   }, [virtualScroll]);
 
-  // Smooth, natural morphing speed
   const morphProgress = useTransform(virtualScroll, [0, 1200], [0, 1]);
   const smoothMorph = useSpring(morphProgress, { stiffness: 40, damping: 20 });
 
@@ -227,10 +227,10 @@ export default function ScrollMorphHero() {
 
   const scatterPositions = useMemo(() => {
     return GALLERY_ITEMS.map(() => ({
-      x: (Math.random() - 0.5) * 1500,
-      y: (Math.random() - 0.5) * 1000,
+      x: (Math.random() - 0.5) * 800,
+      y: (Math.random() - 0.5) * 600,
       rotation: (Math.random() - 0.5) * 180,
-      scale: 0.6,
+      scale: 0.5,
       opacity: 0,
     }));
   }, []);
@@ -250,7 +250,6 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-  // Close modal on ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setActiveModalItem(null);
@@ -258,6 +257,13 @@ export default function ScrollMorphHero() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  const isMobile = containerSize.width < 768;
+
+  // Compute ring dimensions specifically tailored for mobile vs desktop
+  const circleRadius = isMobile
+    ? Math.min(containerSize.width * 0.44, 165)
+    : Math.min(containerSize.height * 0.38, 380);
 
   return (
     <div
@@ -283,8 +289,8 @@ export default function ScrollMorphHero() {
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-0"
         style={{
-          width: Math.min(containerSize.width * 0.76, 760),
-          height: Math.min(containerSize.width * 0.76, 760),
+          width: circleRadius * 2,
+          height: circleRadius * 2,
           border: "1px dashed oklch(68% 0.12 75 / 0.18)",
           opacity: introPhase === "circle" ? Math.max(1 - morphValue * 1.5, 0) : 0,
           transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1)",
@@ -293,42 +299,42 @@ export default function ScrollMorphHero() {
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* ── Central Hero Content (Scales UP dynamically as animation morphs to bottom arc!) ── */}
-        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 w-full max-w-4xl">
+        {/* ── Central Hero Content (100% Responsive on Mobile & Desktop) ── */}
+        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 sm:px-6 w-full max-w-3xl">
 
           {/* Eyebrow badge */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={
               introPhase === "circle"
                 ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: -16 }
+                : { opacity: 0, y: -12 }
             }
             transition={{ duration: 0.8 }}
-            className="eyebrow mb-4 sm:mb-6 pointer-events-auto"
+            className="eyebrow mb-2 sm:mb-4 pointer-events-auto !text-[9px] sm:!text-xs !py-1 !px-3"
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full"
               style={{ background: "oklch(68% 0.12 75)" }}
             />
-            {morphValue > 0.4 ? `Welcome to ${SITE_CONFIG.name}` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} founding places remain`}
+            {morphValue > 0.45 ? `Welcome to ${SITE_CONFIG.name}` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} places remain`}
           </motion.div>
 
-          {/* Dynamic Scaling Display Headline: Grows BIGGER as cards morph to bottom arc! */}
+          {/* Dynamic Headline: Mobile friendly typography size */}
           <motion.h1
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
             animate={
               introPhase === "circle"
                 ? {
                     opacity: 1,
                     y: 0,
                     filter: "blur(0px)",
-                    scale: 1 + morphValue * 0.22, // Grows 22% BIGGER as animation completes!
+                    scale: 1 + morphValue * (isMobile ? 0.08 : 0.2),
                   }
                 : { opacity: 0, filter: "blur(8px)" }
             }
             transition={{ duration: 0.4, type: "spring", stiffness: 60, damping: 20 }}
-            className="font-display font-light text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.02] mb-6 select-none"
+            className="font-display font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-3 sm:mb-6 select-none"
             style={{ color: "oklch(22% 0.06 155)", transformOrigin: "center center" }}
           >
             {morphValue > 0.45 ? (
@@ -349,48 +355,45 @@ export default function ScrollMorphHero() {
             )}
           </motion.h1>
 
-          {/* Expanding Subtext */}
+          {/* Subtext: Responsive max width and size */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={
               introPhase === "circle"
-                ? {
-                    opacity: 1,
-                    scale: 1 + morphValue * 0.1,
-                  }
+                ? { opacity: 1 }
                 : { opacity: 0 }
             }
             transition={{ duration: 0.4 }}
-            className="text-base sm:text-lg md:text-xl font-sans leading-relaxed max-w-2xl mb-8"
-            style={{ color: "oklch(30% 0.015 90)", transformOrigin: "center center" }}
+            className="text-xs sm:text-base md:text-lg font-sans leading-relaxed max-w-xs sm:max-w-xl mb-4 sm:mb-6"
+            style={{ color: "oklch(30% 0.015 90)" }}
           >
-            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured. You hear from us every single day.
+            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured.
           </motion.p>
 
-          {/* Interactive CTA buttons (Enlarged & always centered above card arc) */}
+          {/* Interactive CTA buttons: Compact & responsive on mobile */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={
               introPhase === "circle"
                 ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 16 }
+                : { opacity: 0, y: 12 }
             }
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="flex flex-wrap gap-4 justify-center pointer-events-auto mb-4"
+            className="flex flex-wrap gap-2.5 sm:gap-4 justify-center pointer-events-auto mb-2"
           >
             <a
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold !py-3.5 !px-8 !text-base"
+              className="btn-gold !py-2.5 !px-5 !text-xs sm:!py-3.5 sm:!px-8 sm:!text-base"
             >
               Book a Visit
-              <span className="btn-arrow !w-6 !h-6">
-                <ArrowUpRight className="w-4 h-4" />
+              <span className="btn-arrow !w-5 !h-5 sm:!w-6 sm:!h-6">
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
-            <Link href="/our-promise" className="btn-ghost !py-3.5 !px-8 !text-base">
-              Read our promise
+            <Link href="/our-promise" className="btn-ghost !py-2.5 !px-5 !text-xs sm:!py-3.5 sm:!px-8 sm:!text-base">
+              Our Promise
             </Link>
           </motion.div>
 
@@ -403,7 +406,7 @@ export default function ScrollMorphHero() {
                 : { opacity: 0 }
             }
             transition={{ duration: 0.6 }}
-            className="text-[11px] font-sans font-semibold tracking-[0.25em] uppercase mt-2"
+            className="text-[9px] sm:text-[11px] font-sans font-semibold tracking-[0.2em] uppercase mt-1"
             style={{ color: "oklch(68% 0.12 75)" }}
           >
             SCROLL TO EXPLORE ↓
@@ -412,22 +415,19 @@ export default function ScrollMorphHero() {
 
         {/* ── Animated Flip Cards Ring ── */}
         <div className="relative flex items-center justify-center w-full h-full">
-          {GALLERY_ITEMS.slice(0, TOTAL_IMAGES).map((item, i) => {
+          {GALLERY_ITEMS.slice(0, isMobile ? 12 : TOTAL_IMAGES).map((item, i) => {
+            const count = isMobile ? 12 : TOTAL_IMAGES;
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
             if (introPhase === "scatter") {
               target = scatterPositions[i];
             } else if (introPhase === "line") {
-              const lineSpacing = 70;
-              const lineTotalWidth = TOTAL_IMAGES * lineSpacing;
+              const lineSpacing = isMobile ? 40 : 70;
+              const lineTotalWidth = count * lineSpacing;
               const lineX = i * lineSpacing - lineTotalWidth / 2;
-              target = { x: lineX, y: 0, rotation: 0, scale: 1, opacity: 1 };
+              target = { x: lineX, y: 0, rotation: 0, scale: isMobile ? 0.6 : 1, opacity: 1 };
             } else {
-              const isMobile = containerSize.width < 768;
-              const minDimension = Math.min(containerSize.width, containerSize.height);
-
-              const circleRadius = Math.min(minDimension * 0.38, 380);
-              const circleAngle = (i / TOTAL_IMAGES) * 360;
+              const circleAngle = (i / count) * 360;
               const circleRad = (circleAngle * Math.PI) / 180;
               const circlePos = {
                 x: Math.cos(circleRad) * circleRadius,
@@ -436,13 +436,13 @@ export default function ScrollMorphHero() {
               };
 
               const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
-              const arcRadius = baseRadius * (isMobile ? 1.4 : 1.1);
-              const arcApexY = containerSize.height * (isMobile ? 0.38 : 0.30);
+              const arcRadius = baseRadius * (isMobile ? 1.3 : 1.1);
+              const arcApexY = containerSize.height * (isMobile ? 0.36 : 0.30);
               const arcCenterY = arcApexY + arcRadius;
 
-              const spreadAngle = isMobile ? 100 : 130;
+              const spreadAngle = isMobile ? 110 : 130;
               const startAngle = -90 - spreadAngle / 2;
-              const step = spreadAngle / (TOTAL_IMAGES - 1);
+              const step = spreadAngle / (count - 1);
 
               const scrollProgress = Math.min(Math.max(rotateValue / 180, 0), 1);
               const maxRotation = spreadAngle * 0.8;
@@ -455,14 +455,16 @@ export default function ScrollMorphHero() {
                 x: Math.cos(arcRad) * arcRadius + parallaxValue,
                 y: Math.sin(arcRad) * arcRadius + arcCenterY,
                 rotation: currentArcAngle + 90,
-                scale: isMobile ? 1.4 : 1.8,
+                scale: isMobile ? 1.0 : 1.8,
               };
+
+              const baseScale = isMobile ? 0.65 : 1;
 
               target = {
                 x: lerp(circlePos.x, arcPos.x, morphValue),
                 y: lerp(circlePos.y, arcPos.y, morphValue),
                 rotation: lerp(circlePos.rotation, arcPos.rotation, morphValue),
-                scale: lerp(1, arcPos.scale, morphValue),
+                scale: lerp(baseScale, arcPos.scale, morphValue),
                 opacity: 1,
               };
             }
@@ -473,7 +475,7 @@ export default function ScrollMorphHero() {
                 src={item.src}
                 title={item.title}
                 index={i}
-                total={TOTAL_IMAGES}
+                total={count}
                 phase={introPhase}
                 target={target}
                 onClick={() => setActiveModalItem(item)}
@@ -497,7 +499,7 @@ export default function ScrollMorphHero() {
             {/* Close button */}
             <button
               onClick={() => setActiveModalItem(null)}
-              className="absolute top-6 right-6 z-10 w-11 h-11 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors"
+              className="absolute top-5 right-5 z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-colors"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -509,7 +511,7 @@ export default function ScrollMorphHero() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="relative max-w-3xl w-full bg-[oklch(99%_0.006_85)] rounded-3xl overflow-hidden shadow-2xl border border-[oklch(68%_0.12_75_/0.25)] flex flex-col md:flex-row"
+              className="relative max-w-3xl w-full bg-[oklch(99%_0.006_85)] rounded-3xl overflow-hidden shadow-2xl border border-[oklch(68%_0.12_75_/0.25)] flex flex-col md:flex-row max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Image */}
@@ -522,32 +524,32 @@ export default function ScrollMorphHero() {
               </div>
 
               {/* Details & WhatsApp CTA */}
-              <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between" style={{ background: "oklch(97% 0.012 85)" }}>
+              <div className="md:w-2/5 p-5 md:p-8 flex flex-col justify-between" style={{ background: "oklch(97% 0.012 85)" }}>
                 <div>
-                  <span className="eyebrow mb-3 inline-flex">Gallery Feature</span>
-                  <h3 className="font-display font-medium text-2xl md:text-3xl mb-3" style={{ color: "oklch(22% 0.06 155)" }}>
+                  <span className="eyebrow mb-2 inline-flex">Gallery Feature</span>
+                  <h3 className="font-display font-medium text-xl md:text-3xl mb-2" style={{ color: "oklch(22% 0.06 155)" }}>
                     {activeModalItem.title}
                   </h3>
-                  <p className="body-sm text-[oklch(30%_0.015_90)] font-sans leading-relaxed mb-6">
+                  <p className="body-sm text-[oklch(30%_0.015_90)] font-sans leading-relaxed mb-4">
                     A glimpse into daily life at Amani Child Development Centre in Najjera — built for safety, structured learning, and authentic care.
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3 pt-4 border-t border-[oklch(68%_0.12_75_/0.15)]">
+                <div className="flex flex-col gap-2.5 pt-3 border-t border-[oklch(68%_0.12_75_/0.15)]">
                   <a
                     href={getWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-gold !py-2.5 w-full justify-center"
+                    className="btn-gold !py-2.5 w-full justify-center !text-xs sm:!text-sm"
                   >
                     Book a Visit to See This
-                    <span className="btn-arrow !w-6 !h-6">
+                    <span className="btn-arrow !w-5 !h-5">
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </span>
                   </a>
                   <button
                     onClick={() => setActiveModalItem(null)}
-                    className="btn-ghost !py-2 w-full text-center justify-center !border-[oklch(22%_0.06_155_/0.2)]"
+                    className="btn-ghost !py-2 w-full text-center justify-center !text-xs !border-[oklch(22%_0.06_155_/0.2)]"
                   >
                     Close
                   </button>
