@@ -250,9 +250,6 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-  const contentOpacity = useTransform(smoothMorph, [0.75, 1], [0, 1]);
-  const contentY = useTransform(smoothMorph, [0.75, 1], [20, 0]);
-
   // Close modal on ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -275,9 +272,9 @@ export default function ScrollMorphHero() {
         className="absolute inset-0 pointer-events-none z-0 opacity-80"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 18% 22%, oklch(68% 0.12 75 / 0.14) 0%, transparent 45%),
-            radial-gradient(circle at 82% 28%, oklch(22% 0.06 155 / 0.09) 0%, transparent 50%),
-            radial-gradient(circle at 50% 85%, oklch(68% 0.12 75 / 0.08) 0%, transparent 55%)
+            radial-gradient(circle at 18% 22%, oklch(68% 0.12 75 / 0.18) 0%, transparent 45%),
+            radial-gradient(circle at 82% 28%, oklch(22% 0.06 155 / 0.12) 0%, transparent 50%),
+            radial-gradient(circle at 50% 85%, oklch(68% 0.12 75 / 0.10) 0%, transparent 55%)
           `,
         }}
       />
@@ -289,91 +286,110 @@ export default function ScrollMorphHero() {
           width: Math.min(containerSize.width * 0.76, 760),
           height: Math.min(containerSize.width * 0.76, 760),
           border: "1px dashed oklch(68% 0.12 75 / 0.18)",
-          opacity: introPhase === "circle" ? 1 - morphValue : 0,
+          opacity: introPhase === "circle" ? Math.max(1 - morphValue * 1.5, 0) : 0,
           transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1)",
         }}
       />
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* ── Central Hero Content ── */}
-        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 max-w-2xl">
+        {/* ── Central Hero Content (Scales UP dynamically as animation morphs to bottom arc!) ── */}
+        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 w-full max-w-4xl">
 
           {/* Eyebrow badge */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0 }
+              introPhase === "circle"
+                ? { opacity: 1, y: 0 }
                 : { opacity: 0, y: -16 }
             }
             transition={{ duration: 0.8 }}
-            className="eyebrow mb-4 pointer-events-auto"
+            className="eyebrow mb-4 sm:mb-6 pointer-events-auto"
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full"
               style={{ background: "oklch(68% 0.12 75)" }}
             />
-            Now enrolling · {SITE_CONFIG.foundingSpotsRemaining} founding places remain
+            {morphValue > 0.4 ? `Welcome to ${SITE_CONFIG.name}` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} founding places remain`}
           </motion.div>
 
-          {/* High-contrast Cormorant Serif Display Headline */}
+          {/* Dynamic Scaling Display Headline: Grows BIGGER as cards morph to bottom arc! */}
           <motion.h1
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
             animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" }
+              introPhase === "circle"
+                ? {
+                    opacity: 1,
+                    y: 0,
+                    filter: "blur(0px)",
+                    scale: 1 + morphValue * 0.22, // Grows 22% BIGGER as animation completes!
+                  }
                 : { opacity: 0, filter: "blur(8px)" }
             }
-            transition={{ duration: 1 }}
-            className="font-display font-light text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.05] mb-4"
-            style={{ color: "oklch(22% 0.06 155)" }}
+            transition={{ duration: 0.4, type: "spring", stiffness: 60, damping: 20 }}
+            className="font-display font-light text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.02] mb-6 select-none"
+            style={{ color: "oklch(22% 0.06 155)", transformOrigin: "center center" }}
           >
-            Work in peace.<br />
-            <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
-              Your child
-            </em>{" "}
-            is safe.
+            {morphValue > 0.45 ? (
+              <>
+                Explore Our Centre.<br />
+                <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
+                  Work in peace.
+                </em>
+              </>
+            ) : (
+              <>
+                Work in peace.<br />
+                <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
+                  Your child
+                </em>{" "}
+                is safe.
+              </>
+            )}
           </motion.h1>
 
-          {/* Subtext */}
+          {/* Expanding Subtext */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2 }
+              introPhase === "circle"
+                ? {
+                    opacity: 1,
+                    scale: 1 + morphValue * 0.1,
+                  }
                 : { opacity: 0 }
             }
-            transition={{ duration: 1, delay: 0.15 }}
-            className="text-sm md:text-base font-sans leading-relaxed max-w-lg mb-6"
-            style={{ color: "oklch(30% 0.015 90)" }}
+            transition={{ duration: 0.4 }}
+            className="text-base sm:text-lg md:text-xl font-sans leading-relaxed max-w-2xl mb-8"
+            style={{ color: "oklch(30% 0.015 90)", transformOrigin: "center center" }}
           >
-            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver vetted. Every day structured. You hear from us every single day.
+            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured. You hear from us every single day.
           </motion.p>
 
-          {/* Interactive CTA buttons inside the hero ring */}
+          {/* Interactive CTA buttons (Enlarged & always centered above card arc) */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 1 - morphValue * 2, y: 0 }
+              introPhase === "circle"
+                ? { opacity: 1, y: 0 }
                 : { opacity: 0, y: 16 }
             }
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="flex flex-wrap gap-3 justify-center pointer-events-auto mb-4"
+            className="flex flex-wrap gap-4 justify-center pointer-events-auto mb-4"
           >
             <a
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold"
+              className="btn-gold !py-3.5 !px-8 !text-base"
             >
               Book a Visit
-              <span className="btn-arrow">
-                <ArrowUpRight className="w-3.5 h-3.5" />
+              <span className="btn-arrow !w-6 !h-6">
+                <ArrowUpRight className="w-4 h-4" />
               </span>
             </a>
-            <Link href="/our-promise" className="btn-ghost">
+            <Link href="/our-promise" className="btn-ghost !py-3.5 !px-8 !text-base">
               Read our promise
             </Link>
           </motion.div>
@@ -382,48 +398,17 @@ export default function ScrollMorphHero() {
           <motion.p
             initial={{ opacity: 0 }}
             animate={
-              introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 0.6 - morphValue * 1.2 }
+              introPhase === "circle" && morphValue < 0.3
+                ? { opacity: 0.7 }
                 : { opacity: 0 }
             }
-            transition={{ duration: 1, delay: 0.35 }}
-            className="text-[10px] font-sans font-semibold tracking-[0.2em] uppercase"
+            transition={{ duration: 0.6 }}
+            className="text-[11px] font-sans font-semibold tracking-[0.25em] uppercase mt-2"
             style={{ color: "oklch(68% 0.12 75)" }}
           >
             SCROLL TO EXPLORE ↓
           </motion.p>
         </div>
-
-        {/* ── Arc Active Content ── */}
-        <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
-          className="absolute top-[12%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
-        >
-          <span className="eyebrow mb-3">Welcome to {SITE_CONFIG.name}</span>
-          <h2
-            className="text-3xl md:text-5xl font-display font-medium tracking-tight mb-3"
-            style={{ color: "oklch(22% 0.06 155)" }}
-          >
-            Explore Our Centre
-          </h2>
-          <p className="text-sm md:text-base font-sans max-w-lg leading-relaxed mb-4" style={{ color: "oklch(30% 0.015 90)" }}>
-            A licensed child development centre in {SITE_CONFIG.estate} for children aged 2–5.<br className="hidden md:block" />
-            Every caregiver is vetted. Every day is structured. You hear from us every day.
-          </p>
-          <div className="flex gap-3 pointer-events-auto">
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold !py-2 !text-xs"
-            >
-              Book a Visit
-              <span className="btn-arrow !w-5 !h-5">
-                <ArrowUpRight className="w-3 h-3" />
-              </span>
-            </a>
-          </div>
-        </motion.div>
 
         {/* ── Animated Flip Cards Ring ── */}
         <div className="relative flex items-center justify-center w-full h-full">
@@ -452,7 +437,7 @@ export default function ScrollMorphHero() {
 
               const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
               const arcRadius = baseRadius * (isMobile ? 1.4 : 1.1);
-              const arcApexY = containerSize.height * (isMobile ? 0.35 : 0.25);
+              const arcApexY = containerSize.height * (isMobile ? 0.38 : 0.30);
               const arcCenterY = arcApexY + arcRadius;
 
               const spreadAngle = isMobile ? 100 : 130;
@@ -498,7 +483,7 @@ export default function ScrollMorphHero() {
         </div>
       </div>
 
-      {/* ── Fullscreen Lightbox Modal (Appears when any card is clicked) ── */}
+      {/* ── Fullscreen Lightbox Modal ── */}
       <AnimatePresence>
         {activeModalItem && (
           <motion.div
@@ -506,7 +491,7 @@ export default function ScrollMorphHero() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-xl"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/85 backdrop-blur-xl"
             onClick={() => setActiveModalItem(null)}
           >
             {/* Close button */}
