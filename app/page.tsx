@@ -63,75 +63,20 @@ export default function HomePage() {
     <div className="pt-20">
 
       {/* ════════════════════════════════════════════════════════
-          HERO — scroll-morph canvas + editorial overlay
+          HERO — centered ring typography + interactive canvas
       ════════════════════════════════════════════════════════ */}
       <section
         className="relative w-full overflow-hidden"
         style={{ height: "100svh", minHeight: 640, maxHeight: 960 }}
       >
-        {/* Interactive canvas */}
+        {/* Interactive canvas with centered ring typography & CTAs */}
         <HeroWrapper />
 
-        {/* Editorial text overlay */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-16 px-6 md:px-12 z-20 pointer-events-none">
-          <div className="max-w-4xl">
-
-            {/* Eyebrow */}
-            <div
-              className="eyebrow mb-6 pointer-events-auto"
-              style={{ animationDelay: "200ms" }}
-            >
-              <span
-                className="inline-block w-1.5 h-1.5 rounded-full"
-                style={{ background: "oklch(68% 0.12 75)" }}
-              />
-              Now enrolling · {SITE_CONFIG.foundingSpotsRemaining} founding places remain
-            </div>
-
-            {/* Massive serif headline */}
-            <h1
-              className="display-xl text-[oklch(22%_0.06_155)] mb-6 max-w-3xl"
-              style={{ textShadow: "0 1px 40px oklch(97% 0.012 85 / 0.4)" }}
-            >
-              Work in peace.<br />
-              <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>Your child</em>{" "}
-              is safe.
-            </h1>
-
-            <p
-              className="body-lg max-w-xl mb-8"
-              style={{
-                color: "oklch(30% 0.015 90)",
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-              }}
-            >
-              A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver vetted. Every day structured. You hear from us every single day.
-            </p>
-
-            <div className="flex flex-wrap gap-3 pointer-events-auto">
-              <a
-                href={getWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-gold"
-              >
-                Book a Visit
-                <span className="btn-arrow">
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </span>
-              </a>
-              <Link href="/our-promise" className="btn-ghost">
-                Read our promise
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Gradient vignette at bottom */}
+        {/* Subtle gradient vignette at bottom */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none z-10"
+          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-10"
           style={{
-            background: "linear-gradient(to top, oklch(97% 0.012 85 / 0.85) 0%, transparent 100%)",
+            background: "linear-gradient(to top, oklch(97% 0.012 85) 0%, transparent 100%)",
           }}
         />
       </section>

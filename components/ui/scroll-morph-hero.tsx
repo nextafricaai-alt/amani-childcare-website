@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import Link from "next/link";
 import { motion, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 // --- Types ---
 export type AnimationPhase = "scatter" | "line" | "circle" | "bottom-strip";
@@ -63,12 +66,12 @@ function FlipCard({ src, index, phase, target }: FlipCardProps) {
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
-            backgroundColor: "#16352A",
-            borderColor: "#B8934A",
+            backgroundColor: "oklch(22% 0.06 155)",
+            borderColor: "oklch(68% 0.12 75)",
           }}
         >
           <div className="text-center">
-            <p className="text-[8px] font-bold uppercase tracking-widest mb-1" style={{ color: "#B8934A" }}>
+            <p className="text-[8px] font-bold uppercase tracking-widest mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
               View
             </p>
             <p className="text-xs font-medium text-white">Details</p>
@@ -233,58 +236,140 @@ export default function ScrollMorphHero() {
     <div
       ref={containerRef}
       className="relative w-full h-full overflow-hidden"
-      style={{ background: "var(--cream)" }}
+      style={{ background: "oklch(97% 0.012 85)" }}
     >
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* Intro Text */}
-        <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2">
+        {/* ── Central Hero Content (Inside the Animation Ring) ── */}
+        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 max-w-2xl">
+
+          {/* Eyebrow tag */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={
+              introPhase === "circle" && morphValue < 0.5
+                ? { opacity: 1 - morphValue * 2, y: 0 }
+                : { opacity: 0, y: -16 }
+            }
+            transition={{ duration: 0.8 }}
+            className="eyebrow mb-4 pointer-events-auto"
+          >
+            <span
+              className="inline-block w-1.5 h-1.5 rounded-full"
+              style={{ background: "oklch(68% 0.12 75)" }}
+            />
+            Now enrolling · {SITE_CONFIG.foundingSpotsRemaining} founding places remain
+          </motion.div>
+
+          {/* High-contrast Cormorant Serif Display Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
             animate={
               introPhase === "circle" && morphValue < 0.5
                 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" }
-                : { opacity: 0, filter: "blur(10px)" }
+                : { opacity: 0, filter: "blur(8px)" }
             }
             transition={{ duration: 1 }}
-            className="text-2xl md:text-4xl font-heading font-medium tracking-tight"
-            style={{ color: "var(--green)" }}
+            className="font-display font-light text-4xl sm:text-5xl md:text-6xl tracking-tight leading-[1.05] mb-4"
+            style={{ color: "oklch(22% 0.06 155)" }}
           >
-            Work in peace. Your child is safe.
+            Work in peace.<br />
+            <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
+              Your child
+            </em>{" "}
+            is safe.
           </motion.h1>
+
+          {/* Subtext */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={
               introPhase === "circle" && morphValue < 0.5
-                ? { opacity: 0.5 - morphValue }
+                ? { opacity: 1 - morphValue * 2 }
                 : { opacity: 0 }
             }
-            transition={{ duration: 1, delay: 0.2 }}
-            className="mt-4 text-xs font-heading font-bold tracking-[0.2em]"
-            style={{ color: "var(--gold)" }}
+            transition={{ duration: 1, delay: 0.15 }}
+            className="text-sm md:text-base font-sans leading-relaxed max-w-lg mb-6"
+            style={{ color: "oklch(30% 0.015 90)" }}
           >
-            SCROLL TO EXPLORE
+            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver vetted. Every day structured. You hear from us every single day.
+          </motion.p>
+
+          {/* Interactive CTA buttons inside the hero ring */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={
+              introPhase === "circle" && morphValue < 0.5
+                ? { opacity: 1 - morphValue * 2, y: 0 }
+                : { opacity: 0, y: 16 }
+            }
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="flex flex-wrap gap-3 justify-center pointer-events-auto mb-4"
+          >
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold"
+            >
+              Book a Visit
+              <span className="btn-arrow">
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </span>
+            </a>
+            <Link href="/our-promise" className="btn-ghost">
+              Read our promise
+            </Link>
+          </motion.div>
+
+          {/* Scroll cue */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={
+              introPhase === "circle" && morphValue < 0.5
+                ? { opacity: 0.6 - morphValue * 1.2 }
+                : { opacity: 0 }
+            }
+            transition={{ duration: 1, delay: 0.35 }}
+            className="text-[10px] font-sans font-semibold tracking-[0.2em] uppercase"
+            style={{ color: "oklch(68% 0.12 75)" }}
+          >
+            SCROLL TO EXPLORE ↓
           </motion.p>
         </div>
 
-        {/* Arc Active Content */}
+        {/* ── Arc Active Content (Fades in when arc morphs) ── */}
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
-          className="absolute top-[10%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
+          className="absolute top-[12%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
         >
+          <span className="eyebrow mb-3">Welcome to {SITE_CONFIG.name}</span>
           <h2
-            className="text-3xl md:text-5xl font-heading font-semibold tracking-tight mb-4"
-            style={{ color: "var(--green)" }}
+            className="text-3xl md:text-5xl font-display font-medium tracking-tight mb-3"
+            style={{ color: "oklch(22% 0.06 155)" }}
           >
-            Welcome to Amani
+            Explore Our Centre
           </h2>
-          <p className="text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "var(--ink)" }}>
-            A licensed child development centre in Najjera for children aged 2–5.<br className="hidden md:block" />
+          <p className="text-sm md:text-base font-sans max-w-lg leading-relaxed mb-4" style={{ color: "oklch(30% 0.015 90)" }}>
+            A licensed child development centre in {SITE_CONFIG.estate} for children aged 2–5.<br className="hidden md:block" />
             Every caregiver is vetted. Every day is structured. You hear from us every day.
           </p>
+          <div className="flex gap-3 pointer-events-auto">
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold !py-2 !text-xs"
+            >
+              Book a Visit
+              <span className="btn-arrow !w-5 !h-5">
+                <ArrowUpRight className="w-3 h-3" />
+              </span>
+            </a>
+          </div>
         </motion.div>
 
-        {/* Cards */}
+        {/* ── Animated Flip Cards Ring ── */}
         <div className="relative flex items-center justify-center w-full h-full">
           {IMAGES.slice(0, TOTAL_IMAGES).map((src, i) => {
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
@@ -300,7 +385,7 @@ export default function ScrollMorphHero() {
               const isMobile = containerSize.width < 768;
               const minDimension = Math.min(containerSize.width, containerSize.height);
 
-              const circleRadius = Math.min(minDimension * 0.35, 350);
+              const circleRadius = Math.min(minDimension * 0.38, 380);
               const circleAngle = (i / TOTAL_IMAGES) * 360;
               const circleRad = (circleAngle * Math.PI) / 180;
               const circlePos = {
