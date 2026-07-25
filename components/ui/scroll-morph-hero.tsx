@@ -87,26 +87,26 @@ const TOTAL_IMAGES = 20;
 const MAX_SCROLL = 500; // Quick morph range — finishes fast then seamlessly hands off page scroll!
 
 const IMAGES = [
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300&q=80",
-  "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=300&q=80",
-  "https://images.unsplash.com/photo-1497366216548-37526070297c?w=300&q=80",
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=300&q=80",
-  "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=300&q=80",
-  "https://images.unsplash.com/photo-1506765515384-028b60a970df?w=300&q=80",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&q=80",
-  "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=300&q=80",
-  "https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?w=300&q=80",
-  "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300&q=80",
-  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=300&q=80",
-  "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=300&q=80",
-  "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=300&q=80",
-  "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=300&q=80",
-  "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=300&q=80",
-  "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=300&q=80",
-  "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=300&q=80",
-  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=300&q=80",
-  "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?w=300&q=80",
-  "https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?w=300&q=80",
+  "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=400&q=80", // African children smiling in classroom
+  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&q=80", // Child reading book
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&q=80", // Students engaged in learning
+  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=80", // Educational blocks and toys
+  "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&q=80", // Child learning in classroom
+  "https://images.unsplash.com/photo-1576267423445-b2e0074d68a4?w=400&q=80", // Outdoor play
+  "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=400&q=80", // Smiling child in nursery
+  "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400&q=80", // Wooden toys play
+  "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400&q=80", // Montessori blocks
+  "https://images.unsplash.com/photo-1567057419565-4349c679c078?w=400&q=80", // Arts and crafts
+  "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=400&q=80", // Shapes and learning
+  "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=400&q=80", // Young African students
+  "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=400&q=80", // Children laughing
+  "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=400&q=80", // Kids in classroom
+  "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400&q=80", // Educational toys
+  "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=400&q=80", // Creative drawing time
+  "https://images.unsplash.com/photo-1522661067900-ab829854a57f?w=400&q=80", // Storytime circle
+  "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=400&q=80", // Outdoor nature play
+  "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400&q=80", // Nursery classroom space
+  "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=80", // Joyful kids group
 ];
 
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
