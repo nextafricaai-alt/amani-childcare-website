@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── OKLCH Design Tokens ────────────────────────────────────────── */
+:root {
+  /* Brand anchors */
+  --green:        oklch(22% 0.06 155);       /* Forest ink */
+  --green-mid:    oklch(28% 0.07 155);
+  --green-light:  oklch(35% 0.08 155);
+  --gold:         oklch(68% 0.12 75);        /* Warm gold */
+  --gold-pale:    oklch(78% 0.09 78);
+  --gold-rule:    oklch(68% 0.10 75 / 0.25);
+
+  /* Surfaces */
+  --cream:        oklch(97% 0.012 85);       /* Warm parchment */
+  --cream-deep:   oklch(93% 0.016 82);
+  --cream-raised: oklch(99% 0.006 85);
+  --paper:        oklch(98% 0.010 80);
+
+  /* Text */
+  --ink:          oklch(18% 0.02 95);
+  --ink-body:     oklch(30% 0.015 90);
+  --ink-muted:    oklch(50% 0.010 90);
+  --ink-faint:    oklch(65% 0.006 90);
+
+  /* Custom beziers — Emil Kowalski approved */
+  --ease-out:     cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out:  cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer:  cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-back:    cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spacing scale — macro whitespace */
+  --section-y:    clamp(5rem, 10vw, 9rem);
+}
+
+/* ─── Base Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ─── Typography System ─────────────────────────────────────────── */
+
+/* Display / Editorial serif (Cormorant) */
+.display-xl {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.display-lg {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+
+.display-md {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+/* UI sans (Plus Jakarta) */
+.label-xs {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.body-lg { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.75; }
+.body-md { font-size: 1rem; line-height: 1.7; }
+.body-sm { font-size: 0.9375rem; line-height: 1.65; }
+
+/* ─── CSS Noise overlay (editorial feel) ────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ─── Floating Pill Navbar ──────────────────────────────────────── */
+.navbar-pill {
+  background: oklch(97% 0.012 85 / 0.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid oklch(68% 0.10 75 / 0.18);
+  border-radius: 9999px;
+  box-shadow:
+    0 1px 3px oklch(18% 0.02 95 / 0.06),
+    0 8px 32px oklch(18% 0.02 95 / 0.06),
+    inset 0 1px 0 oklch(99% 0.006 85 / 0.8);
+}
+
+/* ─── Double-Bezel Card System ──────────────────────────────────── */
+.card-shell {
+  background: oklch(18% 0.02 95 / 0.04);
+  border: 1px solid oklch(68% 0.10 75 / 0.18);
+  border-radius: 2rem;
+  padding: 0.375rem;
+}
+
+.card-core {
+  background: var(--cream-raised);
+  border-radius: calc(2rem - 0.375rem);
+  box-shadow: inset 0 1px 1px oklch(99% 0 0 / 0.6);
+  overflow: hidden;
+}
+
+.card-shell-dark {
+  background: oklch(97% 0.012 85 / 0.06);
+  border: 1px solid oklch(97% 0.012 85 / 0.12);
+  border-radius: 2rem;
+  padding: 0.375rem;
+}
+
+.card-core-dark {
+  background: var(--green-mid);
+  border-radius: calc(2rem - 0.375rem);
+  box-shadow: inset 0 1px 1px oklch(97% 0.012 85 / 0.08);
+  overflow: hidden;
+}
+
+/* ─── Button System ──────────────────────────────────────────────── */
+
+/* Primary — gold pill with arrow island */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0.75rem 1.5rem;
+  background: var(--gold);
+  color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+  transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  will-change: transform;
+}
+
+.btn-gold:hover {
+  background: var(--gold-pale);
+  box-shadow: 0 4px 24px oklch(68% 0.12 75 / 0.35);
+}
+
+.btn-gold:active {
+  transform: scale(0.97);
+}
+
+/* Arrow island inside btn-gold */
+.btn-gold .btn-arrow {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background: oklch(97% 0 0 / 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms var(--ease-out), background-color 200ms;
+  flex-shrink: 0;
+}
+
+.btn-gold:hover .btn-arrow {
+  transform: translate(1px, -1px) scale(1.05);
+  background: oklch(97% 0 0 / 0.3);
+}
+
+/* Ghost / outline */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--green);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1.5px solid oklch(22% 0.06 155 / 0.35);
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+  transition: background-color 160ms var(--ease-out), border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.btn-ghost:hover {
+  background: oklch(22% 0.06 155 / 0.06);
+  border-color: var(--green);
+}
+
+.btn-ghost:active {
+  transform: scale(0.97);
+}
+
+/* ─── Eyebrow Tags ───────────────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 9999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid var(--gold-rule);
+  color: var(--gold);
+  background: oklch(68% 0.12 75 / 0.07);
+}
+
+.eyebrow-light {
+  border-color: oklch(97% 0.012 85 / 0.25);
+  color: oklch(97% 0.012 85 / 0.7);
+  background: oklch(97% 0.012 85 / 0.07);
+}
+
+/* ─── Scroll Reveal System ───────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(2px);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out),
+    filter 500ms var(--ease-out);
+}
+
+[data-reveal="right"] {
+  transform: translateX(32px);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.95) translateY(12px);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  filter: blur(0px);
+}
+
+/* Stagger delays */
+[data-delay="1"] { transition-delay: 60ms; }
+[data-delay="2"] { transition-delay: 120ms; }
+[data-delay="3"] { transition-delay: 180ms; }
+[data-delay="4"] { transition-delay: 240ms; }
+[data-delay="5"] { transition-delay: 300ms; }
+[data-delay="6"] { transition-delay: 360ms; }
+
+/* ─── Section Layout ─────────────────────────────────────────────── */
+.section {
+  padding-block: var(--section-y);
+  padding-inline: clamp(1.25rem, 5vw, 4rem);
+}
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.container-narrow {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+/* ─── Trust strip ────────────────────────────────────────────────── */
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ─── Plaque / manifesto block ───────────────────────────────────── */
+.plaque {
+  position: relative;
+  border: 1.5px solid var(--gold-rule);
+  border-radius: 0.5rem;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+.plaque::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid oklch(68% 0.12 75 / 0.12);
+  border-radius: 0.25rem;
+  pointer-events: none;
+}
+
+/* ─── Z-cascade cards ────────────────────────────────────────────── */
+.z-card {
+  transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+
+.z-card:hover {
+  transform: translateY(-4px) rotate(0deg) !important;
+  box-shadow: 0 20px 60px oklch(18% 0.02 95 / 0.12);
+  z-index: 10;
+}
+
+/* ─── Photo placeholder ──────────────────────────────────────────── */
+.photo-slot {
+  background: linear-gradient(135deg, var(--cream-deep) 0%, var(--cream) 100%);
+  border: 1.5px dashed oklch(68% 0.12 75 / 0.3);
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  color: var(--ink-faint);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  gap: 0.5rem;
+}
+
+/* ─── Hover: touch devices only get hovers if capable ───────────── */
+@media (hover: none) {
+  .btn-gold:hover,
+  .btn-ghost:hover,
+  .z-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .btn-gold,
+  .btn-ghost {
+    transition: background-color 160ms linear;
+  }
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--gold-rule); border-radius: 9999px; }
+
+/* ─── Focus visible ──────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Perspective helper ─────────────────────────────────────────── */
+.perspective-1200 { perspective: 1200px; }
