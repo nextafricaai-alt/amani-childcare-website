@@ -524,72 +524,67 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-          FINAL CTA — 3D Crawling Baby Video + Editorial Headline
+          FINAL CTA — 3D Crawling Baby + Centered Headline
       ════════════════════════════════════════════════════════ */}
       <section
         className="section text-center relative overflow-hidden"
         style={{ background: "oklch(22% 0.06 155)" }}
       >
-        <div className="container relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
+        <div className="container-narrow relative z-10">
+          
+          <Reveal>
+            <span className="eyebrow eyebrow-light mb-6 inline-flex">Tukusanyukidde</span>
+          </Reveal>
 
-            {/* Frameless 3D Crawling Baby Video */}
-            <Reveal direction="scale" className="w-full max-w-xs md:max-w-md flex-shrink-0 flex justify-center">
-              <div className="relative pointer-events-none">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-[280px] sm:w-[340px] md:w-[420px] h-auto object-contain mix-blend-screen opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
-                >
-                  <source src="crawling-baby.mp4" type="video/mp4" />
-                  <source src="crawling-baby.mp4" type="video/quicktime" />
-                </video>
-              </div>
-            </Reveal>
-
-            {/* Headline & CTA */}
-            <div className="text-center md:text-left flex-1">
-              <Reveal>
-                <span className="eyebrow eyebrow-light mb-4 inline-flex">Tukusanyukidde</span>
-              </Reveal>
-
-              <Reveal delay={80}>
-                <h2
-                  className="display-md mb-4"
-                  style={{ color: "oklch(97% 0.012 85)" }}
-                >
-                  Come and see<br />
-                  <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
-                </h2>
-              </Reveal>
-
-              <Reveal delay={160}>
-                <p
-                  className="body-lg mb-8 max-w-lg"
-                  style={{ color: "oklch(97% 0.012 85 / 0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                >
-                  Bring your hardest questions. Parents who ask hard questions become our favourite families.
-                </p>
-              </Reveal>
-
-              <Reveal delay={220}>
-                <a
-                  href={getWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gold"
-                >
-                  Book a Visit on WhatsApp
-                  <span className="btn-arrow">
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
-                </a>
-              </Reveal>
+          {/* Frameless 3D Crawling Baby Video */}
+          <Reveal direction="scale" className="w-full flex justify-center mb-6">
+            <div className="relative pointer-events-none max-w-md mx-auto">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-[260px] sm:w-[320px] md:w-[380px] h-auto object-contain mix-blend-screen opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)] mx-auto"
+              >
+                <source src="crawling-baby.mp4" type="video/mp4" />
+                <source src="crawling-baby.mp4" type="video/quicktime" />
+              </video>
             </div>
+          </Reveal>
 
-          </div>
+          <Reveal delay={80}>
+            <h2
+              className="display-md mx-auto max-w-2xl mb-6"
+              style={{ color: "oklch(97% 0.012 85)" }}
+            >
+              Come and see<br />
+              <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
+            </h2>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <p
+              className="body-lg max-w-xl mx-auto mb-10"
+              style={{ color: "oklch(97% 0.012 85 / 0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            >
+              Bring your hardest questions. Parents who ask hard questions become our favourite families.
+            </p>
+          </Reveal>
+
+          <Reveal delay={220}>
+            <a
+              href={getWhatsAppUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold"
+            >
+              Book a Visit on WhatsApp
+              <span className="btn-arrow">
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </span>
+            </a>
+          </Reveal>
+
         </div>
       </section>
 
