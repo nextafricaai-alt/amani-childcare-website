@@ -33,6 +33,7 @@ const standards = [
     body:
       "Every adult near your child: police-checked, reference-called, medically cleared, first-aid certified. Including the founders.",
     href: "/our-promise",
+    bgImage: "standards-cards/card1.jpg",
     rotate: "-1deg",
     delay: 0,
   },
@@ -43,6 +44,7 @@ const standards = [
     body:
       "Counted at every transition. No adult ever alone with a child. Authorised-pickup codes. Written policies you can read before you enrol.",
     href: "/our-promise",
+    bgImage: "standards-cards/card2.jpg",
     rotate: "0.5deg",
     delay: 80,
   },
@@ -53,6 +55,7 @@ const standards = [
     body:
       "Openly Christian. Gratitude before meals, kindness as the classroom law. Read exactly what we teach — no surprises, ever.",
     href: "/our-promise",
+    bgImage: "standards-cards/card3.webp",
     rotate: "-0.5deg",
     delay: 160,
   },
@@ -311,57 +314,72 @@ export default function HomePage() {
             </Reveal>
           </div>
 
-          {/* Z-axis cascade grid */}
+          {/* Z-axis cascade grid with Background Images */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-            {standards.map(({ Icon, eyebrow, title, body, href, rotate, delay }) => (
+            {standards.map(({ Icon, eyebrow, title, body, href, bgImage, rotate, delay }) => (
               <Reveal key={title} delay={delay} direction="scale">
                 <Link
                   href={href}
-                  className="card-shell block group z-card"
+                  className="card-shell block group z-card overflow-hidden"
                   style={{ transform: `rotate(${rotate})` }}
                 >
-                  <div className="card-core p-7 flex flex-col gap-5 min-h-[280px]">
+                  <div className="card-core p-7 flex flex-col gap-5 min-h-[300px] relative overflow-hidden">
 
-                    {/* Icon */}
+                    {/* Background Image Layer */}
+                    <img
+                      src={bgImage}
+                      alt={title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+
+                    {/* Dark Editorial Overlay for Legibility */}
                     <div
-                      className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+                      className="absolute inset-0 z-10"
                       style={{
-                        background: "oklch(22% 0.06 155)",
-                        transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                        background: "linear-gradient(to bottom, rgba(14, 24, 18, 0.75) 0%, rgba(14, 24, 18, 0.90) 100%)",
                       }}
-                    >
-                      <Icon className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
+                    />
+
+                    {/* Content Layer */}
+                    <div className="relative z-20 flex flex-col h-full flex-1 gap-4">
+                      {/* Icon */}
+                      <div
+                        className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+                        style={{
+                          background: "oklch(68% 0.12 75)",
+                          transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                        }}
+                      >
+                        <Icon className="w-4.5 h-4.5 text-black" style={{ width: 18, height: 18 }} />
+                      </div>
+
+                      {/* Eyebrow */}
+                      <span className="label-xs font-semibold uppercase tracking-wider" style={{ color: "oklch(68% 0.12 75)" }}>
+                        {eyebrow}
+                      </span>
+
+                      {/* Title */}
+                      <h3
+                        className="font-display font-medium text-white"
+                        style={{ fontSize: "clamp(1.25rem, 2vw, 1.625rem)", lineHeight: 1.15 }}
+                      >
+                        {title}
+                      </h3>
+
+                      {/* Body */}
+                      <p className="body-sm flex-1 text-white/80" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        {body}
+                      </p>
+
+                      {/* Link row */}
+                      <span
+                        className="label-xs flex items-center gap-1.5 mt-auto text-[oklch(68%_0.12_75)] group-hover:text-white transition-colors"
+                      >
+                        Read our promise
+                        <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
                     </div>
 
-                    {/* Eyebrow */}
-                    <span className="label-xs" style={{ color: "oklch(68% 0.12 75)" }}>
-                      {eyebrow}
-                    </span>
-
-                    {/* Title */}
-                    <h3
-                      className="font-display font-medium"
-                      style={{ fontSize: "clamp(1.25rem, 2vw, 1.625rem)", color: "oklch(22% 0.06 155)", lineHeight: 1.15 }}
-                    >
-                      {title}
-                    </h3>
-
-                    {/* Body */}
-                    <p className="body-sm flex-1" style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                      {body}
-                    </p>
-
-                    {/* Link row */}
-                    <span
-                      className="label-xs flex items-center gap-1.5 mt-auto"
-                      style={{
-                        color: "oklch(68% 0.12 75)",
-                        transition: "gap 200ms cubic-bezier(0.23, 1, 0.32, 1)",
-                      }}
-                    >
-                      Read our promise
-                      <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
                   </div>
                 </Link>
               </Reveal>
