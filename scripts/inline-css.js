@@ -72,6 +72,12 @@ if (fs.existsSync(videoSrc)) {
   console.log('Copied daily-update-video.mp4 to out/ directory');
 }
 
+const standardsVideoSrc = path.join(__dirname, '../public/daily-standards-video.mp4');
+if (fs.existsSync(standardsVideoSrc)) {
+  fs.copyFileSync(standardsVideoSrc, path.join(outDir, 'daily-standards-video.mp4'));
+  console.log('Copied daily-standards-video.mp4 to out/ directory');
+}
+
 const portraitSrc = path.join(__dirname, '../public/founders-portrait.jpg');
 if (fs.existsSync(portraitSrc)) {
   fs.copyFileSync(portraitSrc, path.join(outDir, 'founders-portrait.jpg'));
