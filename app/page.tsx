@@ -119,10 +119,31 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-          EVERY CHILD EVERY DAY — dark section with checklist
+          EVERY CHILD EVERY DAY — dark green section with looping video background & checklist
       ════════════════════════════════════════════════════════ */}
-      <section className="section" style={{ background: "oklch(22% 0.06 155)" }}>
-        <div className="container">
+      <section className="section relative overflow-hidden" style={{ background: "oklch(22% 0.06 155)" }}>
+        {/* Background Video Layer with Low Opacity over Dark Forest Green */}
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover opacity-[0.22] scale-105"
+          >
+            <source src="daily-standards-video.mp4" type="video/mp4" />
+            <source src="daily-standards-video.mp4" type="video/quicktime" />
+          </video>
+          {/* Dark Forest Green Radial Vignette Gradient */}
+          <div
+            className="absolute inset-0 z-10 pointer-events-none"
+            style={{
+              background: "radial-gradient(circle at 50% 50%, transparent 20%, oklch(22% 0.06 155) 90%)",
+            }}
+          />
+        </div>
+
+        <div className="container relative z-10">
           <div className="flex flex-col md:flex-row md:items-start md:gap-20">
 
             {/* Left: headline */}
@@ -266,30 +287,10 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-          OUR STANDARDS — Z-cascade cards with subtle background video
+          OUR STANDARDS — Z-cascade cards
       ════════════════════════════════════════════════════════ */}
-      <section className="section relative overflow-hidden">
-        {/* Background Video Layer with Low Opacity */}
-        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover opacity-[0.18] scale-105"
-          >
-            <source src="daily-standards-video.mp4" type="video/mp4" />
-            <source src="daily-standards-video.mp4" type="video/quicktime" />
-          </video>
-          <div
-            className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              background: "radial-gradient(circle at 50% 50%, transparent 30%, oklch(97% 0.012 85) 95%)",
-            }}
-          />
-        </div>
-
-        <div className="container relative z-10">
+      <section className="section">
+        <div className="container">
 
           <div className="text-center mb-16">
             <Reveal>
