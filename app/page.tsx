@@ -533,29 +533,19 @@ export default function HomePage() {
         <div className="container relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
 
-            {/* 3D Crawling Baby Video */}
-            <Reveal direction="scale" className="w-full max-w-xs md:max-w-sm flex-shrink-0">
-              <div className="card-shell-dark transform hover:scale-105 transition-transform duration-500 shadow-2xl">
-                <div className="card-core-dark overflow-hidden p-2 relative rounded-[calc(2rem-0.25rem)]">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[calc(2rem-0.5rem)] bg-black/40">
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover mix-blend-screen opacity-95"
-                    >
-                      <source src="crawling-baby.mp4" type="video/mp4" />
-                      <source src="crawling-baby.mp4" type="video/quicktime" />
-                    </video>
-
-                    {/* Subtle Badge */}
-                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] text-amber-200 font-sans font-semibold tracking-wider uppercase flex items-center gap-1.5 z-20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                      Amani Little Ones
-                    </div>
-                  </div>
-                </div>
+            {/* Frameless 3D Crawling Baby Video */}
+            <Reveal direction="scale" className="w-full max-w-xs md:max-w-md flex-shrink-0 flex justify-center">
+              <div className="relative pointer-events-none">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-[280px] sm:w-[340px] md:w-[420px] h-auto object-contain mix-blend-screen opacity-95 filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+                >
+                  <source src="crawling-baby.mp4" type="video/mp4" />
+                  <source src="crawling-baby.mp4" type="video/quicktime" />
+                </video>
               </div>
             </Reveal>
 
