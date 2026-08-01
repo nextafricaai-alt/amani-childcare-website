@@ -524,49 +524,82 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
-          FINAL CTA — editorial full-width
+          FINAL CTA — 3D Crawling Baby Video + Editorial Headline
       ════════════════════════════════════════════════════════ */}
       <section
-        className="section text-center"
+        className="section text-center relative overflow-hidden"
         style={{ background: "oklch(22% 0.06 155)" }}
       >
-        <div className="container-narrow">
-          <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">Tukusanyukidde</span>
-          </Reveal>
+        <div className="container relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 max-w-4xl mx-auto">
 
-          <Reveal delay={80}>
-            <h2
-              className="display-md mx-auto max-w-2xl mb-6"
-              style={{ color: "oklch(97% 0.012 85)" }}
-            >
-              Come and see<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
-            </h2>
-          </Reveal>
+            {/* 3D Crawling Baby Video */}
+            <Reveal direction="scale" className="w-full max-w-xs md:max-w-sm flex-shrink-0">
+              <div className="card-shell-dark transform hover:scale-105 transition-transform duration-500 shadow-2xl">
+                <div className="card-core-dark overflow-hidden p-2 relative rounded-[calc(2rem-0.25rem)]">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[calc(2rem-0.5rem)] bg-black/40">
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover mix-blend-screen opacity-95"
+                    >
+                      <source src="crawling-baby.mp4" type="video/mp4" />
+                      <source src="crawling-baby.mp4" type="video/quicktime" />
+                    </video>
 
-          <Reveal delay={160}>
-            <p
-              className="body-lg max-w-xl mx-auto mb-10"
-              style={{ color: "oklch(97% 0.012 85 / 0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              Bring your hardest questions. Parents who ask hard questions become our favourite families.
-            </p>
-          </Reveal>
+                    {/* Subtle Badge */}
+                    <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-[10px] text-amber-200 font-sans font-semibold tracking-wider uppercase flex items-center gap-1.5 z-20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      Amani Little Ones
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
 
-          <Reveal delay={220}>
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold"
-            >
-              Book a Visit on WhatsApp
-              <span className="btn-arrow">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
-          </Reveal>
+            {/* Headline & CTA */}
+            <div className="text-center md:text-left flex-1">
+              <Reveal>
+                <span className="eyebrow eyebrow-light mb-4 inline-flex">Tukusanyukidde</span>
+              </Reveal>
+
+              <Reveal delay={80}>
+                <h2
+                  className="display-md mb-4"
+                  style={{ color: "oklch(97% 0.012 85)" }}
+                >
+                  Come and see<br />
+                  <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
+                </h2>
+              </Reveal>
+
+              <Reveal delay={160}>
+                <p
+                  className="body-lg mb-8 max-w-lg"
+                  style={{ color: "oklch(97% 0.012 85 / 0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                >
+                  Bring your hardest questions. Parents who ask hard questions become our favourite families.
+                </p>
+              </Reveal>
+
+              <Reveal delay={220}>
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-gold"
+                >
+                  Book a Visit on WhatsApp
+                  <span className="btn-arrow">
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </a>
+              </Reveal>
+            </div>
+
+          </div>
         </div>
       </section>
 
