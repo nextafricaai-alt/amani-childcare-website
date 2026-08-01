@@ -89,12 +89,12 @@ function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) 
 const TOTAL_IMAGES = 20;
 const MAX_SCROLL = 1800;
 
-// Slideshow images added by user
+// Full bleed background hero slides uploaded by user
 const HERO_SLIDES = [
-  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Team at Amani" },
-  { src: "hero-slides/slide2.jpg", title: "Spacious Learning Environment", caption: "Clean, hygienic classrooms designed for early development" },
-  { src: "hero-slides/slide3.webp", title: "Themed Childhood Spaces", caption: "Vibrant therapy and play-themed activity areas" },
-  { src: "hero-slides/slide4.jpg", title: "Interactive Classrooms", caption: "Engaging books, toys, and individual caregiver attention" },
+  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Leadership at Amani" },
+  { src: "hero-slides/slide2.jpg", title: "Spacious & Hygienic Classrooms", caption: "Designed for safety, focus, and early development" },
+  { src: "hero-slides/slide3.webp", title: "Themed Early Childhood Spaces", caption: "Vibrant activity areas for sensory & physical play" },
+  { src: "hero-slides/slide4.jpg", title: "Interactive Learning & Literacy", caption: "Individual caregiver attention and rich learning materials" },
   { src: "hero-slides/slide5.jpg", title: "Structured Daily Rhythm", caption: "Balanced learning, rest, healthy meals, and play" },
   { src: "hero-slides/slide6.jpg", title: "Amani Childcare Family", caption: "Warm, safe, and nurturing environment for ages 2–5" },
 ];
@@ -261,12 +261,12 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-  // Autoplay slideshow when animation reaches bottom arc (morphValue > 0.4)
+  // Autoplay full bleed background slideshow when morphing finishes (morphValue > 0.3)
   useEffect(() => {
-    if (morphValue < 0.4) return;
+    if (morphValue < 0.3) return;
     const interval = setInterval(() => {
       setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4500);
+    }, 5000);
     return () => clearInterval(interval);
   }, [morphValue]);
 
@@ -292,42 +292,87 @@ export default function ScrollMorphHero() {
     setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
   };
 
+  const isFullBleedActive = morphValue > 0.35;
+
   return (
     <div
       ref={containerRef}
       className="relative w-full h-full overflow-hidden"
       style={{
-        background: "oklch(97% 0.012 85)",
+        background: isFullBleedActive ? "oklch(14% 0.018 95)" : "oklch(97% 0.012 85)",
+        transition: "background-color 700ms ease-out",
       }}
     >
-      {/* ── Ethereal Ambient Mesh Gradients ── */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 opacity-80"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 18% 22%, oklch(68% 0.12 75 / 0.18) 0%, transparent 45%),
-            radial-gradient(circle at 82% 28%, oklch(22% 0.06 155 / 0.12) 0%, transparent 50%),
-            radial-gradient(circle at 50% 85%, oklch(68% 0.12 75 / 0.10) 0%, transparent 55%)
-          `,
-        }}
-      />
 
-      {/* ── Delicate Decorative Aura Ring ── */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-0"
-        style={{
-          width: circleRadius * 2,
-          height: circleRadius * 2,
-          border: "1px dashed oklch(68% 0.12 75 / 0.18)",
-          opacity: introPhase === "circle" ? Math.max(1 - morphValue * 1.5, 0) : 0,
-          transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1)",
-        }}
-      />
+      {/* ── FULL BLEED BACKGROUND SLIDESHOW (Covers 100% Width & Height) ── */}
+      <AnimatePresence>
+        {isFullBleedActive && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="absolute inset-0 z-0 w-full h-full overflow-hidden"
+          >
+            {/* Crossfading Slide Images */}
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={currentSlideIndex}
+                src={HERO_SLIDES[currentSlideIndex].src}
+                alt={HERO_SLIDES[currentSlideIndex].title}
+                initial={{ opacity: 0, scale: 1.08 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </AnimatePresence>
 
-      <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
+            {/* Premium Dark Vignette Overlay for Crisp High-Contrast Typography */}
+            <div
+              className="absolute inset-0 z-10"
+              style={{
+                background: `
+                  radial-gradient(circle at 50% 50%, rgba(14, 24, 18, 0.55) 0%, rgba(14, 24, 18, 0.82) 100%),
+                  linear-gradient(to bottom, rgba(14, 24, 18, 0.7) 0%, rgba(14, 24, 18, 0.4) 50%, rgba(14, 24, 18, 0.85) 100%)
+                `,
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* ── Central Hero Content & Slideshow (Appears when animation finishes) ── */}
-        <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 sm:px-6 w-full max-w-3xl">
+      {/* ── Initial Ethereal Mesh Background (Visible during ring morph) ── */}
+      {!isFullBleedActive && (
+        <>
+          <div
+            className="absolute inset-0 pointer-events-none z-0 opacity-80"
+            style={{
+              backgroundImage: `
+                radial-gradient(circle at 18% 22%, oklch(68% 0.12 75 / 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 82% 28%, oklch(22% 0.06 155 / 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 50% 85%, oklch(68% 0.12 75 / 0.10) 0%, transparent 55%)
+              `,
+            }}
+          />
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none z-0"
+            style={{
+              width: circleRadius * 2,
+              height: circleRadius * 2,
+              border: "1px dashed oklch(68% 0.12 75 / 0.18)",
+              opacity: introPhase === "circle" ? Math.max(1 - morphValue * 1.5, 0) : 0,
+              transition: "opacity 400ms cubic-bezier(0.23, 1, 0.32, 1)",
+            }}
+          />
+        </>
+      )}
+
+      {/* ── Main Hero Content Stack ── */}
+      <div className="flex h-full w-full flex-col items-center justify-center perspective-1000 relative z-20">
+
+        {/* Central Typography Block */}
+        <div className="absolute z-20 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 sm:px-6 w-full max-w-4xl">
 
           {/* Eyebrow badge */}
           <motion.div
@@ -338,16 +383,18 @@ export default function ScrollMorphHero() {
                 : { opacity: 0, y: -12 }
             }
             transition={{ duration: 0.8 }}
-            className="eyebrow mb-2 sm:mb-3 pointer-events-auto !text-[9px] sm:!text-xs !py-1 !px-3"
+            className={`eyebrow mb-3 sm:mb-5 pointer-events-auto !text-[9px] sm:!text-xs !py-1.5 !px-4 ${
+              isFullBleedActive ? "eyebrow-light !bg-black/60 !border-white/20 !text-amber-200 backdrop-blur-md shadow-xl" : ""
+            }`}
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full"
-              style={{ background: "oklch(68% 0.12 75)" }}
+              style={{ background: isFullBleedActive ? "#F59E0B" : "oklch(68% 0.12 75)" }}
             />
-            {morphValue > 0.45 ? `Our Centre & Community` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} places remain`}
+            {isFullBleedActive ? `Our Centre & Campus · ${HERO_SLIDES[currentSlideIndex].title}` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} places remain`}
           </motion.div>
 
-          {/* Dynamic Headline */}
+          {/* High-Impact Display Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
             animate={
@@ -356,14 +403,19 @@ export default function ScrollMorphHero() {
                     opacity: 1,
                     y: 0,
                     filter: "blur(0px)",
+                    scale: 1 + morphValue * (isMobile ? 0.05 : 0.15),
                   }
                 : { opacity: 0, filter: "blur(8px)" }
             }
             transition={{ duration: 0.4, type: "spring", stiffness: 60, damping: 20 }}
-            className="font-display font-light text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] mb-2 sm:mb-4 select-none"
-            style={{ color: "oklch(22% 0.06 155)", transformOrigin: "center center" }}
+            className="font-display font-light text-3xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.03] mb-4 sm:mb-6 select-none drop-shadow-md"
+            style={{
+              color: isFullBleedActive ? "oklch(97% 0.012 85)" : "oklch(22% 0.06 155)",
+              transformOrigin: "center center",
+              transition: "color 500ms ease",
+            }}
           >
-            {morphValue > 0.45 ? (
+            {isFullBleedActive ? (
               <>
                 Explore Our Centre.<br />
                 <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
@@ -381,112 +433,23 @@ export default function ScrollMorphHero() {
             )}
           </motion.h1>
 
-          {/* ── Featured Slideshow (Fades in smoothly after hero animation finishes!) ── */}
-          {morphValue > 0.35 ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.5, type: "spring", stiffness: 120, damping: 18 }}
-              className="w-full max-w-lg my-3 pointer-events-auto"
-            >
-              <div className="card-shell">
-                <div className="card-core overflow-hidden relative group">
-
-                  {/* Top Slide Counter Badge */}
-                  <div className="absolute top-3 left-3 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-sans font-semibold flex items-center gap-1.5">
-                    <Images className="w-3 h-3 text-[oklch(68%_0.12_75)]" />
-                    <span>{currentSlideIndex + 1} / {HERO_SLIDES.length}</span>
-                  </div>
-
-                  {/* Expand button */}
-                  <button
-                    onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
-                    className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-colors"
-                    aria-label="Expand image"
-                  >
-                    <ZoomIn className="w-3.5 h-3.5 text-[oklch(68%_0.12_75)]" />
-                  </button>
-
-                  {/* Slide Image with Crossfade Animation */}
-                  <div
-                    className="relative aspect-[16/9] w-full overflow-hidden bg-black cursor-pointer"
-                    onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
-                  >
-                    <AnimatePresence mode="wait">
-                      <motion.img
-                        key={currentSlideIndex}
-                        src={HERO_SLIDES[currentSlideIndex].src}
-                        alt={HERO_SLIDES[currentSlideIndex].title}
-                        initial={{ opacity: 0, scale: 1.05 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="w-full h-full object-cover"
-                      />
-                    </AnimatePresence>
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Caption Overlay */}
-                    <div className="absolute bottom-3 left-4 right-4 text-left pointer-events-none z-10">
-                      <p className="text-xs font-semibold text-white font-sans">
-                        {HERO_SLIDES[currentSlideIndex].title}
-                      </p>
-                      <p className="text-[10px] text-white/80 font-sans line-clamp-1">
-                        {HERO_SLIDES[currentSlideIndex].caption}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Carousel Prev/Next Controls */}
-                  <button
-                    onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    aria-label="Previous slide"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-
-                  <button
-                    onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                    aria-label="Next slide"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-
-                  {/* Indicator Dots */}
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
-                    {HERO_SLIDES.map((_, dotIdx) => (
-                      <button
-                        key={dotIdx}
-                        onClick={(e) => { e.stopPropagation(); setCurrentSlideIndex(dotIdx); }}
-                        className={`w-1.5 h-1.5 rounded-full transition-all ${
-                          currentSlideIndex === dotIdx
-                            ? "w-4 bg-[oklch(68%_0.12_75)]"
-                            : "bg-white/40 hover:bg-white/70"
-                        }`}
-                        aria-label={`Go to slide ${dotIdx + 1}`}
-                      />
-                    ))}
-                  </div>
-
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            /* Subtext when morphing is in initial ring state */
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              className="text-xs sm:text-base md:text-lg font-sans leading-relaxed max-w-xs sm:max-w-xl mb-4 sm:mb-6"
-              style={{ color: "oklch(30% 0.015 90)" }}
-            >
-              A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured.
-            </motion.p>
-          )}
+          {/* Subtext */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={
+              introPhase === "circle"
+                ? { opacity: 1 }
+                : { opacity: 0 }
+            }
+            transition={{ duration: 0.4 }}
+            className="text-xs sm:text-lg md:text-xl font-sans leading-relaxed max-w-xs sm:max-w-2xl mb-6 sm:mb-8"
+            style={{
+              color: isFullBleedActive ? "oklch(95% 0.01 85 / 0.9)" : "oklch(30% 0.015 90)",
+              transition: "color 500ms ease",
+            }}
+          >
+            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured. You hear from us every single day.
+          </motion.p>
 
           {/* Interactive CTA buttons */}
           <motion.div
@@ -497,20 +460,25 @@ export default function ScrollMorphHero() {
                 : { opacity: 0, y: 12 }
             }
             transition={{ duration: 0.8, delay: 0.25 }}
-            className="flex flex-wrap gap-2.5 sm:gap-4 justify-center pointer-events-auto mb-2"
+            className="flex flex-wrap gap-3 sm:gap-5 justify-center pointer-events-auto mb-2"
           >
             <a
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold !py-2.5 !px-5 !text-xs sm:!py-3 sm:!px-7 sm:!text-sm"
+              className="btn-gold !py-3 !px-7 sm:!py-4 sm:!px-9 !text-xs sm:!text-base shadow-2xl"
             >
               Book a Visit
               <span className="btn-arrow !w-5 !h-5 sm:!w-6 sm:!h-6">
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
-            <Link href="/our-promise" className="btn-ghost !py-2.5 !px-5 !text-xs sm:!py-3 sm:!px-7 sm:!text-sm">
+            <Link
+              href="/our-promise"
+              className={`btn-ghost !py-3 !px-7 sm:!py-4 sm:!px-9 !text-xs sm:!text-base ${
+                isFullBleedActive ? "!border-white/30 !text-white hover:!bg-white/10 backdrop-blur-md" : ""
+              }`}
+            >
               Our Promise
             </Link>
           </motion.div>
@@ -524,15 +492,81 @@ export default function ScrollMorphHero() {
                 : { opacity: 0 }
             }
             transition={{ duration: 0.6 }}
-            className="text-[9px] sm:text-[11px] font-sans font-semibold tracking-[0.2em] uppercase mt-1"
+            className="text-[9px] sm:text-[11px] font-sans font-semibold tracking-[0.2em] uppercase mt-2"
             style={{ color: "oklch(68% 0.12 75)" }}
           >
             SCROLL TO EXPLORE ↓
           </motion.p>
         </div>
 
-        {/* ── Animated Flip Cards Ring ── */}
-        <div className="relative flex items-center justify-center w-full h-full">
+        {/* ── Full-Bleed Slideshow Controls & Caption Bar (Bottom Bar) ── */}
+        <AnimatePresence>
+          {isFullBleedActive && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.6 }}
+              className="absolute bottom-6 left-6 right-6 z-30 flex flex-col sm:flex-row items-center justify-between gap-3 pointer-events-auto"
+            >
+              {/* Active Slide Caption Badge */}
+              <div
+                className="bg-black/60 backdrop-blur-xl border border-white/15 px-4 py-2 rounded-2xl text-white flex items-center gap-3 cursor-pointer hover:bg-black/80 transition-colors shadow-2xl"
+                onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
+              >
+                <div className="w-7 h-7 rounded-xl bg-[oklch(68%_0.12_75)] text-black flex items-center justify-center flex-shrink-0 font-bold text-xs">
+                  {currentSlideIndex + 1}
+                </div>
+                <div className="text-left">
+                  <p className="text-xs font-semibold font-sans text-white">
+                    {HERO_SLIDES[currentSlideIndex].title}
+                  </p>
+                  <p className="text-[10px] text-white/70 font-sans hidden sm:block">
+                    {HERO_SLIDES[currentSlideIndex].caption}
+                  </p>
+                </div>
+                <ZoomIn className="w-4 h-4 text-white/60 ml-2" />
+              </div>
+
+              {/* Prev / Next & Indicator Dots */}
+              <div className="flex items-center gap-3 bg-black/60 backdrop-blur-xl border border-white/15 px-3 py-2 rounded-2xl shadow-2xl">
+                <button
+                  onClick={prevSlide}
+                  className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+
+                <div className="flex gap-1.5 px-2">
+                  {HERO_SLIDES.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentSlideIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        currentSlideIndex === idx
+                          ? "w-5 bg-[oklch(68%_0.12_75)]"
+                          : "w-1.5 bg-white/30 hover:bg-white/60"
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={nextSlide}
+                  className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* ── Animated Flip Cards Ring (Arc sits over background) ── */}
+        <div className="relative flex items-center justify-center w-full h-full z-20">
           {GALLERY_ITEMS.slice(0, isMobile ? 12 : TOTAL_IMAGES).map((item, i) => {
             const count = isMobile ? 12 : TOTAL_IMAGES;
             let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
@@ -555,7 +589,7 @@ export default function ScrollMorphHero() {
 
               const baseRadius = Math.min(containerSize.width, containerSize.height * 1.5);
               const arcRadius = baseRadius * (isMobile ? 1.3 : 1.1);
-              const arcApexY = containerSize.height * (isMobile ? 0.36 : 0.30);
+              const arcApexY = containerSize.height * (isMobile ? 0.38 : 0.32);
               const arcCenterY = arcApexY + arcRadius;
 
               const spreadAngle = isMobile ? 110 : 130;

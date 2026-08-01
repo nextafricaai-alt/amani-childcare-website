@@ -53,7 +53,9 @@ routeFolders.forEach(({ file, folder }) => {
 });
 
 // Create .htaccess for Hostinger clean URL rewrites
-const htaccessContent = `RewriteEngine On
+const htaccessContent = `Options +FollowSymLinks
+RewriteEngine On
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
