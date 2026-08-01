@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { motion, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X, ZoomIn } from "lucide-react";
+import { ArrowUpRight, X, ZoomIn, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 // --- Types ---
@@ -89,6 +89,16 @@ function FlipCard({ src, title, index, phase, target, onClick }: FlipCardProps) 
 const TOTAL_IMAGES = 20;
 const MAX_SCROLL = 1800;
 
+// Slideshow images added by user
+const HERO_SLIDES = [
+  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Team at Amani" },
+  { src: "hero-slides/slide2.jpg", title: "Spacious Learning Environment", caption: "Clean, hygienic classrooms designed for early development" },
+  { src: "hero-slides/slide3.webp", title: "Themed Childhood Spaces", caption: "Vibrant therapy and play-themed activity areas" },
+  { src: "hero-slides/slide4.jpg", title: "Interactive Classrooms", caption: "Engaging books, toys, and individual caregiver attention" },
+  { src: "hero-slides/slide5.jpg", title: "Structured Daily Rhythm", caption: "Balanced learning, rest, healthy meals, and play" },
+  { src: "hero-slides/slide6.jpg", title: "Amani Childcare Family", caption: "Warm, safe, and nurturing environment for ages 2–5" },
+];
+
 const GALLERY_ITEMS = [
   { src: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80", title: "Interactive Classroom Learning" },
   { src: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80", title: "Storytime & Literacy Corner" },
@@ -118,6 +128,7 @@ export default function ScrollMorphHero() {
   const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
   const [containerSize, setContainerSize] = useState({ width: 390, height: 750 });
   const [activeModalItem, setActiveModalItem] = useState<{ src: string; title: string } | null>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -250,6 +261,15 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
+  // Autoplay slideshow when animation reaches bottom arc (morphValue > 0.4)
+  useEffect(() => {
+    if (morphValue < 0.4) return;
+    const interval = setInterval(() => {
+      setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [morphValue]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setActiveModalItem(null);
@@ -260,10 +280,17 @@ export default function ScrollMorphHero() {
 
   const isMobile = containerSize.width < 768;
 
-  // Compute ring dimensions specifically tailored for mobile vs desktop
+  // Ring radius tailored for mobile vs desktop
   const circleRadius = isMobile
     ? Math.min(containerSize.width * 0.44, 165)
     : Math.min(containerSize.height * 0.38, 380);
+
+  const prevSlide = () => {
+    setCurrentSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
+  };
+  const nextSlide = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
 
   return (
     <div
@@ -299,7 +326,7 @@ export default function ScrollMorphHero() {
 
       <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
-        {/* ── Central Hero Content (100% Responsive on Mobile & Desktop) ── */}
+        {/* ── Central Hero Content & Slideshow (Appears when animation finishes) ── */}
         <div className="absolute z-10 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 sm:px-6 w-full max-w-3xl">
 
           {/* Eyebrow badge */}
@@ -311,16 +338,16 @@ export default function ScrollMorphHero() {
                 : { opacity: 0, y: -12 }
             }
             transition={{ duration: 0.8 }}
-            className="eyebrow mb-2 sm:mb-4 pointer-events-auto !text-[9px] sm:!text-xs !py-1 !px-3"
+            className="eyebrow mb-2 sm:mb-3 pointer-events-auto !text-[9px] sm:!text-xs !py-1 !px-3"
           >
             <span
               className="inline-block w-1.5 h-1.5 rounded-full"
               style={{ background: "oklch(68% 0.12 75)" }}
             />
-            {morphValue > 0.45 ? `Welcome to ${SITE_CONFIG.name}` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} places remain`}
+            {morphValue > 0.45 ? `Our Centre & Community` : `Now enrolling · ${SITE_CONFIG.foundingSpotsRemaining} places remain`}
           </motion.div>
 
-          {/* Dynamic Headline: Mobile friendly typography size */}
+          {/* Dynamic Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
             animate={
@@ -329,12 +356,11 @@ export default function ScrollMorphHero() {
                     opacity: 1,
                     y: 0,
                     filter: "blur(0px)",
-                    scale: 1 + morphValue * (isMobile ? 0.08 : 0.2),
                   }
                 : { opacity: 0, filter: "blur(8px)" }
             }
             transition={{ duration: 0.4, type: "spring", stiffness: 60, damping: 20 }}
-            className="font-display font-light text-2xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.08] mb-3 sm:mb-6 select-none"
+            className="font-display font-light text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] mb-2 sm:mb-4 select-none"
             style={{ color: "oklch(22% 0.06 155)", transformOrigin: "center center" }}
           >
             {morphValue > 0.45 ? (
@@ -355,22 +381,114 @@ export default function ScrollMorphHero() {
             )}
           </motion.h1>
 
-          {/* Subtext: Responsive max width and size */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={
-              introPhase === "circle"
-                ? { opacity: 1 }
-                : { opacity: 0 }
-            }
-            transition={{ duration: 0.4 }}
-            className="text-xs sm:text-base md:text-lg font-sans leading-relaxed max-w-xs sm:max-w-xl mb-4 sm:mb-6"
-            style={{ color: "oklch(30% 0.015 90)" }}
-          >
-            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured.
-          </motion.p>
+          {/* ── Featured Slideshow (Fades in smoothly after hero animation finishes!) ── */}
+          {morphValue > 0.35 ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, type: "spring", stiffness: 120, damping: 18 }}
+              className="w-full max-w-lg my-3 pointer-events-auto"
+            >
+              <div className="card-shell">
+                <div className="card-core overflow-hidden relative group">
 
-          {/* Interactive CTA buttons: Compact & responsive on mobile */}
+                  {/* Top Slide Counter Badge */}
+                  <div className="absolute top-3 left-3 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full text-white text-[10px] font-sans font-semibold flex items-center gap-1.5">
+                    <Images className="w-3 h-3 text-[oklch(68%_0.12_75)]" />
+                    <span>{currentSlideIndex + 1} / {HERO_SLIDES.length}</span>
+                  </div>
+
+                  {/* Expand button */}
+                  <button
+                    onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
+                    className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/80 transition-colors"
+                    aria-label="Expand image"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5 text-[oklch(68%_0.12_75)]" />
+                  </button>
+
+                  {/* Slide Image with Crossfade Animation */}
+                  <div
+                    className="relative aspect-[16/9] w-full overflow-hidden bg-black cursor-pointer"
+                    onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
+                  >
+                    <AnimatePresence mode="wait">
+                      <motion.img
+                        key={currentSlideIndex}
+                        src={HERO_SLIDES[currentSlideIndex].src}
+                        alt={HERO_SLIDES[currentSlideIndex].title}
+                        initial={{ opacity: 0, scale: 1.05 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="w-full h-full object-cover"
+                      />
+                    </AnimatePresence>
+
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+
+                    {/* Caption Overlay */}
+                    <div className="absolute bottom-3 left-4 right-4 text-left pointer-events-none z-10">
+                      <p className="text-xs font-semibold text-white font-sans">
+                        {HERO_SLIDES[currentSlideIndex].title}
+                      </p>
+                      <p className="text-[10px] text-white/80 font-sans line-clamp-1">
+                        {HERO_SLIDES[currentSlideIndex].caption}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Carousel Prev/Next Controls */}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+
+                  {/* Indicator Dots */}
+                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
+                    {HERO_SLIDES.map((_, dotIdx) => (
+                      <button
+                        key={dotIdx}
+                        onClick={(e) => { e.stopPropagation(); setCurrentSlideIndex(dotIdx); }}
+                        className={`w-1.5 h-1.5 rounded-full transition-all ${
+                          currentSlideIndex === dotIdx
+                            ? "w-4 bg-[oklch(68%_0.12_75)]"
+                            : "bg-white/40 hover:bg-white/70"
+                        }`}
+                        aria-label={`Go to slide ${dotIdx + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            /* Subtext when morphing is in initial ring state */
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+              className="text-xs sm:text-base md:text-lg font-sans leading-relaxed max-w-xs sm:max-w-xl mb-4 sm:mb-6"
+              style={{ color: "oklch(30% 0.015 90)" }}
+            >
+              A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured.
+            </motion.p>
+          )}
+
+          {/* Interactive CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={
@@ -385,14 +503,14 @@ export default function ScrollMorphHero() {
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold !py-2.5 !px-5 !text-xs sm:!py-3.5 sm:!px-8 sm:!text-base"
+              className="btn-gold !py-2.5 !px-5 !text-xs sm:!py-3 sm:!px-7 sm:!text-sm"
             >
               Book a Visit
               <span className="btn-arrow !w-5 !h-5 sm:!w-6 sm:!h-6">
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
-            <Link href="/our-promise" className="btn-ghost !py-2.5 !px-5 !text-xs sm:!py-3.5 sm:!px-8 sm:!text-base">
+            <Link href="/our-promise" className="btn-ghost !py-2.5 !px-5 !text-xs sm:!py-3 sm:!px-7 sm:!text-sm">
               Our Promise
             </Link>
           </motion.div>

@@ -76,4 +76,14 @@ if (fs.existsSync(portraitSrc)) {
   console.log('Copied founders-portrait.jpg to out/ directory');
 }
 
+const slidesSrcDir = path.join(__dirname, '../public/hero-slides');
+const slidesOutDir = path.join(outDir, 'hero-slides');
+if (fs.existsSync(slidesSrcDir)) {
+  fs.mkdirSync(slidesOutDir, { recursive: true });
+  fs.readdirSync(slidesSrcDir).forEach(file => {
+    fs.copyFileSync(path.join(slidesSrcDir, file), path.join(slidesOutDir, file));
+  });
+  console.log('Copied hero-slides directory to out/hero-slides');
+}
+
 console.log('✅ Production build ready for Hostinger upload!');
