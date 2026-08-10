@@ -35,5 +35,5 @@ jobs:
           port: ${{ secrets.FTP_PORT || 21 }}
           protocol: ftps
           security: loose
-          server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
           local-dir: ./out/
