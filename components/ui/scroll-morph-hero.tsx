@@ -1,253 +1,718 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ZoomIn, ChevronLeft, ChevronRight, X } from "lucide-react";
-import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
 
-// Full bleed background hero slides uploaded by user
-const HERO_SLIDES = [
-  { src: "hero-slides/slide2.jpg", title: "Spacious & Hygienic Classrooms", caption: "Designed for safety, focus, and early development" },
-  { src: "hero-slides/slide3.webp", title: "Themed Early Childhood Spaces", caption: "Vibrant activity areas for sensory & physical play" },
-  { src: "hero-slides/slide4.jpg", title: "Interactive Learning & Literacy", caption: "Individual caregiver attention and rich learning materials" },
-  { src: "hero-slides/slide5.jpg", title: "Structured Daily Rhythm", caption: "Balanced learning, rest, healthy meals, and play" },
-  { src: "hero-slides/slide6.jpg", title: "Pikadon Childcare Family", caption: "Warm, safe, and nurturing environment for ages 2–5" },
+/* ────────────────────────────────────────────────────────────────────────
+   Pageflip — a realistic open fashion magazine you leaf through.
+
+   The book is a real 3D scene (three, no react-three-fiber): an open spread of
+   two glossy full-bleed photo pages sitting on a soft-lit studio surface, seen
+   at a slanted editorial angle. Turning a page is NOT a flat card flip — the
+   turning leaf is a deformable mesh that BENDS around a cylinder as it lifts
+   (the outer edge curls, peaks mid-turn, flattens as it lands), and a real
+   shadow-mapped directional light makes the lifting page cast a soft moving
+   shadow across the spread beneath it. The left/right page stacks carry true
+   thickness, and each page is baked with a gutter shade that darkens toward the
+   binding, so the spread curves into the spine like printed paper.
+
+   One leaf is in motion at a time (the classic flipbook trick). Its single
+   MeshStandardMaterial samples a different photo on the front (recto) and back
+   (verso) via a gl_FrontFacing branch injected with onBeforeCompile, so it
+   lights, shadows and refuses to z-fight as one mesh while showing two images.
+
+   Three ways to turn it, all wired:
+     • DRAG a page corner — the leaf follows your finger (the tip tracks the
+       pointer's position on the surface) and snaps forward / back on release.
+     • CLICK the left / right edge — the leaf turns itself with a curl.
+     • SCROLL — wheel down turns forward, up turns back.
+   ?card: the book leafs through itself, ping-ponging end to end (continuous).
+   prefers-reduced-motion: one still open spread, no motion.
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* The page photos (Pikadon early childhood & campus editorial). */
+const IMAGES = [
+  "hero-slides/slide2.jpg",
+  "hero-slides/slide3.webp",
+  "hero-slides/slide4.jpg",
+  "hero-slides/slide5.jpg",
+  "hero-slides/slide6.jpg",
+  "standards-cards/card1.jpg",
+  "standards-cards/card2.jpg",
+  "standards-cards/card3.webp",
+  "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80",
+  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80",
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
+  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
 ];
 
+// One short caption per page (drawn small over the photo), and a section kicker.
+const CAPTIONS = [
+  "SAFE & HYGIENIC",
+  "SENSORY PLAY",
+  "EARLY LITERACY",
+  "DAILY RHYTHM",
+  "PIKADON FAMILY",
+  "VETTED CARE",
+  "SANITZED SPACES",
+  "STRUCTURED DAY",
+  "DISCOVERY",
+  "STORY CORNER",
+  "ENGAGED PLAY",
+  "MONTESSORI TOOLS",
+];
+
+// Book / page geometry, in world units (page aspect ≈ 2 : 2.9).
+const PW = 2.0;            // page width (spine → outer edge)
+const PH = 2.9;            // page height
+const NIMG = 12;
+const SHEETS = NIMG / 2;   // physical leaves
+const PAGE_Y = 0.012;      // pages float a hair above the surface
+const PER_SHEET = 0.011;   // thickness one leaf adds to a stack
+const NX = 48;             // grid resolution along the curl (spine→outer)
+const NZ = 18;             // grid resolution across the page height
+const BEND_MAX = 1.42;     // peak curl angle of the turning leaf (radians)
+const LEAD = 0.22;         // diagonal corner-lead of the turn
+const FLIP_MS = 980;       // auto-flip duration
+
 export default function ScrollMorphHero() {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [activeModalItem, setActiveModalItem] = useState<{ src: string; title: string; caption?: string } | null>(null);
-
-  // Autoplay full bleed background slideshow every 4 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  const hostRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActiveModalItem(null);
+    const host = hostRef.current;
+    if (!host) return;
+
+    const isCard = new URLSearchParams(window.location.search).has("card");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ── renderer ────────────────────────────────────────────────────────
+    const canvas = document.createElement("canvas");
+    canvas.className = "kpf-gl";
+    host.appendChild(canvas);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.06;
+
+    const scene = new THREE.Scene();
+
+    // soft studio backdrop (vertical sweep) baked to a texture
+    const bgC = document.createElement("canvas");
+    bgC.width = 16; bgC.height = 256;
+    const bgx = bgC.getContext("2d")!;
+    const bgg = bgx.createLinearGradient(0, 0, 0, 256);
+    bgg.addColorStop(0, "#1b1b22");
+    bgg.addColorStop(0.55, "#141419");
+    bgg.addColorStop(1, "#0b0b0f");
+    bgx.fillStyle = bgg; bgx.fillRect(0, 0, 16, 256);
+    const bgTex = new THREE.CanvasTexture(bgC);
+    bgTex.colorSpace = THREE.SRGBColorSpace;
+    scene.background = bgTex;
+
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+
+    // ── lights ──────────────────────────────────────────────────────────
+    const key = new THREE.DirectionalLight(0xfff3e2, 2.5);
+    key.position.set(-3.6, 8.2, 4.4);
+    key.castShadow = true;
+    key.shadow.mapSize.set(isCard ? 1024 : 2048, isCard ? 1024 : 2048);
+    key.shadow.camera.near = 1;
+    key.shadow.camera.far = 26;
+    const sc = key.shadow.camera as THREE.OrthographicCamera;
+    sc.left = -4.2; sc.right = 4.2; sc.top = 4.2; sc.bottom = -4.2;
+    key.shadow.bias = -0.0004;
+    key.shadow.normalBias = 0.025;
+    key.shadow.radius = 7;
+    scene.add(key);
+
+    const fill = new THREE.HemisphereLight(0xe7e4dc, 0x161009, 0.55);
+    scene.add(fill);
+    const rim = new THREE.DirectionalLight(0xdfe6f2, 0.32);
+    rim.position.set(4.5, 3.5, -5.5);
+    scene.add(rim);
+    scene.add(new THREE.AmbientLight(0xfff4e6, 0.2));
+
+    // ── ground: a soft-lit surface with a warm light pool ───────────────
+    const grC = document.createElement("canvas");
+    grC.width = grC.height = 512;
+    const grx = grC.getContext("2d")!;
+    grx.fillStyle = "#1a1a20";
+    grx.fillRect(0, 0, 512, 512);
+    const pool = grx.createRadialGradient(256, 220, 40, 256, 256, 330);
+    pool.addColorStop(0, "rgba(120,104,86,0.42)");
+    pool.addColorStop(0.5, "rgba(60,56,52,0.16)");
+    pool.addColorStop(1, "rgba(20,20,26,0)");
+    grx.fillStyle = pool; grx.fillRect(0, 0, 512, 512);
+    const grTex = new THREE.CanvasTexture(grC);
+    grTex.colorSpace = THREE.SRGBColorSpace;
+    const ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(40, 40),
+      new THREE.MeshStandardMaterial({ map: grTex, roughness: 0.96, metalness: 0 }),
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = 0;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    // ── page-texture baking ─────────────────────────────────────────────
+    const TW = 760, TH = Math.round((760 * PH) / PW); // ~1102
+    const texCache = new Map<number, THREE.CanvasTexture>();
+    const imgs: (HTMLImageElement | null)[] = new Array(NIMG).fill(null);
+
+    function coverDraw(ctx: CanvasRenderingContext2D, img: HTMLImageElement,
+                       x: number, y: number, w: number, h: number) {
+      const ir = img.width / img.height, cr = w / h;
+      let dw: number, dh: number;
+      if (ir > cr) { dh = h; dw = h * ir; } else { dw = w; dh = w / ir; }
+      ctx.save();
+      ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+      ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+      ctx.restore();
+    }
+
+    // role: gutterRight=true → binding shade on the RIGHT edge (verso / left page),
+    // false → on the LEFT edge (recto / right page).
+    function bakePhoto(index: number, gutterRight: boolean): THREE.CanvasTexture {
+      const c = document.createElement("canvas");
+      c.width = TW; c.height = TH;
+      const ctx = c.getContext("2d")!;
+
+      // paper
+      ctx.fillStyle = "#f5f2ea"; ctx.fillRect(0, 0, TW, TH);
+
+      // photo with a thin printed frame
+      const m = Math.round(TW * 0.045);
+      const px = m, py = m, pw = TW - m * 2, ph = TH - m * 2;
+      const img = imgs[index];
+      if (img) coverDraw(ctx, img, px, py, pw, ph);
+      else { ctx.fillStyle = "#cfc7b8"; ctx.fillRect(px, py, pw, ph); }
+
+      // gentle photo vignette
+      const vg = ctx.createRadialGradient(TW / 2, TH * 0.46, TH * 0.2, TW / 2, TH * 0.5, TH * 0.66);
+      vg.addColorStop(0, "rgba(0,0,0,0)");
+      vg.addColorStop(1, "rgba(0,0,0,0.22)");
+      ctx.fillStyle = vg; ctx.fillRect(px, py, pw, ph);
+
+      // caption block over the lower photo
+      const sg = ctx.createLinearGradient(0, TH * 0.62, 0, TH);
+      sg.addColorStop(0, "rgba(8,8,10,0)");
+      sg.addColorStop(1, "rgba(8,8,10,0.62)");
+      ctx.fillStyle = sg; ctx.fillRect(px, py, pw, ph);
+
+      const tx = gutterRight ? px + pw * 0.07 : px + pw * 0.07;
+      ctx.textAlign = "left";
+      ctx.fillStyle = "rgba(255,255,255,0.78)";
+      ctx.font = `600 ${Math.round(TW * 0.028)}px "DM Mono", monospace`;
+      ctx.fillText(`№ ${String(index + 1).padStart(2, "0")} — EDITORIAL`, tx, TH - ph * 0.14);
+      ctx.fillStyle = "#fbf7ef";
+      ctx.font = `italic 500 ${Math.round(TW * 0.085)}px "Playfair Display", serif`;
+      ctx.fillText(CAPTIONS[index] || "PIKADON", tx, TH - ph * 0.055);
+
+      // running header on the frame
+      ctx.fillStyle = "rgba(40,38,34,0.55)";
+      ctx.font = `500 ${Math.round(TW * 0.022)}px "DM Mono", monospace`;
+      ctx.textAlign = gutterRight ? "left" : "right";
+      ctx.fillText("PIKADON · NAJJERA CENTRE", gutterRight ? m * 1.3 : TW - m * 1.3, m * 0.74);
+
+      // binding (gutter) shade — page curves into the spine
+      const gw = TW * 0.2;
+      const gx = gutterRight ? TW - gw : 0;
+      const gg = ctx.createLinearGradient(gutterRight ? TW : 0, 0, gutterRight ? TW - gw : gw, 0);
+      gg.addColorStop(0, "rgba(0,0,0,0.30)");
+      gg.addColorStop(0.5, "rgba(0,0,0,0.07)");
+      gg.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = gg; ctx.fillRect(gx, 0, gw, TH);
+
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      t.minFilter = THREE.LinearMipmapLinearFilter;
+      t.magFilter = THREE.LinearFilter;
+      return t;
+    }
+
+    function bakeCover(gutterRight: boolean): THREE.CanvasTexture {
+      const c = document.createElement("canvas");
+      c.width = TW; c.height = TH;
+      const ctx = c.getContext("2d")!;
+      const g = ctx.createLinearGradient(0, 0, 0, TH);
+      g.addColorStop(0, "#1c2b22"); g.addColorStop(1, "#0d1712");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, TW, TH);
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#e9c98c";
+      ctx.font = `500 ${Math.round(TW * 0.018)}px "DM Mono", monospace`;
+      ctx.fillText("NAJJERA CENTRE · VOL. 01", TW / 2, TH * 0.2);
+      ctx.fillStyle = "#f6efe2";
+      ctx.font = `700 ${Math.round(TW * 0.15)}px "Playfair Display", serif`;
+      ctx.fillText("PIKADON", TW / 2, TH * 0.54);
+      ctx.fillStyle = "rgba(233,201,140,0.85)";
+      ctx.font = `italic 500 ${Math.round(TW * 0.038)}px "Playfair Display", serif`;
+      ctx.fillText("child development network", TW / 2, TH * 0.62);
+      const gw = TW * 0.2, gx = gutterRight ? TW - gw : 0;
+      const gg = ctx.createLinearGradient(gutterRight ? TW : 0, 0, gutterRight ? TW - gw : gw, 0);
+      gg.addColorStop(0, "rgba(0,0,0,0.42)"); gg.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = gg; ctx.fillRect(gx, 0, gw, TH);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace;
+      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      return t;
+    }
+
+    let coverFront: THREE.CanvasTexture | null = null; // left page (gutter right)
+    let coverBack: THREE.CanvasTexture | null = null;  // right page (gutter left)
+
+    // texture for a page index; even = recto (gutter left), odd = verso (gutter right)
+    function texFor(index: number): THREE.CanvasTexture {
+      if (index < 0) return (coverFront ??= bakeCover(true));
+      if (index >= NIMG) return (coverBack ??= bakeCover(false));
+      const hit = texCache.get(index);
+      if (hit) return hit;
+      const t = bakePhoto(index, index % 2 === 1);
+      texCache.set(index, t);
+      return t;
+    }
+
+    // ── page geometry (shared rest grid) ────────────────────────────────
+    function makeGrid(uMin: number, uMax: number) {
+      const g = new THREE.BufferGeometry();
+      const verts = (NX + 1) * (NZ + 1);
+      const pos = new Float32Array(verts * 3);
+      const uv = new Float32Array(verts * 2);
+      for (let iz = 0; iz <= NZ; iz++) {
+        for (let ix = 0; ix <= NX; ix++) {
+          const k = iz * (NX + 1) + ix;
+          pos[k * 3] = (ix / NX) * PW;
+          pos[k * 3 + 1] = 0;
+          pos[k * 3 + 2] = -PH / 2 + (iz / NZ) * PH;
+          uv[k * 2] = uMin + (uMax - uMin) * (ix / NX);
+          // canvas top → far edge (z = -PH/2) so pages read upright from camera
+          uv[k * 2 + 1] = 1 - iz / NZ;
+        }
+      }
+      const idx: number[] = [];
+      for (let iz = 0; iz < NZ; iz++) {
+        for (let ix = 0; ix < NX; ix++) {
+          const a = iz * (NX + 1) + ix, b = a + 1, c = a + (NX + 1), d = c + 1;
+          idx.push(a, c, b, b, c, d);
+        }
+      }
+      g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+      g.setIndex(idx);
+      g.computeVertexNormals();
+      return g;
+    }
+
+    // a flat page plane (static left / right) lying on the spread.
+    // Both use the same winding (normals +Y); the left page is just translated
+    // to x∈[-PW,0] (negating x would flip the winding → shadow-acne stripes).
+    function makeFlatPage(side: "left" | "right") {
+      // u: 0@spine..1@outer for the right page; for the left page the grid is
+      // shifted by -PW so spine (x=0) lands at u=1 (verso gutter) and outer at u=0
+      const g = makeGrid(0, 1);
+      const p = g.attributes.position as THREE.BufferAttribute;
+      const arr = p.array as Float32Array;
+      for (let i = 0; i < arr.length; i += 3) {
+        if (side === "left") arr[i] -= PW; // slide to the left of the spine
+        // a gentle resting bow — an open magazine isn't dead flat: each page
+        // domes up between the gutter and its outer edge (zero at both, so the
+        // spine stays glued and the outer edge rests on the surface)
+        const frac = Math.abs(arr[i]) / PW;
+        arr[i + 1] = PAGE_Y + Math.sin(frac * Math.PI) * 0.055;
+      }
+      p.needsUpdate = true;
+      g.computeVertexNormals();
+      const mat = new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0 });
+      const m = new THREE.Mesh(g, mat);
+      m.castShadow = true; m.receiveShadow = true;
+      return m;
+    }
+
+    const leftPage = makeFlatPage("left");
+    const rightPage = makeFlatPage("right");
+    scene.add(leftPage, rightPage);
+
+    // ── the turning leaf (deformable, two-sided texture) ────────────────
+    const flipGeo = makeGrid(0, 1);
+    const restS = new Float32Array(NX + 1);
+    const restZ = new Float32Array(NZ + 1);
+    for (let ix = 0; ix <= NX; ix++) restS[ix] = (ix / NX) * PW;
+    for (let iz = 0; iz <= NZ; iz++) restZ[iz] = -PH / 2 + (iz / NZ) * PH;
+
+    const backMapU = { value: texFor(1) as THREE.Texture };
+    const flipMat = new THREE.MeshStandardMaterial({
+      map: texFor(0), roughness: 0.6, metalness: 0, side: THREE.DoubleSide,
+    });
+    flipMat.onBeforeCompile = (shader) => {
+      shader.uniforms.backMap = backMapU;
+      shader.fragmentShader = "uniform sampler2D backMap;\n" + shader.fragmentShader.replace(
+        "#include <map_fragment>",
+        `vec4 sampledDiffuseColor;
+         if (gl_FrontFacing) sampledDiffuseColor = texture2D( map, vMapUv );
+         else sampledDiffuseColor = texture2D( backMap, vec2(1.0 - vMapUv.x, vMapUv.y) );
+         diffuseColor *= sampledDiffuseColor;`,
+      );
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    const flipMesh = new THREE.Mesh(flipGeo, flipMat);
+    flipMesh.castShadow = true; flipMesh.receiveShadow = true;
+    flipMesh.visible = false;
+    scene.add(flipMesh);
 
-  const prevSlide = () => {
-    setCurrentSlideIndex((prev) => (prev === 0 ? HERO_SLIDES.length - 1 : prev - 1));
-  };
-  const nextSlide = () => {
-    setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-  };
+    // deform the turning leaf for a given visual progress tv ∈ [0,1]
+    function deformFlip(tv: number) {
+      const theta = tv * Math.PI;
+      const curl = Math.sin(tv * Math.PI);     // 0 at rest, 1 mid-turn
+      const bend = curl * BEND_MAX;
+      const lead = curl * LEAD;
+      const bowFade = 1 - curl;                // full resting bow when flat
+      const pos = flipGeo.attributes.position as THREE.BufferAttribute;
+      const arr = pos.array as Float32Array;
+      const flat = bend < 1e-4;
+      const rho = flat ? 0 : PW / bend;
+      for (let iz = 0; iz <= NZ; iz++) {
+        const zc = restZ[iz];
+        const th = theta + lead * (zc / PH);
+        const ct = Math.cos(th), st = Math.sin(th);
+        for (let ix = 0; ix <= NX; ix++) {
+          const s = restS[ix];
+          let cx: number, cy: number;
+          if (flat) { cx = s; cy = 0; }
+          else { const a = (s / PW) * bend; cx = rho * Math.sin(a); cy = rho * (1 - Math.cos(a)); }
+          // resting bow, matched to the static pages, faded out as the leaf curls
+          const bow = Math.sin((s / PW) * Math.PI) * 0.055 * bowFade;
+          const k = (iz * (NX + 1) + ix) * 3;
+          arr[k] = cx * ct - cy * st;
+          // a hair above the static pages so a nearly-landed leaf never z-fights
+          // the page beneath it (the landed texture matches, so the drop is unseen)
+          arr[k + 1] = cx * st + cy * ct + PAGE_Y + 0.006 + bow;
+          arr[k + 2] = zc;
+        }
+      }
+      pos.needsUpdate = true;
+      flipGeo.computeVertexNormals();
+    }
+
+    // ── page stacks (thickness) ─────────────────────────────────────────
+    function makeStack(side: "left" | "right") {
+      const mat = new THREE.MeshStandardMaterial({ color: 0xece5d6, roughness: 0.9, metalness: 0 });
+      const g = new THREE.BoxGeometry(PW, 1, PH);
+      const m = new THREE.Mesh(g, mat);
+      m.castShadow = true; m.receiveShadow = true;
+      m.position.x = side === "left" ? -PW / 2 : PW / 2;
+      scene.add(m);
+      return m;
+    }
+    const leftStack = makeStack("left");
+    const rightStack = makeStack("right");
+    // a slim spine ridge
+    const spine = new THREE.Mesh(
+      new THREE.BoxGeometry(0.05, 0.06, PH),
+      new THREE.MeshStandardMaterial({ color: 0x2a2622, roughness: 0.8 }),
+    );
+    scene.add(spine);
+
+    function layoutStacks(open: number) {
+      const lh = Math.max(0.02, open * PER_SHEET);
+      const rh = Math.max(0.02, (SHEETS - open) * PER_SHEET);
+      leftStack.scale.y = lh; leftStack.position.y = -lh / 2;
+      rightStack.scale.y = rh; rightStack.position.y = -rh / 2;
+      spine.position.y = 0.0;
+    }
+
+    // ── book state ──────────────────────────────────────────────────────
+    let o = 1; // sheets resting on the left (open position), 0..SHEETS
+    type Flip = { base: number; from: number; to: number; tv: number; drag: boolean; t0: number };
+    let flip: Flip | null = null;
+
+    function setStatics() {
+      (leftPage.material as THREE.MeshStandardMaterial).map = texFor(2 * o - 1);
+      (rightPage.material as THREE.MeshStandardMaterial).map = texFor(2 * o);
+      leftPage.material.needsUpdate = true;
+      rightPage.material.needsUpdate = true;
+      layoutStacks(o);
+    }
+
+    function beginFlip(dir: 1 | -1, drag: boolean): boolean {
+      if (flip) return false;
+      if (dir > 0 && o >= SHEETS) return false;
+      if (dir < 0 && o <= 0) return false;
+      const base = dir > 0 ? o : o - 1;
+      // statics that frame the turning leaf
+      (leftPage.material as THREE.MeshStandardMaterial).map = texFor(2 * base - 1);
+      (rightPage.material as THREE.MeshStandardMaterial).map = texFor(2 * base + 2);
+      leftPage.material.needsUpdate = true;
+      rightPage.material.needsUpdate = true;
+      flipMat.map = texFor(2 * base);
+      backMapU.value = texFor(2 * base + 1);
+      flipMat.needsUpdate = true;
+      flipMesh.visible = true;
+      const from = dir > 0 ? 0 : 1;
+      const to = dir > 0 ? 1 : 0;
+      flip = { base, from, to: drag ? to : to, tv: from, drag, t0: performance.now() };
+      if (drag) flip.to = to; // resolved on release
+      deformFlip(from);
+      layoutStacks(base + from);
+      return true;
+    }
+
+    function commitFlip(target: 0 | 1) {
+      if (!flip) return;
+      o = flip.base + target;
+      flip = null;
+      flipMesh.visible = false;
+      setStatics();
+    }
+
+    const easeInOut = (x: number) =>
+      x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+
+    // ── pointer → surface position (world X) ────────────────────────────
+    const raycaster = new THREE.Raycaster();
+    const deskPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -PAGE_Y);
+    const ndc = new THREE.Vector2();
+    const hit = new THREE.Vector3();
+    function surfaceX(cx: number, cy: number): number | null {
+      const rect = host!.getBoundingClientRect();
+      ndc.x = ((cx - rect.left) / rect.width) * 2 - 1;
+      ndc.y = -((cy - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(ndc, camera);
+      if (!raycaster.ray.intersectPlane(deskPlane, hit)) return null;
+      return hit.x;
+    }
+    // map a finger surface-x to a turn progress (tip follows the finger)
+    const xToTv = (x: number) => Math.acos(THREE.MathUtils.clamp(x / PW, -1, 1)) / Math.PI;
+
+    let down = false, moved = false, downX = 0, downY = 0;
+    const onDown = (e: PointerEvent) => {
+      if (flip) return;
+      const x = surfaceX(e.clientX, e.clientY);
+      if (x == null) return;
+      down = true; moved = false; downX = e.clientX; downY = e.clientY;
+      host!.setPointerCapture?.(e.pointerId);
+      // grab decides direction; only start a drag if we actually grab a page
+      const dir: 1 | -1 = x >= 0 ? 1 : -1;
+      if (beginFlip(dir, true)) {
+        flip!.tv = xToTv(x);
+        deformFlip(flip!.tv);
+        layoutStacks(flip!.base + flip!.tv);
+      }
+    };
+    const onMoveP = (e: PointerEvent) => {
+      if (!down || !flip || !flip.drag) return;
+      if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) > 5) moved = true;
+      const x = surfaceX(e.clientX, e.clientY);
+      if (x == null) return;
+      flip.tv = THREE.MathUtils.clamp(xToTv(x), 0, 1);
+      deformFlip(flip.tv);
+      layoutStacks(flip.base + flip.tv);
+    };
+    const onUp = (e: PointerEvent) => {
+      host!.releasePointerCapture?.(e.pointerId);
+      if (!down) return;
+      down = false;
+      if (!flip) return;
+      if (!moved) {
+        // a click: turn toward the side that was clicked
+        const target: 0 | 1 = flip.base === o ? 1 : 0; // forward grab → complete; backward → complete
+        startAuto(target);
+      } else {
+        startAuto(flip.tv > 0.5 ? 1 : 0);
+      }
+    };
+
+    // convert a dragging/idle flip into a timed auto-snap to {0,1}
+    function startAuto(target: 0 | 1) {
+      if (!flip) return;
+      flip.drag = false;
+      flip.from = flip.tv;
+      flip.to = target;
+      flip.t0 = performance.now();
+    }
+
+    // start a self-driven flip from rest (click on edge w/o grab, scroll, card)
+    function autoFlip(dir: 1 | -1) {
+      if (flip) return;
+      if (beginFlip(dir, false)) {
+        flip!.from = dir > 0 ? 0 : 1;
+        flip!.to = dir > 0 ? 1 : 0;
+        flip!.tv = flip!.from;
+        flip!.t0 = performance.now();
+      }
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (flip) return;
+      if (e.deltaY > 4) autoFlip(1);
+      else if (e.deltaY < -4) autoFlip(-1);
+    };
+
+    if (!isCard && !reduced) {
+      host.addEventListener("pointerdown", onDown);
+      host.addEventListener("pointermove", onMoveP);
+      window.addEventListener("pointerup", onUp);
+      host.addEventListener("wheel", onWheel, { passive: false });
+    }
+
+    // ── camera framing ──────────────────────────────────────────────────
+    const camDir = new THREE.Vector3();
+    function frame() {
+      const w = host!.clientWidth || window.innerWidth;
+      const h = host!.clientHeight || window.innerHeight;
+      renderer.setSize(w, h, false);
+      const aspect = w / h;
+      camera.aspect = aspect;
+      const radius = 2.95;
+      const vFov = (camera.fov * Math.PI) / 180;
+      let dist = radius / Math.sin(vFov / 2);
+      const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
+      dist = Math.max(dist, radius / Math.sin(hFov / 2));
+      // slanted editorial viewpoint: above, and a touch to the right
+      camDir.set(0.62 * Math.sin(0.34), 0.86, 0.62 * Math.cos(0.34)).normalize();
+      camera.position.copy(camDir.multiplyScalar(dist));
+      camera.lookAt(0, -0.05, 0);
+      camera.updateProjectionMatrix();
+    }
+    frame();
+    const ro = new ResizeObserver(frame);
+    ro.observe(host);
+
+    // ── load photos ─────────────────────────────────────────────────────
+    let ready = false;
+    let loaded = 0;
+    function refreshTextures() {
+      // re-bake any cached page textures now that the image is present
+      for (const [i, t] of texCache) {
+        const fresh = bakePhoto(i, i % 2 === 1);
+        t.image = fresh.image;
+        t.needsUpdate = true;
+      }
+      setStatics();
+      backMapU.value = texFor(2 * Math.max(0, o - 1) + 1);
+    }
+    IMAGES.forEach((src, i) => {
+      const im = new Image();
+      im.crossOrigin = "anonymous";
+      im.onload = () => {
+        imgs[i] = im; loaded += 1;
+        if (loaded === NIMG) { ready = true; refreshTextures(); }
+      };
+      im.onerror = () => { loaded += 1; if (loaded === NIMG) { ready = true; refreshTextures(); } };
+      im.src = src;
+    });
+
+    // initial state
+    setStatics();
+    deformFlip(0);
+
+    // redraw captions once the display font lands
+    if (document.fonts && "load" in document.fonts) {
+      Promise.all([
+        document.fonts.load('italic 500 80px "Playfair Display"').catch(() => {}),
+        document.fonts.load('500 30px "DM Mono"').catch(() => {}),
+      ]).then(() => { if (ready) refreshTextures(); });
+    }
+
+    // ── card auto-leaf scheduler ────────────────────────────────────────
+    let cardDir: 1 | -1 = 1;
+    let cardNext = performance.now() + 700;
+
+    // ── render loop ─────────────────────────────────────────────────────
+    let raf = 0;
+    function loop() {
+      const now = performance.now();
+
+      if (flip) {
+        if (flip.drag) {
+          // tv set by pointer handlers; nothing to advance
+        } else {
+          const p = THREE.MathUtils.clamp((now - flip.t0) / FLIP_MS, 0, 1);
+          flip.tv = flip.from + (flip.to - flip.from) * easeInOut(p);
+          deformFlip(flip.tv);
+          layoutStacks(flip.base + flip.tv);
+          if (p >= 1) commitFlip(flip.to as 0 | 1);
+        }
+      } else if (isCard && now >= cardNext) {
+        if (o >= SHEETS) cardDir = -1;
+        else if (o <= 0) cardDir = 1;
+        autoFlip(cardDir);
+        cardNext = now + FLIP_MS + 620;
+      }
+
+      renderer.render(scene, camera);
+      raf = requestAnimationFrame(loop);
+    }
+
+    if (reduced) {
+      o = 1; setStatics(); deformFlip(0);
+      const renderOnce = () => renderer.render(scene, camera);
+      renderOnce();
+      const id = window.setTimeout(renderOnce, 500);
+      return () => {
+        window.clearTimeout(id);
+        ro.disconnect();
+        renderer.dispose();
+        canvas.remove();
+      };
+    }
+
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      host.removeEventListener("pointerdown", onDown);
+      host.removeEventListener("pointermove", onMoveP);
+      window.removeEventListener("pointerup", onUp);
+      host.removeEventListener("wheel", onWheel);
+      renderer.dispose();
+      flipGeo.dispose();
+      flipMat.dispose();
+      texCache.forEach((t) => t.dispose());
+      coverFront?.dispose(); coverBack?.dispose();
+      bgTex.dispose(); grTex.dispose();
+      canvas.remove();
+    };
+  }, []);
 
   return (
-    <div className="relative w-full h-[100svh] min-h-[640px] max-h-[960px] overflow-hidden bg-[oklch(97%_0.012_85)]">
-      {/* ── FULL BLEED BACKGROUND SLIDESHOW ── */}
-      <div className="absolute inset-0 z-0 w-full h-full overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={currentSlideIndex}
-            src={HERO_SLIDES[currentSlideIndex].src}
-            alt={HERO_SLIDES[currentSlideIndex].title}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </AnimatePresence>
+    <div ref={hostRef} className="kpf-stage">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Mono:wght@400;500&display=swap');
+        .kpf-stage {
+          position: relative; width: 100%; height: 100svh; min-height: 640px; max-height: 960px; overflow: hidden;
+          background: #0b0b0f; cursor: grab;
+          font-family: "DM Mono", monospace; touch-action: none;
+        }
+        .kpf-stage:active { cursor: grabbing; }
+        .kpf-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .kpf-chrome {
+          position: absolute; inset: 0; pointer-events: none; z-index: 2;
+          color: #f3f1ea; mix-blend-mode: difference;
+          text-transform: uppercase; letter-spacing: 0.16em;
+        }
+        .kpf-chrome span { position: absolute; font-size: 11px; font-weight: 500; white-space: nowrap; }
+        .kpf-tl { top: 26px; left: 30px; font-weight: 700; letter-spacing: 0.04em; }
+        .kpf-tr { top: 26px; right: 30px; }
+        .kpf-bl { bottom: 26px; left: 30px; }
+        .kpf-br { bottom: 26px; right: 30px; }
+        @media (max-width: 640px) {
+          .kpf-chrome span { font-size: 9px; letter-spacing: 0.12em; }
+          .kpf-tl, .kpf-tr { top: 18px; }
+          .kpf-tl, .kpf-bl { left: 18px; }
+          .kpf-tr, .kpf-br { right: 18px; }
+          .kpf-bl, .kpf-br { bottom: 18px; }
+        }
+      `}</style>
+      <div className="kpf-chrome">
+        <span className="kpf-tl">Pikadon®</span>
+        <span className="kpf-tr">Pageflip · Folio</span>
+        <span className="kpf-bl">Drag a corner · scroll · click to turn</span>
+        <span className="kpf-br">Edition / 01</span>
       </div>
-
-      {/* ── Main Hero Content Stack ── */}
-      <div className="flex h-full w-full flex-col items-center justify-center relative z-20">
-        <div className="absolute z-20 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2 px-4 sm:px-6 w-full max-w-4xl">
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="eyebrow mb-3 sm:mb-5 pointer-events-auto !text-[9px] sm:!text-xs !py-1.5 !px-4 eyebrow-light !bg-black/60 !border-white/20 !text-amber-200 backdrop-blur-md shadow-xl"
-          >
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
-            {`Our Centre & Campus · ${HERO_SLIDES[currentSlideIndex].title}`}
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="font-display font-light text-3xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.03] mb-4 sm:mb-6 select-none drop-shadow-lg text-[oklch(97%_0.012_85)]"
-          >
-            Work in peace.<br />
-            <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
-              Your child
-            </em>{" "}
-            is safe, loved & growing.
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="text-xs sm:text-lg md:text-xl font-sans leading-relaxed max-w-xs sm:max-w-2xl mb-6 sm:mb-8 text-white/90 drop-shadow-md"
-          >
-            Pikadon is a licensed child development centre in {SITE_CONFIG.estate} for children aged 2–5 — where every caregiver is vetted and trained, every day is structured, and you hear from us every single day.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-wrap gap-3 sm:gap-5 justify-center pointer-events-auto mb-2"
-          >
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold !py-3 !px-7 sm:!py-4 sm:!px-9 !text-xs sm:!text-base shadow-2xl"
-            >
-              Book a Visit
-              <span className="btn-arrow !w-5 !h-5 sm:!w-6 sm:!h-6">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
-            <Link
-              href="/our-promise"
-              className="btn-ghost !py-3 !px-7 sm:!py-4 sm:!px-9 !text-xs sm:!text-base !border-white/30 !text-white hover:!bg-white/10 backdrop-blur-md"
-            >
-              Our Promise
-            </Link>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 0.8 }}
-            transition={{ duration: 0.6 }}
-            className="text-[9px] sm:text-[11px] font-sans font-semibold tracking-[0.2em] uppercase mt-2 text-white/80 drop-shadow"
-          >
-            SCROLL TO EXPLORE ↓
-          </motion.p>
-        </div>
-
-        {/* ── Full-Bleed Slideshow Controls & Caption Bar (Bottom Bar) ── */}
-        <motion.div
-          initial={{ opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="absolute bottom-6 left-6 right-6 z-30 flex flex-col sm:flex-row items-center justify-between gap-3 pointer-events-auto"
-        >
-          {/* Active Slide Caption Badge */}
-          <div
-            className="bg-black/60 backdrop-blur-xl border border-white/15 px-4 py-2 rounded-2xl text-white flex items-center gap-3 cursor-pointer hover:bg-black/80 transition-colors shadow-2xl"
-            onClick={() => setActiveModalItem(HERO_SLIDES[currentSlideIndex])}
-          >
-            <div className="w-7 h-7 rounded-xl bg-[oklch(68%_0.12_75)] text-black flex items-center justify-center flex-shrink-0 font-bold text-xs">
-              {currentSlideIndex + 1}
-            </div>
-            <div className="text-left">
-              <p className="text-xs font-semibold font-sans text-white">
-                {HERO_SLIDES[currentSlideIndex].title}
-              </p>
-              <p className="text-[10px] text-white/70 font-sans hidden sm:block">
-                {HERO_SLIDES[currentSlideIndex].caption}
-              </p>
-            </div>
-            <ZoomIn className="w-4 h-4 text-white/60 ml-2" />
-          </div>
-
-          {/* Prev / Next & Indicator Dots */}
-          <div className="flex items-center gap-3 bg-black/60 backdrop-blur-xl border border-white/15 px-3 py-2 rounded-2xl shadow-2xl">
-            <button
-              onClick={prevSlide}
-              className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-
-            <div className="flex gap-1.5 px-2">
-              {HERO_SLIDES.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentSlideIndex(idx)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentSlideIndex === idx
-                      ? "w-5 bg-[oklch(68%_0.12_75)]"
-                      : "w-1.5 bg-white/30 hover:bg-white/60"
-                  }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={nextSlide}
-              className="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ── Modal Lightbox for Slide Detail View ── */}
-      <AnimatePresence>
-        {activeModalItem && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative max-w-3xl w-full bg-[oklch(22%_0.06_155)] rounded-3xl overflow-hidden border border-white/20 shadow-2xl"
-            >
-              <button
-                onClick={() => setActiveModalItem(null)}
-                className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-              <div className="relative aspect-[4/3] w-full bg-black">
-                <img
-                  src={activeModalItem.src}
-                  alt={activeModalItem.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 text-left">
-                <span className="eyebrow eyebrow-light mb-2 inline-flex">
-                  Pikadon Campus Facility
-                </span>
-                <h3 className="font-display text-2xl font-semibold text-white mb-2">
-                  {activeModalItem.title}
-                </h3>
-                <p className="body-md text-white/80 font-sans">
-                  {activeModalItem.caption || "High-quality early childhood learning environment built to international standards."}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-4 pt-4 border-t border-white/10">
-                  <a
-                    href={getWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-gold !py-2.5 !px-5"
-                  >
-                    Schedule a Visit
-                    <ArrowUpRight className="w-4 h-4 ml-1" />
-                  </a>
-                  <button
-                    onClick={() => setActiveModalItem(null)}
-                    className="btn-ghost !py-2.5 !px-5 !border-white/30 !text-white"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
