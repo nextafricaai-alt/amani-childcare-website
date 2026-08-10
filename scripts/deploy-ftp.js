@@ -40,13 +40,20 @@ async function deploy() {
       secureOptions: { rejectUnauthorized: false }
     });
 
-    console.log(`\n📁 Navigating to target directory...`);
-    try {
-      if (remoteRoot && remoteRoot !== '.' && remoteRoot !== './') {
+    const currentDir = await client.pwd();
+    console.log(`\n📁 Current working directory: ${currentDir}`);
+
+    const isAlreadyInPublicHtml = currentDir.endsWith('/public_html') || currentDir.endsWith('/public_html/');
+
+    if (!isAlreadyInPublicHtml && remoteRoot && remoteRoot !== '.' && remoteRoot !== './') {
+      try {
+        console.log(`Navigating to ${remoteRoot}...`);
         await client.ensureDir(remoteRoot);
+      } catch (e) {
+        console.log(`Note navigating: ${e.message}`);
       }
-    } catch (e) {
-      console.log(`Note: Staying in default working directory (${e.message})`);
+    } else {
+      console.log(`Already in root web folder, uploading directly here.`);
     }
 
     console.log(`\n🧹 Clearing remote directory to ensure clean update...`);
