@@ -37,4 +37,3 @@ jobs:
           security: loose
           server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
           local-dir: ./out/
-          dangerous-clean-slate: true
