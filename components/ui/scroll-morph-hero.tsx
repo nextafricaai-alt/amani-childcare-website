@@ -6,28 +6,8 @@ import * as THREE from "three";
 /* ────────────────────────────────────────────────────────────────────────
    Pageflip — a realistic open fashion magazine you leaf through.
 
-   The book is a real 3D scene (three, no react-three-fiber): an open spread of
-   two glossy full-bleed photo pages sitting on a soft-lit studio surface, seen
-   at a slanted editorial angle. Turning a page is NOT a flat card flip — the
-   turning leaf is a deformable mesh that BENDS around a cylinder as it lifts
-   (the outer edge curls, peaks mid-turn, flattens as it lands), and a real
-   shadow-mapped directional light makes the lifting page cast a soft moving
-   shadow across the spread beneath it. The left/right page stacks carry true
-   thickness, and each page is baked with a gutter shade that darkens toward the
-   binding, so the spread curves into the spine like printed paper.
-
-   One leaf is in motion at a time (the classic flipbook trick). Its single
-   MeshStandardMaterial samples a different photo on the front (recto) and back
-   (verso) via a gl_FrontFacing branch injected with onBeforeCompile, so it
-   lights, shadows and refuses to z-fight as one mesh while showing two images.
-
-   Three ways to turn it, all wired:
-     • DRAG a page corner — the leaf follows your finger (the tip tracks the
-       pointer's position on the surface) and snaps forward / back on release.
-     • CLICK the left / right edge — the leaf turns itself with a curl.
-     • SCROLL — wheel down turns forward, up turns back.
-   ?card: the book leafs through itself, ping-ponging end to end (continuous).
-   prefers-reduced-motion: one still open spread, no motion.
+   Applied with Pikadon Brand Colors (Deep Forest Green, Warm Honey Gold, Warm Cream)
+   and scaled up for a dramatic, immersive hero presence.
    ──────────────────────────────────────────────────────────────────────── */
 
 /* The page photos (Pikadon early childhood & campus editorial). */
@@ -54,7 +34,7 @@ const CAPTIONS = [
   "DAILY RHYTHM",
   "PIKADON FAMILY",
   "VETTED CARE",
-  "SANITZED SPACES",
+  "SANITIZED SPACES",
   "STRUCTURED DAY",
   "DISCOVERY",
   "STORY CORNER",
@@ -62,9 +42,9 @@ const CAPTIONS = [
   "MONTESSORI TOOLS",
 ];
 
-// Book / page geometry, in world units (page aspect ≈ 2 : 2.9).
-const PW = 2.0;            // page width (spine → outer edge)
-const PH = 2.9;            // page height
+// Book / page geometry, in world units (page aspect ≈ 2.1 : 3.0 for a larger spread).
+const PW = 2.1;            // page width (spine → outer edge)
+const PH = 3.0;            // page height
 const NIMG = 12;
 const SHEETS = NIMG / 2;   // physical leaves
 const PAGE_Y = 0.012;      // pages float a hair above the surface
@@ -95,18 +75,18 @@ export default function ScrollMorphHero() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.06;
+    renderer.toneMappingExposure = 1.08;
 
     const scene = new THREE.Scene();
 
-    // soft studio backdrop (vertical sweep) baked to a texture
+    // Pikadon Forest Green Studio Backdrop (vertical sweep)
     const bgC = document.createElement("canvas");
     bgC.width = 16; bgC.height = 256;
     const bgx = bgC.getContext("2d")!;
     const bgg = bgx.createLinearGradient(0, 0, 0, 256);
-    bgg.addColorStop(0, "#1b1b22");
-    bgg.addColorStop(0.55, "#141419");
-    bgg.addColorStop(1, "#0b0b0f");
+    bgg.addColorStop(0, "#142e20");    // Pikadon Deep Forest Green top
+    bgg.addColorStop(0.55, "#0a1b12");  // Dark Forest transition
+    bgg.addColorStop(1, "#050d09");     // Obsidian Forest base
     bgx.fillStyle = bgg; bgx.fillRect(0, 0, 16, 256);
     const bgTex = new THREE.CanvasTexture(bgC);
     bgTex.colorSpace = THREE.SRGBColorSpace;
@@ -115,36 +95,36 @@ export default function ScrollMorphHero() {
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 
     // ── lights ──────────────────────────────────────────────────────────
-    const key = new THREE.DirectionalLight(0xfff3e2, 2.5);
+    const key = new THREE.DirectionalLight(0xfff3e2, 2.7);
     key.position.set(-3.6, 8.2, 4.4);
     key.castShadow = true;
     key.shadow.mapSize.set(isCard ? 1024 : 2048, isCard ? 1024 : 2048);
     key.shadow.camera.near = 1;
     key.shadow.camera.far = 26;
     const sc = key.shadow.camera as THREE.OrthographicCamera;
-    sc.left = -4.2; sc.right = 4.2; sc.top = 4.2; sc.bottom = -4.2;
+    sc.left = -4.5; sc.right = 4.5; sc.top = 4.5; sc.bottom = -4.5;
     key.shadow.bias = -0.0004;
     key.shadow.normalBias = 0.025;
     key.shadow.radius = 7;
     scene.add(key);
 
-    const fill = new THREE.HemisphereLight(0xe7e4dc, 0x161009, 0.55);
+    const fill = new THREE.HemisphereLight(0xeddcc4, 0x0c1b12, 0.6);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xdfe6f2, 0.32);
+    const rim = new THREE.DirectionalLight(0xe5a93c, 0.35); // Warm Honey Gold rim light
     rim.position.set(4.5, 3.5, -5.5);
     scene.add(rim);
-    scene.add(new THREE.AmbientLight(0xfff4e6, 0.2));
+    scene.add(new THREE.AmbientLight(0xfff4e6, 0.25));
 
-    // ── ground: a soft-lit surface with a warm light pool ───────────────
+    // ── ground: Pikadon studio floor with Warm Honey Gold light pool ───────────────
     const grC = document.createElement("canvas");
     grC.width = grC.height = 512;
     const grx = grC.getContext("2d")!;
-    grx.fillStyle = "#1a1a20";
+    grx.fillStyle = "#0c1811";
     grx.fillRect(0, 0, 512, 512);
-    const pool = grx.createRadialGradient(256, 220, 40, 256, 256, 330);
-    pool.addColorStop(0, "rgba(120,104,86,0.42)");
-    pool.addColorStop(0.5, "rgba(60,56,52,0.16)");
-    pool.addColorStop(1, "rgba(20,20,26,0)");
+    const pool = grx.createRadialGradient(256, 220, 40, 256, 256, 340);
+    pool.addColorStop(0, "rgba(229, 169, 60, 0.45)");   // Pikadon Warm Honey Gold light pool
+    pool.addColorStop(0.4, "rgba(22, 60, 40, 0.25)");   // Forest green halo
+    pool.addColorStop(1, "rgba(12, 24, 17, 0)");
     grx.fillStyle = pool; grx.fillRect(0, 0, 512, 512);
     const grTex = new THREE.CanvasTexture(grC);
     grTex.colorSpace = THREE.SRGBColorSpace;
@@ -157,8 +137,8 @@ export default function ScrollMorphHero() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // ── page-texture baking ─────────────────────────────────────────────
-    const TW = 760, TH = Math.round((760 * PH) / PW); // ~1102
+    // ── high-res page-texture baking (TW = 960) ─────────────────────────────────────
+    const TW = 960, TH = Math.round((960 * PH) / PW); // ~1371
     const texCache = new Map<number, THREE.CanvasTexture>();
     const imgs: (HTMLImageElement | null)[] = new Array(NIMG).fill(null);
 
@@ -173,22 +153,20 @@ export default function ScrollMorphHero() {
       ctx.restore();
     }
 
-    // role: gutterRight=true → binding shade on the RIGHT edge (verso / left page),
-    // false → on the LEFT edge (recto / right page).
     function bakePhoto(index: number, gutterRight: boolean): THREE.CanvasTexture {
       const c = document.createElement("canvas");
       c.width = TW; c.height = TH;
       const ctx = c.getContext("2d")!;
 
-      // paper
-      ctx.fillStyle = "#f5f2ea"; ctx.fillRect(0, 0, TW, TH);
+      // paper: Pikadon warm cream
+      ctx.fillStyle = "#faf7f0"; ctx.fillRect(0, 0, TW, TH);
 
       // photo with a thin printed frame
       const m = Math.round(TW * 0.045);
       const px = m, py = m, pw = TW - m * 2, ph = TH - m * 2;
       const img = imgs[index];
       if (img) coverDraw(ctx, img, px, py, pw, ph);
-      else { ctx.fillStyle = "#cfc7b8"; ctx.fillRect(px, py, pw, ph); }
+      else { ctx.fillStyle = "#dcd5c7"; ctx.fillRect(px, py, pw, ph); }
 
       // gentle photo vignette
       const vg = ctx.createRadialGradient(TW / 2, TH * 0.46, TH * 0.2, TW / 2, TH * 0.5, TH * 0.66);
@@ -199,20 +177,20 @@ export default function ScrollMorphHero() {
       // caption block over the lower photo
       const sg = ctx.createLinearGradient(0, TH * 0.62, 0, TH);
       sg.addColorStop(0, "rgba(8,8,10,0)");
-      sg.addColorStop(1, "rgba(8,8,10,0.62)");
+      sg.addColorStop(1, "rgba(8,8,10,0.65)");
       ctx.fillStyle = sg; ctx.fillRect(px, py, pw, ph);
 
       const tx = gutterRight ? px + pw * 0.07 : px + pw * 0.07;
       ctx.textAlign = "left";
-      ctx.fillStyle = "rgba(255,255,255,0.78)";
+      ctx.fillStyle = "#e5a93c"; // Honey gold kicker
       ctx.font = `600 ${Math.round(TW * 0.028)}px "DM Mono", monospace`;
       ctx.fillText(`№ ${String(index + 1).padStart(2, "0")} — EDITORIAL`, tx, TH - ph * 0.14);
-      ctx.fillStyle = "#fbf7ef";
+      ctx.fillStyle = "#fcfaf4";
       ctx.font = `italic 500 ${Math.round(TW * 0.085)}px "Playfair Display", serif`;
       ctx.fillText(CAPTIONS[index] || "PIKADON", tx, TH - ph * 0.055);
 
       // running header on the frame
-      ctx.fillStyle = "rgba(40,38,34,0.55)";
+      ctx.fillStyle = "rgba(13,34,24,0.7)"; // Pikadon Forest Green
       ctx.font = `500 ${Math.round(TW * 0.022)}px "DM Mono", monospace`;
       ctx.textAlign = gutterRight ? "left" : "right";
       ctx.fillText("PIKADON · NAJJERA CENTRE", gutterRight ? m * 1.3 : TW - m * 1.3, m * 0.74);
@@ -238,19 +216,31 @@ export default function ScrollMorphHero() {
       const c = document.createElement("canvas");
       c.width = TW; c.height = TH;
       const ctx = c.getContext("2d")!;
+      
+      // Pikadon Forest Green gradient
       const g = ctx.createLinearGradient(0, 0, 0, TH);
-      g.addColorStop(0, "#1c2b22"); g.addColorStop(1, "#0d1712");
+      g.addColorStop(0, "#163324"); g.addColorStop(1, "#0a1a11");
       ctx.fillStyle = g; ctx.fillRect(0, 0, TW, TH);
+
+      // Gold foil inner border frame
+      ctx.strokeStyle = "rgba(229, 169, 60, 0.4)";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(TW * 0.04, TH * 0.03, TW * 0.92, TH * 0.94);
+
       ctx.textAlign = "center";
-      ctx.fillStyle = "#e9c98c";
-      ctx.font = `500 ${Math.round(TW * 0.018)}px "DM Mono", monospace`;
-      ctx.fillText("NAJJERA CENTRE · VOL. 01", TW / 2, TH * 0.2);
-      ctx.fillStyle = "#f6efe2";
-      ctx.font = `700 ${Math.round(TW * 0.15)}px "Playfair Display", serif`;
-      ctx.fillText("PIKADON", TW / 2, TH * 0.54);
-      ctx.fillStyle = "rgba(233,201,140,0.85)";
-      ctx.font = `italic 500 ${Math.round(TW * 0.038)}px "Playfair Display", serif`;
-      ctx.fillText("child development network", TW / 2, TH * 0.62);
+      ctx.fillStyle = "#e5a93c"; // Pikadon Warm Gold
+      ctx.font = `600 ${Math.round(TW * 0.022)}px "DM Mono", monospace`;
+      ctx.fillText("NAJJERA CENTRE · KAMPALA", TW / 2, TH * 0.22);
+      ctx.fillStyle = "#fcfaf4";
+      ctx.font = `700 ${Math.round(TW * 0.16)}px "Playfair Display", serif`;
+      ctx.fillText("PIKADON", TW / 2, TH * 0.52);
+      ctx.fillStyle = "#e5a93c";
+      ctx.font = `italic 500 ${Math.round(TW * 0.042)}px "Playfair Display", serif`;
+      ctx.fillText("child development network", TW / 2, TH * 0.61);
+      ctx.fillStyle = "rgba(252,250,244,0.7)";
+      ctx.font = `500 ${Math.round(TW * 0.02)}px "DM Mono", monospace`;
+      ctx.fillText("SAFE · LOVED · GROWING", TW / 2, TH * 0.82);
+
       const gw = TW * 0.2, gx = gutterRight ? TW - gw : 0;
       const gg = ctx.createLinearGradient(gutterRight ? TW : 0, 0, gutterRight ? TW - gw : gw, 0);
       gg.addColorStop(0, "rgba(0,0,0,0.42)"); gg.addColorStop(1, "rgba(0,0,0,0)");
@@ -261,10 +251,9 @@ export default function ScrollMorphHero() {
       return t;
     }
 
-    let coverFront: THREE.CanvasTexture | null = null; // left page (gutter right)
-    let coverBack: THREE.CanvasTexture | null = null;  // right page (gutter left)
+    let coverFront: THREE.CanvasTexture | null = null;
+    let coverBack: THREE.CanvasTexture | null = null;
 
-    // texture for a page index; even = recto (gutter left), odd = verso (gutter right)
     function texFor(index: number): THREE.CanvasTexture {
       if (index < 0) return (coverFront ??= bakeCover(true));
       if (index >= NIMG) return (coverBack ??= bakeCover(false));
@@ -288,7 +277,6 @@ export default function ScrollMorphHero() {
           pos[k * 3 + 1] = 0;
           pos[k * 3 + 2] = -PH / 2 + (iz / NZ) * PH;
           uv[k * 2] = uMin + (uMax - uMin) * (ix / NX);
-          // canvas top → far edge (z = -PH/2) so pages read upright from camera
           uv[k * 2 + 1] = 1 - iz / NZ;
         }
       }
@@ -306,20 +294,12 @@ export default function ScrollMorphHero() {
       return g;
     }
 
-    // a flat page plane (static left / right) lying on the spread.
-    // Both use the same winding (normals +Y); the left page is just translated
-    // to x∈[-PW,0] (negating x would flip the winding → shadow-acne stripes).
     function makeFlatPage(side: "left" | "right") {
-      // u: 0@spine..1@outer for the right page; for the left page the grid is
-      // shifted by -PW so spine (x=0) lands at u=1 (verso gutter) and outer at u=0
       const g = makeGrid(0, 1);
       const p = g.attributes.position as THREE.BufferAttribute;
       const arr = p.array as Float32Array;
       for (let i = 0; i < arr.length; i += 3) {
-        if (side === "left") arr[i] -= PW; // slide to the left of the spine
-        // a gentle resting bow — an open magazine isn't dead flat: each page
-        // domes up between the gutter and its outer edge (zero at both, so the
-        // spine stays glued and the outer edge rests on the surface)
+        if (side === "left") arr[i] -= PW;
         const frac = Math.abs(arr[i]) / PW;
         arr[i + 1] = PAGE_Y + Math.sin(frac * Math.PI) * 0.055;
       }
@@ -361,13 +341,12 @@ export default function ScrollMorphHero() {
     flipMesh.visible = false;
     scene.add(flipMesh);
 
-    // deform the turning leaf for a given visual progress tv ∈ [0,1]
     function deformFlip(tv: number) {
       const theta = tv * Math.PI;
-      const curl = Math.sin(tv * Math.PI);     // 0 at rest, 1 mid-turn
+      const curl = Math.sin(tv * Math.PI);
       const bend = curl * BEND_MAX;
       const lead = curl * LEAD;
-      const bowFade = 1 - curl;                // full resting bow when flat
+      const bowFade = 1 - curl;
       const pos = flipGeo.attributes.position as THREE.BufferAttribute;
       const arr = pos.array as Float32Array;
       const flat = bend < 1e-4;
@@ -381,12 +360,9 @@ export default function ScrollMorphHero() {
           let cx: number, cy: number;
           if (flat) { cx = s; cy = 0; }
           else { const a = (s / PW) * bend; cx = rho * Math.sin(a); cy = rho * (1 - Math.cos(a)); }
-          // resting bow, matched to the static pages, faded out as the leaf curls
           const bow = Math.sin((s / PW) * Math.PI) * 0.055 * bowFade;
           const k = (iz * (NX + 1) + ix) * 3;
           arr[k] = cx * ct - cy * st;
-          // a hair above the static pages so a nearly-landed leaf never z-fights
-          // the page beneath it (the landed texture matches, so the drop is unseen)
           arr[k + 1] = cx * st + cy * ct + PAGE_Y + 0.006 + bow;
           arr[k + 2] = zc;
         }
@@ -397,7 +373,7 @@ export default function ScrollMorphHero() {
 
     // ── page stacks (thickness) ─────────────────────────────────────────
     function makeStack(side: "left" | "right") {
-      const mat = new THREE.MeshStandardMaterial({ color: 0xece5d6, roughness: 0.9, metalness: 0 });
+      const mat = new THREE.MeshStandardMaterial({ color: 0xe8e2d4, roughness: 0.9, metalness: 0 });
       const g = new THREE.BoxGeometry(PW, 1, PH);
       const m = new THREE.Mesh(g, mat);
       m.castShadow = true; m.receiveShadow = true;
@@ -407,10 +383,10 @@ export default function ScrollMorphHero() {
     }
     const leftStack = makeStack("left");
     const rightStack = makeStack("right");
-    // a slim spine ridge
+    // a slim Pikadon forest spine ridge
     const spine = new THREE.Mesh(
       new THREE.BoxGeometry(0.05, 0.06, PH),
-      new THREE.MeshStandardMaterial({ color: 0x2a2622, roughness: 0.8 }),
+      new THREE.MeshStandardMaterial({ color: 0x12241a, roughness: 0.8 }),
     );
     scene.add(spine);
 
@@ -423,7 +399,7 @@ export default function ScrollMorphHero() {
     }
 
     // ── book state ──────────────────────────────────────────────────────
-    let o = 1; // sheets resting on the left (open position), 0..SHEETS
+    let o = 1;
     type Flip = { base: number; from: number; to: number; tv: number; drag: boolean; t0: number };
     let flip: Flip | null = null;
 
@@ -440,7 +416,6 @@ export default function ScrollMorphHero() {
       if (dir > 0 && o >= SHEETS) return false;
       if (dir < 0 && o <= 0) return false;
       const base = dir > 0 ? o : o - 1;
-      // statics that frame the turning leaf
       (leftPage.material as THREE.MeshStandardMaterial).map = texFor(2 * base - 1);
       (rightPage.material as THREE.MeshStandardMaterial).map = texFor(2 * base + 2);
       leftPage.material.needsUpdate = true;
@@ -452,7 +427,7 @@ export default function ScrollMorphHero() {
       const from = dir > 0 ? 0 : 1;
       const to = dir > 0 ? 1 : 0;
       flip = { base, from, to: drag ? to : to, tv: from, drag, t0: performance.now() };
-      if (drag) flip.to = to; // resolved on release
+      if (drag) flip.to = to;
       deformFlip(from);
       layoutStacks(base + from);
       return true;
@@ -482,7 +457,6 @@ export default function ScrollMorphHero() {
       if (!raycaster.ray.intersectPlane(deskPlane, hit)) return null;
       return hit.x;
     }
-    // map a finger surface-x to a turn progress (tip follows the finger)
     const xToTv = (x: number) => Math.acos(THREE.MathUtils.clamp(x / PW, -1, 1)) / Math.PI;
 
     let down = false, moved = false, downX = 0, downY = 0;
@@ -492,7 +466,6 @@ export default function ScrollMorphHero() {
       if (x == null) return;
       down = true; moved = false; downX = e.clientX; downY = e.clientY;
       host!.setPointerCapture?.(e.pointerId);
-      // grab decides direction; only start a drag if we actually grab a page
       const dir: 1 | -1 = x >= 0 ? 1 : -1;
       if (beginFlip(dir, true)) {
         flip!.tv = xToTv(x);
@@ -515,15 +488,13 @@ export default function ScrollMorphHero() {
       down = false;
       if (!flip) return;
       if (!moved) {
-        // a click: turn toward the side that was clicked
-        const target: 0 | 1 = flip.base === o ? 1 : 0; // forward grab → complete; backward → complete
+        const target: 0 | 1 = flip.base === o ? 1 : 0;
         startAuto(target);
       } else {
         startAuto(flip.tv > 0.5 ? 1 : 0);
       }
     };
 
-    // convert a dragging/idle flip into a timed auto-snap to {0,1}
     function startAuto(target: 0 | 1) {
       if (!flip) return;
       flip.drag = false;
@@ -532,7 +503,6 @@ export default function ScrollMorphHero() {
       flip.t0 = performance.now();
     }
 
-    // start a self-driven flip from rest (click on edge w/o grab, scroll, card)
     function autoFlip(dir: 1 | -1) {
       if (flip) return;
       if (beginFlip(dir, false)) {
@@ -557,7 +527,7 @@ export default function ScrollMorphHero() {
       host.addEventListener("wheel", onWheel, { passive: false });
     }
 
-    // ── camera framing ──────────────────────────────────────────────────
+    // ── camera framing (Bigger book scale: radius = 2.1) ─────────────────
     const camDir = new THREE.Vector3();
     function frame() {
       const w = host!.clientWidth || window.innerWidth;
@@ -565,12 +535,12 @@ export default function ScrollMorphHero() {
       renderer.setSize(w, h, false);
       const aspect = w / h;
       camera.aspect = aspect;
-      const radius = 2.95;
+      // Reduced radius from 2.95 to 2.1 to bring camera closer and make flipbook ~35% larger
+      const radius = 2.1;
       const vFov = (camera.fov * Math.PI) / 180;
       let dist = radius / Math.sin(vFov / 2);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
       dist = Math.max(dist, radius / Math.sin(hFov / 2));
-      // slanted editorial viewpoint: above, and a touch to the right
       camDir.set(0.62 * Math.sin(0.34), 0.86, 0.62 * Math.cos(0.34)).normalize();
       camera.position.copy(camDir.multiplyScalar(dist));
       camera.lookAt(0, -0.05, 0);
@@ -584,7 +554,6 @@ export default function ScrollMorphHero() {
     let ready = false;
     let loaded = 0;
     function refreshTextures() {
-      // re-bake any cached page textures now that the image is present
       for (const [i, t] of texCache) {
         const fresh = bakePhoto(i, i % 2 === 1);
         t.image = fresh.image;
@@ -608,7 +577,6 @@ export default function ScrollMorphHero() {
     setStatics();
     deformFlip(0);
 
-    // redraw captions once the display font lands
     if (document.fonts && "load" in document.fonts) {
       Promise.all([
         document.fonts.load('italic 500 80px "Playfair Display"').catch(() => {}),
@@ -627,7 +595,7 @@ export default function ScrollMorphHero() {
 
       if (flip) {
         if (flip.drag) {
-          // tv set by pointer handlers; nothing to advance
+          // tv set by pointer handlers
         } else {
           const p = THREE.MathUtils.clamp((now - flip.t0) / FLIP_MS, 0, 1);
           flip.tv = flip.from + (flip.to - flip.from) * easeInOut(p);
@@ -684,18 +652,18 @@ export default function ScrollMorphHero() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Mono:wght@400;500&display=swap');
         .kpf-stage {
           position: relative; width: 100%; height: 100svh; min-height: 640px; max-height: 960px; overflow: hidden;
-          background: #0b0b0f; cursor: grab;
+          background: #050d09; cursor: grab;
           font-family: "DM Mono", monospace; touch-action: none;
         }
         .kpf-stage:active { cursor: grabbing; }
         .kpf-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .kpf-chrome {
           position: absolute; inset: 0; pointer-events: none; z-index: 2;
-          color: #f3f1ea; mix-blend-mode: difference;
+          color: #fcfaf4; mix-blend-mode: difference;
           text-transform: uppercase; letter-spacing: 0.16em;
         }
         .kpf-chrome span { position: absolute; font-size: 11px; font-weight: 500; white-space: nowrap; }
-        .kpf-tl { top: 26px; left: 30px; font-weight: 700; letter-spacing: 0.04em; }
+        .kpf-tl { top: 26px; left: 30px; font-weight: 700; letter-spacing: 0.04em; color: #e5a93c; }
         .kpf-tr { top: 26px; right: 30px; }
         .kpf-bl { bottom: 26px; left: 30px; }
         .kpf-br { bottom: 26px; right: 30px; }
@@ -708,10 +676,10 @@ export default function ScrollMorphHero() {
         }
       `}</style>
       <div className="kpf-chrome">
-        <span className="kpf-tl">Pikadon®</span>
-        <span className="kpf-tr">Pageflip · Folio</span>
+        <span className="kpf-tl">PIKADON®</span>
+        <span className="kpf-tr">Editorial Folio · Volume 01</span>
         <span className="kpf-bl">Drag a corner · scroll · click to turn</span>
-        <span className="kpf-br">Edition / 01</span>
+        <span className="kpf-br">Najjera, Kampala</span>
       </div>
     </div>
   );
