@@ -377,11 +377,7 @@ export default function ScrollMorphHero() {
           {/* Eyebrow badge */}
           <motion.div
             initial={{ opacity: 1, y: 0 }}
-            animate={
-              introPhase === "circle"
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: -12 }
-            }
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className={`eyebrow mb-3 sm:mb-5 pointer-events-auto !text-[9px] sm:!text-xs !py-1.5 !px-4 ${
               isFullBleedActive ? "eyebrow-light !bg-black/60 !border-white/20 !text-amber-200 backdrop-blur-md shadow-xl" : ""
@@ -397,16 +393,12 @@ export default function ScrollMorphHero() {
           {/* High-Impact Display Headline */}
           <motion.h1
             initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            animate={
-              introPhase === "circle"
-                ? {
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                    scale: 1 + morphValue * (isMobile ? 0.05 : 0.15),
-                  }
-                : { opacity: 0, filter: "blur(8px)" }
-            }
+            animate={{
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              scale: 1 + morphValue * (isMobile ? 0.05 : 0.15),
+            }}
             transition={{ duration: 0.4, type: "spring", stiffness: 60, damping: 20 }}
             className="font-display font-light text-3xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-[1.03] mb-4 sm:mb-6 select-none drop-shadow-md"
             style={{
@@ -436,11 +428,7 @@ export default function ScrollMorphHero() {
           {/* Subtext */}
           <motion.p
             initial={{ opacity: 1 }}
-            animate={
-              introPhase === "circle"
-                ? { opacity: 1 }
-                : { opacity: 0 }
-            }
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
             className="text-xs sm:text-lg md:text-xl font-sans leading-relaxed max-w-xs sm:max-w-2xl mb-6 sm:mb-8"
             style={{
@@ -454,11 +442,7 @@ export default function ScrollMorphHero() {
           {/* Interactive CTA buttons */}
           <motion.div
             initial={{ opacity: 1, y: 0 }}
-            animate={
-              introPhase === "circle"
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 12 }
-            }
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25 }}
             className="flex flex-wrap gap-3 sm:gap-5 justify-center pointer-events-auto mb-2"
           >
