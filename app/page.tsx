@@ -74,14 +74,6 @@ export default function HomePage() {
       >
         {/* Interactive canvas with centered ring typography & CTAs */}
         <HeroWrapper />
-
-        {/* Subtle gradient vignette at bottom */}
-        <div
-          className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-10"
-          style={{
-            background: "linear-gradient(to top, oklch(97% 0.012 85) 0%, transparent 100%)",
-          }}
-        />
       </section>
 
       {/* ════════════════════════════════════════════════════════
