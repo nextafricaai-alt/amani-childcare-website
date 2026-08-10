@@ -91,7 +91,6 @@ const MAX_SCROLL = 1800;
 
 // Full bleed background hero slides uploaded by user
 const HERO_SLIDES = [
-  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Leadership at Pikadon" },
   { src: "hero-slides/slide2.jpg", title: "Spacious & Hygienic Classrooms", caption: "Designed for safety, focus, and early development" },
   { src: "hero-slides/slide3.webp", title: "Themed Early Childhood Spaces", caption: "Vibrant activity areas for sensory & physical play" },
   { src: "hero-slides/slide4.jpg", title: "Interactive Learning & Literacy", caption: "Individual caregiver attention and rich learning materials" },
