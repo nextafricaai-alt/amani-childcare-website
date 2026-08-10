@@ -4,10 +4,17 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 /* ────────────────────────────────────────────────────────────────────────
-   Pageflip — a realistic open fashion magazine you leaf through.
+   Pikadon 3D Pageflip Folio — High-Performance Editorial Hero Component
 
-   Applied with Pikadon Brand Colors (Deep Forest Green, Warm Honey Gold, Warm Cream)
-   and scaled up for a dramatic, immersive hero presence.
+   Features:
+   - Dynamic 3D page flip with physical cylinder bending & shadow-mapped lighting.
+   - Non-blocking wheel & touch scrolling:
+     - Scrolling down flips pages until the last page (SHEETS), then naturally
+       scrolls past the hero section down the page.
+     - Mobile vertical swiping passes through naturally to allow page scrolling.
+   - GPU & battery optimized:
+     - IntersectionObserver pauses rendering loop when scrolled out of view.
+     - Adaptive geometry & texture resolution tailored for mobile vs desktop.
    ──────────────────────────────────────────────────────────────────────── */
 
 /* The page photos (Pikadon early childhood & campus editorial). */
@@ -49,11 +56,9 @@ const NIMG = 12;
 const SHEETS = NIMG / 2;   // physical leaves
 const PAGE_Y = 0.012;      // pages float a hair above the surface
 const PER_SHEET = 0.011;   // thickness one leaf adds to a stack
-const NX = 48;             // grid resolution along the curl (spine→outer)
-const NZ = 18;             // grid resolution across the page height
 const BEND_MAX = 1.42;     // peak curl angle of the turning leaf (radians)
 const LEAD = 0.22;         // diagonal corner-lead of the turn
-const FLIP_MS = 980;       // auto-flip duration
+const FLIP_MS = 850;       // snappy auto-flip duration
 
 export default function ScrollMorphHero() {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -64,14 +69,25 @@ export default function ScrollMorphHero() {
 
     const isCard = new URLSearchParams(window.location.search).has("card");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.innerWidth < 768;
+
+    // Adaptive grid resolution based on device hardware
+    const NX = isMobile ? 32 : 44;
+    const NZ = isMobile ? 12 : 16;
+    const shadowSize = isMobile ? 1024 : 1536;
 
     // ── renderer ────────────────────────────────────────────────────────
     const canvas = document.createElement("canvas");
     canvas.className = "kpf-gl";
     host.appendChild(canvas);
 
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: !isMobile,
+      alpha: false,
+      powerPreference: "high-performance",
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -98,14 +114,14 @@ export default function ScrollMorphHero() {
     const key = new THREE.DirectionalLight(0xfff3e2, 2.7);
     key.position.set(-3.6, 8.2, 4.4);
     key.castShadow = true;
-    key.shadow.mapSize.set(isCard ? 1024 : 2048, isCard ? 1024 : 2048);
+    key.shadow.mapSize.set(shadowSize, shadowSize);
     key.shadow.camera.near = 1;
     key.shadow.camera.far = 26;
     const sc = key.shadow.camera as THREE.OrthographicCamera;
     sc.left = -4.5; sc.right = 4.5; sc.top = 4.5; sc.bottom = -4.5;
     key.shadow.bias = -0.0004;
     key.shadow.normalBias = 0.025;
-    key.shadow.radius = 7;
+    key.shadow.radius = isMobile ? 4 : 6;
     scene.add(key);
 
     const fill = new THREE.HemisphereLight(0xeddcc4, 0x0c1b12, 0.6);
@@ -117,15 +133,15 @@ export default function ScrollMorphHero() {
 
     // ── ground: Pikadon studio floor with Warm Honey Gold light pool ───────────────
     const grC = document.createElement("canvas");
-    grC.width = grC.height = 512;
+    grC.width = grC.height = 256;
     const grx = grC.getContext("2d")!;
     grx.fillStyle = "#0c1811";
-    grx.fillRect(0, 0, 512, 512);
-    const pool = grx.createRadialGradient(256, 220, 40, 256, 256, 340);
+    grx.fillRect(0, 0, 256, 256);
+    const pool = grx.createRadialGradient(128, 110, 20, 128, 128, 170);
     pool.addColorStop(0, "rgba(229, 169, 60, 0.45)");   // Pikadon Warm Honey Gold light pool
     pool.addColorStop(0.4, "rgba(22, 60, 40, 0.25)");   // Forest green halo
     pool.addColorStop(1, "rgba(12, 24, 17, 0)");
-    grx.fillStyle = pool; grx.fillRect(0, 0, 512, 512);
+    grx.fillStyle = pool; grx.fillRect(0, 0, 256, 256);
     const grTex = new THREE.CanvasTexture(grC);
     grTex.colorSpace = THREE.SRGBColorSpace;
     const ground = new THREE.Mesh(
@@ -137,8 +153,9 @@ export default function ScrollMorphHero() {
     ground.receiveShadow = true;
     scene.add(ground);
 
-    // ── high-res page-texture baking (TW = 960) ─────────────────────────────────────
-    const TW = 960, TH = Math.round((960 * PH) / PW); // ~1371
+    // ── texture baking resolution tailoring ──────────────────────────────
+    const TW = isMobile ? 640 : 880;
+    const TH = Math.round((TW * PH) / PW);
     const texCache = new Map<number, THREE.CanvasTexture>();
     const imgs: (HTMLImageElement | null)[] = new Array(NIMG).fill(null);
 
@@ -180,7 +197,7 @@ export default function ScrollMorphHero() {
       sg.addColorStop(1, "rgba(8,8,10,0.65)");
       ctx.fillStyle = sg; ctx.fillRect(px, py, pw, ph);
 
-      const tx = gutterRight ? px + pw * 0.07 : px + pw * 0.07;
+      const tx = px + pw * 0.07;
       ctx.textAlign = "left";
       ctx.fillStyle = "#e5a93c"; // Honey gold kicker
       ctx.font = `600 ${Math.round(TW * 0.028)}px "DM Mono", monospace`;
@@ -206,8 +223,8 @@ export default function ScrollMorphHero() {
 
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace;
-      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
-      t.minFilter = THREE.LinearMipmapLinearFilter;
+      t.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
+      t.minFilter = THREE.LinearFilter;
       t.magFilter = THREE.LinearFilter;
       return t;
     }
@@ -247,7 +264,7 @@ export default function ScrollMorphHero() {
       ctx.fillStyle = gg; ctx.fillRect(gx, 0, gw, TH);
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace;
-      t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      t.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 4);
       return t;
     }
 
@@ -465,7 +482,6 @@ export default function ScrollMorphHero() {
       const x = surfaceX(e.clientX, e.clientY);
       if (x == null) return;
       down = true; moved = false; downX = e.clientX; downY = e.clientY;
-      host!.setPointerCapture?.(e.pointerId);
       const dir: 1 | -1 = x >= 0 ? 1 : -1;
       if (beginFlip(dir, true)) {
         flip!.tv = xToTv(x);
@@ -475,15 +491,24 @@ export default function ScrollMorphHero() {
     };
     const onMoveP = (e: PointerEvent) => {
       if (!down || !flip || !flip.drag) return;
-      if (Math.abs(e.clientX - downX) + Math.abs(e.clientY - downY) > 5) moved = true;
+      const deltaX = e.clientX - downX;
+      const deltaY = e.clientY - downY;
+      
+      // On touch devices, allow vertical swipes to scroll the window naturally
+      if (e.pointerType === "touch" && Math.abs(deltaY) > Math.abs(deltaX) + 8) {
+        down = false;
+        startAuto(flip.tv > 0.5 ? 1 : 0);
+        return;
+      }
+
+      if (Math.abs(deltaX) + Math.abs(deltaY) > 5) moved = true;
       const x = surfaceX(e.clientX, e.clientY);
       if (x == null) return;
       flip.tv = THREE.MathUtils.clamp(xToTv(x), 0, 1);
       deformFlip(flip.tv);
       layoutStacks(flip.base + flip.tv);
     };
-    const onUp = (e: PointerEvent) => {
-      host!.releasePointerCapture?.(e.pointerId);
+    const onUp = () => {
       if (!down) return;
       down = false;
       if (!flip) return;
@@ -513,11 +538,32 @@ export default function ScrollMorphHero() {
       }
     }
 
+    // ── NON-BLOCKING SMART WHEEL SCROLLING ────────────────────────────────
+    // Allows user to flip through pages, and then smoothly scroll past the hero!
     const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      if (flip) return;
-      if (e.deltaY > 4) autoFlip(1);
-      else if (e.deltaY < -4) autoFlip(-1);
+      if (flip) {
+        e.preventDefault();
+        return;
+      }
+      
+      // Scrolling Down
+      if (e.deltaY > 0) {
+        if (o < SHEETS) {
+          // Still have un-flipped pages remaining: flip next page
+          e.preventDefault();
+          autoFlip(1);
+        }
+        // If o >= SHEETS (at the last page/cover), do NOT call preventDefault!
+        // The browser naturally scrolls down to the next section
+      } 
+      // Scrolling Up
+      else if (e.deltaY < 0) {
+        // Only flip backwards if at the top of the viewport and there are pages on the left
+        if (window.scrollY < 10 && o > 0) {
+          e.preventDefault();
+          autoFlip(-1);
+        }
+      }
     };
 
     if (!isCard && !reduced) {
@@ -527,7 +573,7 @@ export default function ScrollMorphHero() {
       host.addEventListener("wheel", onWheel, { passive: false });
     }
 
-    // ── camera framing (Bigger book scale: radius = 2.1) ─────────────────
+    // ── camera framing ──────────────────────────────────────────────────
     const camDir = new THREE.Vector3();
     function frame() {
       const w = host!.clientWidth || window.innerWidth;
@@ -535,8 +581,8 @@ export default function ScrollMorphHero() {
       renderer.setSize(w, h, false);
       const aspect = w / h;
       camera.aspect = aspect;
-      // Reduced radius from 2.95 to 2.1 to bring camera closer and make flipbook ~35% larger
-      const radius = 2.1;
+      // Tailor radius for mobile vs desktop for optimal framing
+      const radius = isMobile ? 2.3 : 2.1;
       const vFov = (camera.fov * Math.PI) / 180;
       let dist = radius / Math.sin(vFov / 2);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
@@ -573,7 +619,6 @@ export default function ScrollMorphHero() {
       im.src = src;
     });
 
-    // initial state
     setStatics();
     deformFlip(0);
 
@@ -584,13 +629,23 @@ export default function ScrollMorphHero() {
       ]).then(() => { if (ready) refreshTextures(); });
     }
 
-    // ── card auto-leaf scheduler ────────────────────────────────────────
-    let cardDir: 1 | -1 = 1;
-    let cardNext = performance.now() + 700;
+    // ── VIEWPORT INTERSECTION OBSERVER FOR GPU EFFICIENCY ─────────────────
+    let isVisible = true;
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        isVisible = entry.isIntersecting;
+      }
+    }, { threshold: 0.1 });
+    io.observe(host);
 
-    // ── render loop ─────────────────────────────────────────────────────
+    // ── RENDER LOOP (PAUSES WHEN SCOLLLED OUT OF VIEW) ───────────────────
     let raf = 0;
     function loop() {
+      raf = requestAnimationFrame(loop);
+
+      // Skip GPU rendering when stage is scrolled out of viewport
+      if (!isVisible && !flip) return;
+
       const now = performance.now();
 
       if (flip) {
@@ -603,15 +658,9 @@ export default function ScrollMorphHero() {
           layoutStacks(flip.base + flip.tv);
           if (p >= 1) commitFlip(flip.to as 0 | 1);
         }
-      } else if (isCard && now >= cardNext) {
-        if (o >= SHEETS) cardDir = -1;
-        else if (o <= 0) cardDir = 1;
-        autoFlip(cardDir);
-        cardNext = now + FLIP_MS + 620;
       }
 
       renderer.render(scene, camera);
-      raf = requestAnimationFrame(loop);
     }
 
     if (reduced) {
@@ -622,6 +671,7 @@ export default function ScrollMorphHero() {
       return () => {
         window.clearTimeout(id);
         ro.disconnect();
+        io.disconnect();
         renderer.dispose();
         canvas.remove();
       };
@@ -632,6 +682,7 @@ export default function ScrollMorphHero() {
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io.disconnect();
       host.removeEventListener("pointerdown", onDown);
       host.removeEventListener("pointermove", onMoveP);
       window.removeEventListener("pointerup", onUp);
@@ -653,7 +704,7 @@ export default function ScrollMorphHero() {
         .kpf-stage {
           position: relative; width: 100%; height: 100svh; min-height: 640px; max-height: 960px; overflow: hidden;
           background: #050d09; cursor: grab;
-          font-family: "DM Mono", monospace; touch-action: none;
+          font-family: "DM Mono", monospace; touch-action: pan-y;
         }
         .kpf-stage:active { cursor: grabbing; }
         .kpf-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
