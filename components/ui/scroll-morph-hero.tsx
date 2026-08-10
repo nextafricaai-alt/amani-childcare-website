@@ -95,14 +95,14 @@ export default function ScrollMorphHero() {
 
     const scene = new THREE.Scene();
 
-    // Pikadon Warm Cream Studio Backdrop (#FAF2AA theme)
+    // Pikadon Forest Green Studio Backdrop (vertical sweep)
     const bgC = document.createElement("canvas");
     bgC.width = 16; bgC.height = 256;
     const bgx = bgC.getContext("2d")!;
     const bgg = bgx.createLinearGradient(0, 0, 0, 256);
-    bgg.addColorStop(0, "#FFF9D4");    // Soft vanilla cream top
-    bgg.addColorStop(0.5, "#FAF2AA");  // Pikadon #FAF2AA Butter Gold
-    bgg.addColorStop(1, "#EEDF93");    // Golden honey base
+    bgg.addColorStop(0, "#142e20");    // Pikadon Deep Forest Green top
+    bgg.addColorStop(0.55, "#0a1b12");  // Dark Forest transition
+    bgg.addColorStop(1, "#050d09");     // Obsidian Forest base
     bgx.fillStyle = bgg; bgx.fillRect(0, 0, 16, 256);
     const bgTex = new THREE.CanvasTexture(bgC);
     bgTex.colorSpace = THREE.SRGBColorSpace;
@@ -111,7 +111,7 @@ export default function ScrollMorphHero() {
     const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
 
     // ── lights ──────────────────────────────────────────────────────────
-    const key = new THREE.DirectionalLight(0xfffbf2, 2.8);
+    const key = new THREE.DirectionalLight(0xfff3e2, 2.7);
     key.position.set(-3.6, 8.2, 4.4);
     key.castShadow = true;
     key.shadow.mapSize.set(shadowSize, shadowSize);
@@ -124,29 +124,29 @@ export default function ScrollMorphHero() {
     key.shadow.radius = isMobile ? 4 : 6;
     scene.add(key);
 
-    const fill = new THREE.HemisphereLight(0xfff8ee, 0x9e8c63, 0.7);
+    const fill = new THREE.HemisphereLight(0xeddcc4, 0x0c1b12, 0.6);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0x163324, 0.25);
+    const rim = new THREE.DirectionalLight(0xe5a93c, 0.35); // Warm Honey Gold rim light
     rim.position.set(4.5, 3.5, -5.5);
     scene.add(rim);
-    scene.add(new THREE.AmbientLight(0xfff6ea, 0.3));
+    scene.add(new THREE.AmbientLight(0xfff4e6, 0.25));
 
-    // ── ground: Studio floor in #FAF2AA with luminous light pool ─────────────
+    // ── ground: Pikadon studio floor with Warm Honey Gold light pool ───────────────
     const grC = document.createElement("canvas");
     grC.width = grC.height = 256;
     const grx = grC.getContext("2d")!;
-    grx.fillStyle = "#F2E59D";
+    grx.fillStyle = "#0c1811";
     grx.fillRect(0, 0, 256, 256);
     const pool = grx.createRadialGradient(128, 110, 20, 128, 128, 170);
-    pool.addColorStop(0, "rgba(255, 255, 245, 0.85)");   // Luminous spotlight pool
-    pool.addColorStop(0.45, "rgba(250, 242, 170, 0.45)");
-    pool.addColorStop(1, "rgba(242, 229, 157, 0)");
+    pool.addColorStop(0, "rgba(229, 169, 60, 0.45)");   // Pikadon Warm Honey Gold light pool
+    pool.addColorStop(0.4, "rgba(22, 60, 40, 0.25)");   // Forest green halo
+    pool.addColorStop(1, "rgba(12, 24, 17, 0)");
     grx.fillStyle = pool; grx.fillRect(0, 0, 256, 256);
     const grTex = new THREE.CanvasTexture(grC);
     grTex.colorSpace = THREE.SRGBColorSpace;
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(40, 40),
-      new THREE.MeshStandardMaterial({ map: grTex, roughness: 0.92, metalness: 0 }),
+      new THREE.MeshStandardMaterial({ map: grTex, roughness: 0.96, metalness: 0 }),
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = 0;
@@ -703,18 +703,18 @@ export default function ScrollMorphHero() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Mono:wght@400;500&display=swap');
         .kpf-stage {
           position: relative; width: 100%; height: 100svh; min-height: 640px; max-height: 960px; overflow: hidden;
-          background: #FAF2AA; cursor: grab;
+          background: #050d09; cursor: grab;
           font-family: "DM Mono", monospace; touch-action: pan-y;
         }
         .kpf-stage:active { cursor: grabbing; }
         .kpf-gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .kpf-chrome {
           position: absolute; inset: 0; pointer-events: none; z-index: 2;
-          color: #142e20;
+          color: #fcfaf4; mix-blend-mode: difference;
           text-transform: uppercase; letter-spacing: 0.16em;
         }
-        .kpf-chrome span { position: absolute; font-size: 11px; font-weight: 500; white-space: nowrap; opacity: 0.85; }
-        .kpf-tl { top: 26px; left: 30px; font-weight: 700; letter-spacing: 0.04em; color: #142e20; opacity: 1 !important; }
+        .kpf-chrome span { position: absolute; font-size: 11px; font-weight: 500; white-space: nowrap; }
+        .kpf-tl { top: 26px; left: 30px; font-weight: 700; letter-spacing: 0.04em; color: #e5a93c; }
         .kpf-tr { top: 26px; right: 30px; }
         .kpf-bl { bottom: 26px; left: 30px; }
         .kpf-br { bottom: 26px; right: 30px; }
