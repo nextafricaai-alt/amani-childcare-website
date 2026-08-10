@@ -309,7 +309,7 @@ export default function HomePage() {
                 className="body-md mt-4 max-w-xl mx-auto"
                 style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                Competitors ask you to hope. We built Amani so you can verify.
+                Competitors ask you to hope. We built Pikadon so you can verify.
               </p>
             </Reveal>
           </div>

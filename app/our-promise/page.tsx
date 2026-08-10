@@ -98,7 +98,7 @@ const sections = [
 const safeguardingStatements = [
   {
     Icon: Lock,
-    text: "No adult is ever alone with a child at Amani.",
+    text: "No adult is ever alone with a child at Pikadon.",
   },
   {
     Icon: Eye,

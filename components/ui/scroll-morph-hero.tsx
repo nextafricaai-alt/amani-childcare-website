@@ -119,7 +119,7 @@ const GALLERY_ITEMS = [
   { src: "https://images.unsplash.com/photo-1522661067900-ab829854a57f?w=800&q=80", title: "Circle Time & Values Sharing" },
   { src: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800&q=80", title: "Nature Exploration & Physical Play" },
   { src: "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=800&q=80", title: "Bright, Hygienic Nursery Facilities" },
-  { src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80", title: "Amani Family & Child Development" },
+  { src: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80", title: "Pikadon Family & Child Development" },
 ];
 
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
@@ -683,7 +683,7 @@ export default function ScrollMorphHero() {
                     {activeModalItem.title}
                   </h3>
                   <p className="body-sm text-[oklch(30%_0.015_90)] font-sans leading-relaxed mb-4">
-                    A glimpse into daily life at Amani Child Development Centre in Najjera — built for safety, structured learning, and authentic care.
+                    A glimpse into daily life at Pikadon Child Development Centre in Najjera — built for safety, structured learning, and authentic care.
                   </p>
                 </div>
 
