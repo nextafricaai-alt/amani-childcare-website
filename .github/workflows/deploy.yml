@@ -26,14 +26,12 @@ jobs:
       - name: 🏗️ Build static site & inline CSS
         run: npm run build
 
-      - name: 📁 Sync files to Hostinger FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+      - name: 📁 Deploy static site to Hostinger FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
-          protocol: ftps
-          security: loose
-          server-dir: ${{ secrets.FTP_SERVER_DIR || './' }}
-          local-dir: ./out/
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: node scripts/deploy-ftp.js

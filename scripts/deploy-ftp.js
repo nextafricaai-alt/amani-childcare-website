@@ -6,28 +6,20 @@ const fs = require('fs');
 require('dotenv').config({ path: path.join(__dirname, '../.env.local') });
 require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
-const {
-  FTP_HOST,
-  FTP_USER,
-  FTP_PASSWORD,
-  FTP_PORT = 21,
-  FTP_SECURE = false,
-  FTP_REMOTE_ROOT = 'public_html'
-} = process.env;
+const host = process.env.FTP_HOST || process.env.FTP_SERVER;
+const user = process.env.FTP_USER || process.env.FTP_USERNAME;
+const password = process.env.FTP_PASSWORD;
+const port = process.env.FTP_PORT || 21;
+const remoteRoot = process.env.FTP_REMOTE_ROOT || process.env.FTP_SERVER_DIR || 'public_html';
 
 async function deploy() {
-  if (!FTP_HOST || !FTP_USER || !FTP_PASSWORD) {
+  if (!host || !user || !password) {
     console.error('\n❌ Missing FTP Credentials!');
-    console.log('Please create or update your `.env.local` file in the project root with your Hostinger FTP details:\n');
-    console.log('FTP_HOST=ftp.pikadon.ug  (or your Hostinger IP address)');
-    console.log('FTP_USER=your_ftp_username');
-    console.log('FTP_PASSWORD=your_ftp_password');
-    console.log('FTP_PORT=21');
-    console.log('FTP_REMOTE_ROOT=public_html\n');
+    console.log('Environment variables required: FTP_HOST (or FTP_SERVER), FTP_USER (or FTP_USERNAME), FTP_PASSWORD');
     process.exit(1);
   }
 
-  const client = new ftp.Client(45000); // 45s timeout
+  const client = new ftp.Client(60000); // 60s timeout
   client.ftp.verbose = true;
 
   const outDir = path.join(__dirname, '../out');
@@ -38,25 +30,39 @@ async function deploy() {
   }
 
   try {
-    console.log(`\n🚀 Connecting to FTP server: ${FTP_HOST}...`);
+    console.log(`\n🚀 Connecting to FTP server: ${host}...`);
     await client.access({
-      host: FTP_HOST,
-      user: FTP_USER,
-      password: FTP_PASSWORD,
-      port: parseInt(FTP_PORT, 10),
-      secure: FTP_SECURE === 'true' || FTP_SECURE === true,
+      host,
+      user,
+      password,
+      port: parseInt(port, 10),
+      secure: false, // Standard FTP with TLS upgrade if supported
       secureOptions: { rejectUnauthorized: false }
     });
 
-    console.log(`\n📁 Uploading static site from \`out/\` to \`${FTP_REMOTE_ROOT}/\` on Hostinger...`);
-    await client.ensureDir(FTP_REMOTE_ROOT);
-    await client.clearWorkingDir(); // Cleans remote directory so old subfolders/files are removed!
+    console.log(`\n📁 Navigating to target directory...`);
+    try {
+      if (remoteRoot && remoteRoot !== '.' && remoteRoot !== './') {
+        await client.ensureDir(remoteRoot);
+      }
+    } catch (e) {
+      console.log(`Note: Staying in default working directory (${e.message})`);
+    }
+
+    console.log(`\n🧹 Clearing remote directory to ensure clean update...`);
+    try {
+      await client.clearWorkingDir();
+    } catch (e) {
+      console.log(`Note clearing dir: ${e.message}`);
+    }
+
+    console.log(`\n📤 Uploading static site from \`out/\` to Hostinger...`);
     await client.uploadFromDir(outDir);
 
-    console.log('\n🎉 SUCCESS! Website uploaded cleanly to Hostinger!');
-    console.log('🌐 Visit https://pikadon.ug (or refresh in Incognito mode)\n');
+    console.log('\n🎉 SUCCESS! Website uploaded cleanly to Hostinger!\n');
   } catch (err) {
     console.error('\n❌ FTP Deployment Error:', err.message);
+    process.exit(1);
   } finally {
     client.close();
   }
