@@ -95,14 +95,14 @@ export default function ScrollMorphHero() {
 
     const scene = new THREE.Scene();
 
-    // Pikadon Warm Cream Studio Backdrop (#F3E8BC theme)
+    // Pikadon Warm Cream Studio Backdrop (#FAF2AA theme)
     const bgC = document.createElement("canvas");
     bgC.width = 16; bgC.height = 256;
     const bgx = bgC.getContext("2d")!;
     const bgg = bgx.createLinearGradient(0, 0, 0, 256);
-    bgg.addColorStop(0, "#FAF3D6");    // Lighter cream top
-    bgg.addColorStop(0.5, "#F3E8BC");  // Pikadon #F3E8BC Warm Vanilla Gold
-    bgg.addColorStop(1, "#E4D5A0");    // Rich golden honey base
+    bgg.addColorStop(0, "#FFF9D4");    // Soft vanilla cream top
+    bgg.addColorStop(0.5, "#FAF2AA");  // Pikadon #FAF2AA Butter Gold
+    bgg.addColorStop(1, "#EEDF93");    // Golden honey base
     bgx.fillStyle = bgg; bgx.fillRect(0, 0, 16, 256);
     const bgTex = new THREE.CanvasTexture(bgC);
     bgTex.colorSpace = THREE.SRGBColorSpace;
@@ -131,16 +131,16 @@ export default function ScrollMorphHero() {
     scene.add(rim);
     scene.add(new THREE.AmbientLight(0xfff6ea, 0.3));
 
-    // ── ground: Studio floor in #F3E8BC with luminous light pool ─────────────
+    // ── ground: Studio floor in #FAF2AA with luminous light pool ─────────────
     const grC = document.createElement("canvas");
     grC.width = grC.height = 256;
     const grx = grC.getContext("2d")!;
-    grx.fillStyle = "#E8DCAB";
+    grx.fillStyle = "#F2E59D";
     grx.fillRect(0, 0, 256, 256);
     const pool = grx.createRadialGradient(128, 110, 20, 128, 128, 170);
-    pool.addColorStop(0, "rgba(255, 253, 245, 0.75)");   // Luminous spotlight pool
-    pool.addColorStop(0.45, "rgba(243, 232, 188, 0.4)");
-    pool.addColorStop(1, "rgba(232, 220, 171, 0)");
+    pool.addColorStop(0, "rgba(255, 255, 245, 0.85)");   // Luminous spotlight pool
+    pool.addColorStop(0.45, "rgba(250, 242, 170, 0.45)");
+    pool.addColorStop(1, "rgba(242, 229, 157, 0)");
     grx.fillStyle = pool; grx.fillRect(0, 0, 256, 256);
     const grTex = new THREE.CanvasTexture(grC);
     grTex.colorSpace = THREE.SRGBColorSpace;
@@ -703,7 +703,7 @@ export default function ScrollMorphHero() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Mono:wght@400;500&display=swap');
         .kpf-stage {
           position: relative; width: 100%; height: 100svh; min-height: 640px; max-height: 960px; overflow: hidden;
-          background: #F3E8BC; cursor: grab;
+          background: #FAF2AA; cursor: grab;
           font-family: "DM Mono", monospace; touch-action: pan-y;
         }
         .kpf-stage:active { cursor: grabbing; }
