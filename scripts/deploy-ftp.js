@@ -40,31 +40,47 @@ async function deploy() {
       secureOptions: { rejectUnauthorized: false }
     });
 
-    const currentDir = await client.pwd();
-    console.log(`\n📁 Current working directory: ${currentDir}`);
+    const rootPwd = await client.pwd();
+    console.log(`\n📁 Connected at FTP root: ${rootPwd}`);
 
-    const isAlreadyInPublicHtml = currentDir.endsWith('/public_html') || currentDir.endsWith('/public_html/');
+    // Detect Hostinger domains/ structure
+    let targetDirectories = [];
 
-    if (!isAlreadyInPublicHtml && remoteRoot && remoteRoot !== '.' && remoteRoot !== './') {
-      try {
-        console.log(`Navigating to ${remoteRoot}...`);
-        await client.ensureDir(remoteRoot);
-      } catch (e) {
-        console.log(`Note navigating: ${e.message}`);
-      }
-    } else {
-      console.log(`Already in root web folder, uploading directly here.`);
-    }
-
-    console.log(`\n🧹 Clearing remote directory to ensure clean update...`);
     try {
-      await client.clearWorkingDir();
+      const domainsList = await client.list('/domains');
+      for (const item of domainsList) {
+        if (item.isDirectory && !item.name.startsWith('.')) {
+          targetDirectories.push(`/domains/${item.name}/public_html`);
+        }
+      }
     } catch (e) {
-      console.log(`Note clearing dir: ${e.message}`);
+      console.log('Note checking /domains:', e.message);
     }
 
-    console.log(`\n📤 Uploading static site from \`out/\` to Hostinger...`);
-    await client.uploadFromDir(outDir);
+    // Fallback if no /domains folder found or if FTP user is already inside public_html
+    if (targetDirectories.length === 0) {
+      if (rootPwd.endsWith('/public_html') || rootPwd.endsWith('/public_html/')) {
+        targetDirectories.push(rootPwd);
+      } else {
+        targetDirectories.push('public_html');
+      }
+    }
+
+    console.log(`\n🎯 Target directories to update:`, targetDirectories);
+
+    for (const targetDir of targetDirectories) {
+      console.log(`\n🚀 Deploying to: ${targetDir}`);
+      try {
+        await client.ensureDir(targetDir);
+        console.log(`🧹 Clearing remote directory ${targetDir}...`);
+        await client.clearWorkingDir();
+        console.log(`📤 Uploading static site from \`out/\` to ${targetDir}...`);
+        await client.uploadFromDir(outDir);
+        console.log(`✅ Successfully deployed to ${targetDir}!`);
+      } catch (err) {
+        console.error(`❌ Error deploying to ${targetDir}:`, err.message);
+      }
+    }
 
     console.log('\n🎉 SUCCESS! Website uploaded cleanly to Hostinger!\n');
   } catch (err) {
