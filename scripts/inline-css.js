@@ -18,6 +18,30 @@ console.log(`Found CSS file (${cssFiles[0]}), size: ${cssContent.length} bytes.`
 
 const styleTag = `<style id="inlined-pikadon-css">\n${cssContent}\n</style>`;
 
+// Copy _next to next_assets to bypass Hostinger _next leading underscore directory restrictions
+const nextSrc = path.join(outDir, '_next');
+const nextAssetsDir = path.join(outDir, 'next_assets');
+
+function copyFolderRecursiveSync(source, target) {
+  if (!fs.existsSync(source)) return;
+  if (!fs.existsSync(target)) fs.mkdirSync(target, { recursive: true });
+
+  fs.readdirSync(source).forEach((file) => {
+    const curSource = path.join(source, file);
+    const curTarget = path.join(target, file);
+    if (fs.lstatSync(curSource).isDirectory()) {
+      copyFolderRecursiveSync(curSource, curTarget);
+    } else {
+      fs.copyFileSync(curSource, curTarget);
+    }
+  });
+}
+
+if (fs.existsSync(nextSrc)) {
+  copyFolderRecursiveSync(nextSrc, nextAssetsDir);
+  console.log('Successfully copied _next to next_assets');
+}
+
 // List html files to process
 const htmlFiles = ['index.html', 'fees.html', 'gallery.html', 'visit.html', 'our-promise.html', '404.html'];
 
@@ -30,8 +54,11 @@ htmlFiles.forEach(file => {
   // Replace external link rel="stylesheet" with inlined <style> tag
   html = html.replace(/<link[^>]*rel="stylesheet"[^>]*>/i, styleTag);
 
+  // Replace /_next/ with /next_assets/ to prevent Hostinger _next directory 404s
+  html = html.replace(/\/_next\//g, '/next_assets/');
+
   fs.writeFileSync(filePath, html, 'utf8');
-  console.log(`Successfully inlined CSS into ${file}`);
+  console.log(`Successfully inlined CSS & updated assets in ${file}`);
 });
 
 // Create folder routes so both /fees and /fees.html work on Hostinger
@@ -53,12 +80,18 @@ routeFolders.forEach(({ file, folder }) => {
 });
 
 // Create .htaccess for Hostinger clean URL rewrites
-const htaccessContent = `RewriteEngine On
+const htaccessContent = `<IfModule mod_rewrite.c>
+  RewriteEngine On
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.*)$ $1.html [L]
+  # Rewrite _next requests to next_assets
+  RewriteRule ^_next/(.*)$ next_assets/$1 [L]
+
+  # Clean HTML extension rewrite
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
 `;
 
 fs.writeFileSync(path.join(outDir, '.htaccess'), htaccessContent, 'utf8');
