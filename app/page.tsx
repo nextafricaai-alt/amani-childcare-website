@@ -451,6 +451,37 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════
+          WHY WE ARE CALLED PIKADON — Hebrew Name Origin
+      ════════════════════════════════════════════════════════ */}
+      <section className="section" style={{ background: "var(--cream-deep)" }}>
+        <div className="container-narrow text-center">
+          <Reveal>
+            <span className="eyebrow mb-6 inline-flex">The Soul of Our Brand</span>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <h2 className="display-md mb-6" style={{ color: "var(--green)" }}>
+              Why we are called Pikadon.
+            </h2>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <div className="card-shell p-8 sm:p-12 text-left my-6 bg-white/80 backdrop-blur-md rounded-3xl shadow-sm border border-[var(--gold-rule)]">
+              <p className="body-lg font-handwriting text-2xl mb-4" style={{ color: "var(--gold)" }}>
+                Pikadon (פִּקָּדוֹן)
+              </p>
+              <p className="body-lg mb-4 leading-relaxed" style={{ color: "var(--ink)" }}>
+                <strong style={{ color: "var(--green)" }}>Pikadon</strong> is a Hebrew word meaning <em>that which is entrusted to your care</em> — a treasure placed in another's keeping, to be guarded and returned whole.
+              </p>
+              <p className="body-md leading-relaxed" style={{ color: "var(--ink-body)" }}>
+                In ancient law, a pikadon was sacred: whoever held it was answerable for it. It is the oldest and most exact description of what a parent does every morning, and of what we promise in return. Your child is not our customer. Your child is our pikadon.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════
           WHO WE ARE — editorial photo + manifesto
       ════════════════════════════════════════════════════════ */}
       <section className="section">
@@ -464,7 +495,7 @@ export default function HomePage() {
                   <div className="relative aspect-[3/4] w-full overflow-hidden">
                     <img
                       src="founders-portrait.jpg"
-                      alt="Hudson and Patience Tumusiime - Founders of Amani"
+                      alt="Hudson, Patience Tumusiime & Shalua - Founders of Pikadon"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -475,18 +506,18 @@ export default function HomePage() {
             {/* Text */}
             <div className="flex-1">
               <Reveal>
-                <span className="eyebrow mb-6 inline-flex">About us</span>
+                <span className="eyebrow mb-6 inline-flex">Who we are</span>
               </Reveal>
 
               <Reveal delay={80}>
-                <h2 className="display-md mb-6" style={{ color: "oklch(22% 0.06 155)", lineHeight: 1.1 }}>
-                  Built by parents, run like our own children are inside.
+                <h2 className="display-md mb-6" style={{ color: "var(--green)", lineHeight: 1.1 }}>
+                  Built by parents, run like it's our own children inside. Because they are.
                 </h2>
               </Reveal>
 
               <Reveal delay={160}>
-                <p className="body-lg mb-4" style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                  Amani was founded by Hudson and Patience Tumusiime — a systems builder and a centre director who believe childcare in Uganda deserves the same excellence as the best institutions anywhere.
+                <p className="body-lg mb-4" style={{ color: "var(--ink-body)" }}>
+                  Pikadon was founded by three partners — Hudson and Patience Tumusiime and Shalua, who believe childcare in Uganda deserves the same excellence as the best institutions anywhere. Our first centre runs on written standards, trained people, and a promise we publish on every wall:
                 </p>
               </Reveal>
 
@@ -494,10 +525,9 @@ export default function HomePage() {
                 {/* Manifesto plaque */}
                 <div className="plaque my-8">
                   <p
-                    className="font-display italic"
+                    className="font-handwriting text-2xl"
                     style={{
-                      fontSize: "clamp(1.125rem, 2vw, 1.375rem)",
-                      color: "oklch(22% 0.06 155)",
+                      color: "var(--green)",
                       lineHeight: 1.5,
                     }}
                   >
@@ -505,9 +535,9 @@ export default function HomePage() {
                   </p>
                   <p
                     className="label-xs mt-5"
-                    style={{ color: "oklch(68% 0.12 75)", letterSpacing: "0.15em" }}
+                    style={{ color: "var(--gold)", letterSpacing: "0.15em" }}
                   >
-                    — The Amani Standard, displayed at our gate
+                    — The Pikadon Promise, displayed at our gate
                   </p>
                 </div>
               </Reveal>

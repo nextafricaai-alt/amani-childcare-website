@@ -1,39 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── OKLCH Design Tokens ────────────────────────────────────────── */
+/* ─── Happy Hues & Pikadon Design Tokens ───────────────────────── */
 :root {
   /* Brand anchors */
-  --green:        oklch(22% 0.06 155);       /* Forest ink */
-  --green-mid:    oklch(28% 0.07 155);
-  --green-light:  oklch(35% 0.08 155);
-  --gold:         oklch(68% 0.12 75);        /* Warm gold */
-  --gold-pale:    oklch(78% 0.09 78);
-  --gold-rule:    oklch(68% 0.10 75 / 0.25);
+  --green:        #16352A;                   /* Deep Forest Green */
+  --green-mid:    #22483B;
+  --green-light:  #3D6B57;                   /* Warm Sage */
+  --gold:         #B8934A;                   /* Antique Gold */
+  --gold-pale:    #EAD096;                   /* Soft Gold */
+  --gold-rule:    rgba(184, 147, 74, 0.25);
 
   /* Surfaces */
-  --cream:        oklch(97% 0.012 85);       /* Warm parchment */
-  --cream-deep:   oklch(93% 0.016 82);
-  --cream-raised: oklch(99% 0.006 85);
-  --paper:        oklch(98% 0.010 80);
+  --cream:        #FBF7EE;                   /* Parchment Cream */
+  --cream-deep:   #F3EDE0;
+  --cream-raised: #FFFFFF;
+  --paper:        #F7F2E6;
 
   /* Text */
-  --ink:          oklch(18% 0.02 95);
-  --ink-body:     oklch(30% 0.015 90);
-  --ink-muted:    oklch(50% 0.010 90);
-  --ink-faint:    oklch(65% 0.006 90);
+  --ink:          #28251D;                   /* Deep Charcoal Ink */
+  --ink-body:     #353127;
+  --ink-muted:    #5C574B;
+  --ink-faint:    #857E70;
 
-  /* Custom beziers — Emil Kowalski approved */
+  /* Fonts */
+  --font-heading: 'Fredoka', cursive, sans-serif;
+  --font-body:    'Nunito', sans-serif;
+  --font-handwriting: 'Patrick Hand', cursive, sans-serif;
+
+  /* Custom beziers */
   --ease-out:     cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out:  cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer:  cubic-bezier(0.32, 0.72, 0, 1);
   --ease-back:    cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Spacing scale — macro whitespace */
-  --section-y:    clamp(5rem, 10vw, 9rem);
+  /* Spacing scale */
+  --section-y:    clamp(4rem, 8vw, 7rem);
 }
 
 /* ─── Base Reset ─────────────────────────────────────────────────── */
@@ -47,7 +52,7 @@ html {
 body {
   background-color: var(--cream);
   color: var(--ink);
-  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -55,43 +60,46 @@ body {
 
 /* ─── Typography System ─────────────────────────────────────────── */
 
-/* Display / Editorial serif (Cormorant) */
+/* Display / Headings (Fredoka) */
 .display-xl {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  font-size: clamp(2.85rem, 6.5vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
 }
 
 .display-lg {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
-  font-weight: 300;
-  line-height: 1.0;
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .display-md {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(2rem, 4.5vw, 4rem);
-  font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.015em;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
 }
 
-/* UI sans (Plus Jakarta) */
+/* UI sans (Nunito) */
 .label-xs {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.body-lg { font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.75; }
-.body-md { font-size: 1rem; line-height: 1.7; }
-.body-sm { font-size: 0.9375rem; line-height: 1.65; }
+.font-handwriting {
+  font-family: var(--font-handwriting);
+}
+
+.body-lg { font-size: clamp(1rem, 1.25vw, 1.1875rem); line-height: 1.7; font-family: var(--font-body); }
+.body-md { font-size: 1rem; line-height: 1.65; font-family: var(--font-body); }
+.body-sm { font-size: 0.9375rem; line-height: 1.6; font-family: var(--font-body); }
 
 /* ─── CSS Noise overlay (editorial feel) ────────────────────────── */
 body::before {

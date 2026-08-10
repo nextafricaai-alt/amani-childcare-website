@@ -35,7 +35,7 @@ const howToFind = [
   {
     Icon: Car,
     label: "By car",
-    text: "From Kiwatule round-about, head towards Najjera. We are on the right side, 400m past the trading centre. Look for our green gate with the Amani sign.",
+    text: "From Kiwatule round-about, head towards Najjera. We are on the right side, 400m past the trading centre. Look for our green gate with the Pikadon sign.",
   },
   {
     Icon: Bus,
@@ -45,7 +45,7 @@ const howToFind = [
   {
     Icon: Navigation,
     label: "Google Maps",
-    text: "Search 'Amani Child Development Najjera' or WhatsApp us for the pin. We'll send you the exact location link.",
+    text: "Search 'Pikadon Child Development Najjera' or WhatsApp us for the pin. We'll send you the exact location link.",
   },
 ];
 

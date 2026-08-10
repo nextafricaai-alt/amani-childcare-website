@@ -240,12 +240,12 @@ export default function FeesPage() {
 
                 <p
                   className="body-lg mb-6"
-                  style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  style={{ color: "oklch(30% 0.015 90)" }}
                 >
                   We accept <strong style={{ color: "oklch(22% 0.06 155)" }}>MTN MoMo</strong>,{" "}
                   <strong style={{ color: "oklch(22% 0.06 155)" }}>Airtel Money</strong>, and{" "}
                   <strong style={{ color: "oklch(22% 0.06 155)" }}>bank transfer</strong>.
-                  Amani is a cashless centre — every payment gets an instant digital receipt sent directly to your phone.
+                  Pikadon is a cashless centre — every payment gets an instant digital receipt sent directly to your phone.
                 </p>
 
                 <div

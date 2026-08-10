@@ -58,7 +58,7 @@ export default function GalleryPage() {
               className="display-lg mb-6"
               style={{ color: "oklch(97% 0.012 85)" }}
             >
-              Life at Amani.<br />
+              Life at Pikadon.<br />
               <em style={{ color: "oklch(68% 0.12 75)" }}>Real moments.</em>
             </h1>
           </Reveal>
@@ -232,7 +232,7 @@ export default function GalleryPage() {
       <section className="section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
         <div className="container-narrow">
           <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">Visit Amani</span>
+            <span className="eyebrow eyebrow-light mb-8 inline-flex">Visit Pikadon</span>
           </Reveal>
 
           <Reveal delay={80}>

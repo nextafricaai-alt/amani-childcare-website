@@ -91,12 +91,12 @@ const MAX_SCROLL = 1800;
 
 // Full bleed background hero slides uploaded by user
 const HERO_SLIDES = [
-  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Leadership at Amani" },
+  { src: "hero-slides/slide1.jpg", title: "Hudson & Patience Tumusiime", caption: "Founders & Executive Leadership at Pikadon" },
   { src: "hero-slides/slide2.jpg", title: "Spacious & Hygienic Classrooms", caption: "Designed for safety, focus, and early development" },
   { src: "hero-slides/slide3.webp", title: "Themed Early Childhood Spaces", caption: "Vibrant activity areas for sensory & physical play" },
   { src: "hero-slides/slide4.jpg", title: "Interactive Learning & Literacy", caption: "Individual caregiver attention and rich learning materials" },
   { src: "hero-slides/slide5.jpg", title: "Structured Daily Rhythm", caption: "Balanced learning, rest, healthy meals, and play" },
-  { src: "hero-slides/slide6.jpg", title: "Amani Childcare Family", caption: "Warm, safe, and nurturing environment for ages 2–5" },
+  { src: "hero-slides/slide6.jpg", title: "Pikadon Childcare Family", caption: "Warm, safe, and nurturing environment for ages 2–5" },
 ];
 
 const GALLERY_ITEMS = [
@@ -417,7 +417,7 @@ export default function ScrollMorphHero() {
           >
             {isFullBleedActive ? (
               <>
-                Explore Our Centre.<br />
+                Pikadon {SITE_CONFIG.estate}.<br />
                 <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
                   Work in peace.
                 </em>
@@ -428,7 +428,7 @@ export default function ScrollMorphHero() {
                 <em style={{ color: "oklch(68% 0.12 75)", fontStyle: "italic" }}>
                   Your child
                 </em>{" "}
-                is safe.
+                is safe, loved & growing.
               </>
             )}
           </motion.h1>
@@ -448,7 +448,7 @@ export default function ScrollMorphHero() {
               transition: "color 500ms ease",
             }}
           >
-            A licensed child development centre in {SITE_CONFIG.estate} for ages 2–5. Every caregiver is vetted. Every day is structured. You hear from us every single day.
+            Pikadon is a licensed child development centre in {SITE_CONFIG.estate} for children aged 2–5 — where every caregiver is vetted and trained, every day is structured, and you hear from us every single day.
           </motion.p>
 
           {/* Interactive CTA buttons */}

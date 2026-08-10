@@ -16,7 +16,7 @@ const cssContent = fs.readFileSync(cssPath, 'utf8');
 
 console.log(`Found CSS file (${cssFiles[0]}), size: ${cssContent.length} bytes.`);
 
-const styleTag = `<style id="inlined-amani-css">\n${cssContent}\n</style>`;
+const styleTag = `<style id="inlined-pikadon-css">\n${cssContent}\n</style>`;
 
 // List html files to process
 const htmlFiles = ['index.html', 'fees.html', 'gallery.html', 'visit.html', 'our-promise.html', '404.html'];

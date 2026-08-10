@@ -13,16 +13,16 @@ const sections = [
     id: "people",
     Icon: Users,
     eyebrow: "01 · People",
-    title: "Who we hire",
+    title: "Everyone is vetted. No exceptions.",
     color: "oklch(22% 0.06 155)",
     body: [
-      "Every adult at Amani — including cleaners, cooks, and visiting trades — is background-checked before they set foot in the building. No exceptions.",
-      "Full-time caregivers undergo: police/INTERPOL clearance, minimum two reference calls (we speak to referees, not just receive letters), medical clearance including TB screening, and paediatric first-aid certification before their first shift.",
+      "Every adult at Pikadon — including cleaners, cooks, and visiting trades — is background-checked before they set foot in the building. No exceptions.",
+      "Full-time caregivers undergo: police/INTERPOL clearance, three reference calls (we speak to referees, not just receive letters), medical clearance including TB screening, and paediatric first-aid certification before their first shift.",
       "Trial periods are conducted with a senior staff member always present. Probation is 90 days. We dismiss immediately for any safeguarding breach — no second chances for the things that matter most.",
     ],
     items: [
       "Police / INTERPOL clearance",
-      "Two verified reference calls",
+      "Three verified reference calls",
       "Medical & TB screening",
       "Paediatric first-aid certified",
       "Signed safeguarding agreement",
@@ -33,10 +33,10 @@ const sections = [
     id: "safety",
     Icon: ShieldCheck,
     eyebrow: "02 · Safety",
-    title: "How we keep children safe",
+    title: "No adult is ever alone with a child",
     color: "oklch(22% 0.06 155)",
     body: [
-      "Safety at Amani is a system, not a mood. Every procedure is written down, every staff member is trained on it, and every parent can read it.",
+      "Safety at Pikadon is a system, not a mood. Every procedure is written down, every staff member is trained on it, and every parent can read it.",
       "Children are counted at every transition — arrival, moving between rooms, outdoor time, meals, nap time, departure. If numbers don't match, we stop everything until they do.",
       "No adult is ever alone with a child. The two-adult rule applies at all times, including in bathrooms and during outdoor play.",
       "Authorised pickup codes are set at enrolment. If we don't know you and you don't have the code, your child does not leave with you. We will call the parents — every time.",
@@ -45,21 +45,21 @@ const sections = [
       "Child count at every transition",
       "Two-adult rule — no exceptions",
       "Authorised pickup codes",
-      "CCTV in all common areas",
+      "CCTV recorded in all common rooms",
       "Locked perimeter gate",
       "Signed daily arrival / departure",
       "Written incident report for any injury",
-      "Monthly fire & lockdown drills",
+      "Monthly fire & emergency drills",
     ],
   },
   {
     id: "faith",
     Icon: Heart,
     eyebrow: "03 · Faith & Character",
-    title: "What we believe and teach",
+    title: "Faith, in the open",
     color: "oklch(22% 0.06 155)",
     body: [
-      "Amani is openly and unapologetically Christian. We believe children are image-bearers of God — each one deserving of dignity, patience, and delight.",
+      "Pikadon is openly and unapologetically Christian. We believe children are image-bearers of God — each one deserving of dignity, patience, and delight.",
       "In practice this means: gratitude before every meal, scripture stories told gently and age-appropriately, kindness as the classroom law, and our staff modelling what it looks like to treat people well.",
       "We do not force or shame. We teach by example, by repetition, and by the atmosphere we create. If your family does not share our faith, you are still warmly welcome — we ask only that you read this so there are no surprises.",
     ],
@@ -141,9 +141,9 @@ export default function OurPromisePage() {
           <Reveal delay={160}>
             <p
               className="body-lg max-w-xl"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "oklch(97% 0.012 85 / 0.65)" }}
             >
-              Most childcare providers ask you to trust them. We built Amani so you can verify. Everything on this page is how we actually operate — not aspirations, not marketing copy.
+              Most childcare providers ask you to hope. We built Pikadon so you can verify. Below are the actual standards we run on — the same documents our staff sign and our inspectors see.
             </p>
           </Reveal>
         </div>
@@ -155,9 +155,8 @@ export default function OurPromisePage() {
           <Reveal direction="scale">
             <div className="plaque">
               <p
-                className="font-display italic text-center"
+                className="font-handwriting text-2xl sm:text-3xl text-center"
                 style={{
-                  fontSize: "clamp(1.25rem, 3vw, 2rem)",
                   color: "oklch(22% 0.06 155)",
                   lineHeight: 1.5,
                 }}
@@ -168,7 +167,7 @@ export default function OurPromisePage() {
                 className="label-xs text-center mt-6"
                 style={{ color: "oklch(68% 0.12 75)", letterSpacing: "0.15em" }}
               >
-                — The Amani Standard · Displayed at our gate · Signed by the founders
+                — The Pikadon Promise · Displayed at our gate · Signed by the founders
               </p>
             </div>
           </Reveal>

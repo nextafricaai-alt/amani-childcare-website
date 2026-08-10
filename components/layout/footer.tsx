@@ -41,8 +41,15 @@ export default function Footer() {
               </Link>
 
               <p
+                className="body-sm leading-relaxed font-handwriting text-lg"
+                style={{ color: "oklch(68% 0.12 75)", maxWidth: "28ch" }}
+              >
+                Pikadon (פִּקָּדוֹן) — a deposit, a pledge, something entrusted to another's keeping, to be guarded and returned whole.
+              </p>
+
+              <p
                 className="body-sm leading-relaxed"
-                style={{ color: "oklch(97% 0.012 85 / 0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif", maxWidth: "26ch" }}
+                style={{ color: "oklch(97% 0.012 85 / 0.55)", maxWidth: "26ch" }}
               >
                 Every child in our care is treated with the patience, dignity, protection, and love we would want for our own family.
               </p>
@@ -73,7 +80,6 @@ export default function Footer() {
                   style={{
                     color: "oklch(97% 0.012 85 / 0.55)",
                     transition: "color 150ms cubic-bezier(0.23, 1, 0.32, 1)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
                     textDecoration: "none",
                   }}
                   onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "oklch(97% 0.012 85)")}
@@ -83,18 +89,19 @@ export default function Footer() {
                 </Link>
               ))}
               <a
-                href="#"
-                className="body-sm w-fit mt-2"
+                href={SITE_CONFIG.appUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="body-sm w-fit mt-2 font-semibold"
                 style={{
-                  color: "oklch(68% 0.12 75 / 0.8)",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  color: "oklch(68% 0.12 75)",
                   transition: "color 150ms",
                   textDecoration: "none",
                 }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "oklch(68% 0.12 75)")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "oklch(68% 0.12 75 / 0.8)")}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "oklch(97% 0.012 85)")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "oklch(68% 0.12 75)")}
               >
-                Parent Login →
+                Parent Login (App) →
               </a>
             </div>
 
@@ -107,7 +114,7 @@ export default function Footer() {
               {[
                 {
                   Icon: MapPin,
-                  text: `${SITE_CONFIG.estate}, ${SITE_CONFIG.city}, ${SITE_CONFIG.country}`,
+                  text: `${SITE_CONFIG.centreName}, ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}`,
                 },
                 {
                   Icon: Clock,
@@ -121,7 +128,7 @@ export default function Footer() {
                   />
                   <span
                     className="body-sm"
-                    style={{ color: "oklch(97% 0.012 85 / 0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    style={{ color: "oklch(97% 0.012 85 / 0.55)" }}
                   >
                     {text}
                   </span>
@@ -137,7 +144,6 @@ export default function Footer() {
                   className="body-sm"
                   style={{
                     color: "oklch(97% 0.012 85 / 0.55)",
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
                     transition: "color 150ms",
                     textDecoration: "none",
                   }}
@@ -152,13 +158,11 @@ export default function Footer() {
                 className="body-sm mt-2"
                 style={{
                   color: "oklch(97% 0.012 85 / 0.3)",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
                   fontSize: "0.75rem",
                   lineHeight: 1.6,
                 }}
               >
-                Licensed by the Ministry of Education & Sports —<br />
-                licence displayed at our gate.
+                Licensed by authority — licence displayed at our gate.
               </p>
             </div>
           </div>
