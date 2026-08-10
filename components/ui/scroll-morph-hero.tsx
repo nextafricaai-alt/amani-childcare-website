@@ -125,7 +125,7 @@ const GALLERY_ITEMS = [
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
 
 export default function ScrollMorphHero() {
-  const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
+  const [introPhase, setIntroPhase] = useState<AnimationPhase>("circle");
   const [containerSize, setContainerSize] = useState({ width: 390, height: 750 });
   const [activeModalItem, setActiveModalItem] = useState<{ src: string; title: string } | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
