@@ -376,7 +376,7 @@ export default function ScrollMorphHero() {
 
           {/* Eyebrow badge */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={
               introPhase === "circle"
                 ? { opacity: 1, y: 0 }
@@ -396,7 +396,7 @@ export default function ScrollMorphHero() {
 
           {/* High-Impact Display Headline */}
           <motion.h1
-            initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
+            initial={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             animate={
               introPhase === "circle"
                 ? {
@@ -435,7 +435,7 @@ export default function ScrollMorphHero() {
 
           {/* Subtext */}
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={
               introPhase === "circle"
                 ? { opacity: 1 }
@@ -453,7 +453,7 @@ export default function ScrollMorphHero() {
 
           {/* Interactive CTA buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 1, y: 0 }}
             animate={
               introPhase === "circle"
                 ? { opacity: 1, y: 0 }
@@ -485,7 +485,7 @@ export default function ScrollMorphHero() {
 
           {/* Scroll cue */}
           <motion.p
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0.7 }}
             animate={
               introPhase === "circle" && morphValue < 0.3
                 ? { opacity: 0.7 }
