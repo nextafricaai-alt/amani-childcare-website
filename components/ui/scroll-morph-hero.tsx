@@ -260,14 +260,13 @@ export default function ScrollMorphHero() {
     };
   }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-  // Autoplay full bleed background slideshow when morphing finishes (morphValue > 0.3)
+  // Autoplay full bleed background slideshow every 2 seconds
   useEffect(() => {
-    if (morphValue < 0.3) return;
     const interval = setInterval(() => {
       setCurrentSlideIndex((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 5000);
+    }, 2000);
     return () => clearInterval(interval);
-  }, [morphValue]);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -310,33 +309,22 @@ export default function ScrollMorphHero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="absolute inset-0 z-0 w-full h-full overflow-hidden"
           >
-            {/* Crossfading Slide Images */}
+            {/* Crossfading Slide Images (100% Clear, No Overlay) */}
             <AnimatePresence mode="wait">
               <motion.img
                 key={currentSlideIndex}
                 src={HERO_SLIDES[currentSlideIndex].src}
                 alt={HERO_SLIDES[currentSlideIndex].title}
-                initial={{ opacity: 0, scale: 1.08 }}
+                initial={{ opacity: 0, scale: 1.04 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </AnimatePresence>
-
-            {/* Premium Dark Vignette Overlay for Crisp High-Contrast Typography */}
-            <div
-              className="absolute inset-0 z-10"
-              style={{
-                background: `
-                  radial-gradient(circle at 50% 50%, rgba(14, 24, 18, 0.55) 0%, rgba(14, 24, 18, 0.82) 100%),
-                  linear-gradient(to bottom, rgba(14, 24, 18, 0.7) 0%, rgba(14, 24, 18, 0.4) 50%, rgba(14, 24, 18, 0.85) 100%)
-                `,
-              }}
-            />
           </motion.div>
         )}
       </AnimatePresence>
