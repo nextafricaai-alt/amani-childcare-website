@@ -4,6 +4,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
+import FadedKidsNamesBackground from "@/components/ui/faded-kids-names";
 
 export const metadata: Metadata = {
   title: {
@@ -61,9 +62,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-[var(--cream)] text-[var(--ink)] font-body">
+      <body className="relative bg-[var(--cream)] text-[var(--ink)] font-body min-h-screen">
+        <FadedKidsNamesBackground />
         <Navbar />
-        <main>{children}</main>
+        <main className="relative z-10">{children}</main>
         <Footer />
         <WhatsAppButton />
       </body>
