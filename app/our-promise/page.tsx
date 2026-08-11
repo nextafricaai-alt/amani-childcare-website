@@ -119,31 +119,31 @@ export default function OurPromisePage() {
     <div className="pt-20">
 
       {/* ── Full-Bleed Edge-to-Edge Header Hero Section ─────────────────────────────── */}
-      <section className="relative w-full min-h-[580px] lg:min-h-[660px] flex items-center overflow-hidden py-24 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
+      <section className="relative w-full min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24 lg:pt-52 lg:pb-28 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
         
-        {/* Full-Bleed Edge-to-Edge Background Image */}
+        {/* Full-Bleed Edge-to-Edge Background Image with Headroom Framing */}
         <img
           src="/our-promise-hero.webp"
           alt="Children holding hands in unity and care at Pikadon Child Development Network"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+          className="absolute inset-0 w-full h-full object-cover object-[center_25%] scale-105"
         />
 
         {/* Dark Vignette & Forest Green Gradient Overlays for High Legibility */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to right, rgba(10, 26, 17, 0.95) 0%, rgba(10, 26, 17, 0.82) 45%, rgba(10, 26, 17, 0.45) 80%, rgba(10, 26, 17, 0.3) 100%)",
+            background: "linear-gradient(to right, rgba(10, 26, 17, 0.95) 0%, rgba(10, 26, 17, 0.82) 48%, rgba(10, 26, 17, 0.45) 80%, rgba(10, 26, 17, 0.25) 100%)",
           }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to top, rgba(10, 26, 17, 0.9) 0%, transparent 50%, rgba(10, 26, 17, 0.7) 100%)",
+            background: "linear-gradient(to top, rgba(10, 26, 17, 0.92) 0%, transparent 50%, rgba(10, 26, 17, 0.75) 100%)",
           }}
         />
 
         {/* Hero Content Over Full-Bleed Image */}
-        <div className="container relative z-10 max-w-5xl mx-auto">
+        <div className="container relative z-10 max-w-5xl mx-auto mt-4 sm:mt-6 lg:mt-8">
           <div className="max-w-2xl">
             <Reveal>
               <span className="eyebrow eyebrow-light mb-6 inline-flex backdrop-blur-md px-3.5 py-1.5 rounded-full" style={{ background: "rgba(229, 169, 60, 0.15)", border: "1px solid rgba(229, 169, 60, 0.3)" }}>
