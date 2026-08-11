@@ -31,7 +31,7 @@ export default function Navbar() {
         style={{ pointerEvents: "none" }}
       >
         <nav
-          className="navbar-pill flex items-center gap-1 px-2 py-2 w-full max-w-2xl"
+          className="navbar-pill flex items-center gap-1 px-3 py-2 w-full max-w-4xl"
           style={{
             pointerEvents: "auto",
             transition: "box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1)",
@@ -43,7 +43,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full group flex-shrink-0"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full group flex-shrink-0 whitespace-nowrap"
             style={{ transition: "background 200ms cubic-bezier(0.23, 1, 0.32, 1)" }}
           >
             <div
@@ -56,7 +56,7 @@ export default function Navbar() {
               <Sprout className="w-3.5 h-3.5 text-white" />
             </div>
             <span
-              className="font-sans font-semibold text-sm"
+              className="font-sans font-semibold text-sm whitespace-nowrap"
               style={{ color: "oklch(22% 0.06 155)" }}
             >
               {SITE_CONFIG.name}
@@ -72,7 +72,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="px-3.5 py-2 rounded-full font-sans text-sm font-medium transition-colors duration-150"
+                className="px-3.5 py-2 rounded-full font-sans text-sm font-medium whitespace-nowrap transition-colors duration-150"
                 style={{
                   color: "oklch(30% 0.015 90)",
                   transition: "background 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms",
@@ -96,7 +96,7 @@ export default function Navbar() {
             href={getWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold hidden md:inline-flex ml-1 !py-2"
+            className="btn-gold hidden md:inline-flex ml-1 !py-2 whitespace-nowrap flex-shrink-0"
             style={{ fontSize: "0.8125rem" }}
           >
             Book a Visit
