@@ -740,7 +740,7 @@ export default function ScrollMorphHero() {
         }
       `}</style>
 
-      {/* Dense Full-Coverage Solid Children's Names Background Wallpaper */}
+      {/* Dense Solid Children's Names Background Wallpaper (Excludes area inside the 3D flip book) */}
       <div className="kpf-names-wallpaper" aria-hidden="true">
         {[
           "Liam", "Olivia", "Noah", "Emma", "Oliver", "Amelia", "Elijah", "Ava", "Henry", "Sophia",
@@ -755,6 +755,11 @@ export default function ScrollMorphHero() {
           const col = i % 7;
           const left = (col * 14.2) + ((row % 2) * 5) + 1;
           const top = (row * 9.5) + 2;
+
+          // Exclude names that fall directly inside the 3D flip book bounds (left 21%-79%, top 20%-84%)
+          const isInsideBook = left > 21 && left < 79 && top > 20 && top < 84;
+          if (isInsideBook) return null;
+
           const colors = ["#E5A93C", "#FCFAF4", "#85B59D", "#D4AF37", "#487560"];
           const fonts = [
             "'Playfair Display', serif",
