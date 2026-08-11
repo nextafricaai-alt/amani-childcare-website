@@ -27,7 +27,7 @@ interface FloatingName {
 export default function FadedKidsNamesBackground() {
   const namesList = useMemo(() => {
     const items: FloatingName[] = [];
-    const totalNames = 36; // Perfectly distributed floaters across the viewport
+    const totalNames = 50;
 
     const fontFamilies = [
       "'Patrick Hand', cursive, sans-serif",
@@ -35,31 +35,38 @@ export default function FadedKidsNamesBackground() {
       "'Nunito', sans-serif"
     ];
 
-    // Colors engineered to look rich & legible over both dark and light sections
+    // Slightly higher contrast colors tailored against background surfaces
     const colors = [
-      "rgba(229, 169, 60, 0.38)",   // Warm Honey Gold
-      "rgba(240, 235, 220, 0.32)",  // Soft Cream Ivory
-      "rgba(61, 107, 87, 0.35)",    // Warm Sage
-      "rgba(34, 72, 59, 0.30)",     // Pikadon Forest Green
+      "rgba(22, 53, 42, 0.32)",     // Pikadon Forest Green (rich contrast)
+      "rgba(165, 125, 45, 0.35)",    // Antique Amber Gold
+      "rgba(40, 37, 29, 0.28)",      // Deep Charcoal Ink
+      "rgba(45, 90, 70, 0.32)",      // Warm Sage Green
     ];
 
-    for (let i = 0; i < totalNames; i++) {
+    let count = 0;
+    for (let i = 0; count < 32 && i < 80; i++) {
       const name = KIDS_NAMES[i % KIDS_NAMES.length];
-      const row = Math.floor(i / 4);
-      const col = i % 4;
-      const baseLeft = (col * 24) + (Math.sin(i * 3.7) * 8 + 4);
-      const baseTop = (row * 10) + (Math.cos(i * 2.3) * 3.5 + 3);
+      const row = Math.floor(i / 5);
+      const col = i % 5;
+      const left = Math.max(3, Math.min(88, (col * 20) + (Math.sin(i * 3.7) * 6 + 4)));
+      const top = Math.max(2, Math.min(94, (row * 9) + (Math.cos(i * 2.3) * 3 + 2)));
 
-      items.push({
-        id: i,
-        name,
-        left: Math.max(4, Math.min(88, baseLeft)),
-        top: Math.max(3, Math.min(92, baseTop)),
-        fontSize: 1.4 + (i % 4) * 0.4, // 1.4rem to 2.6rem
-        rotation: (i % 7) * 4.5 - 12,  // -12deg to +12deg tilt
-        fontFamily: fontFamilies[i % fontFamilies.length],
-        color: colors[i % colors.length],
-      });
+      // EXCLUDE THE CENTRAL 3D FLIPBOOK AREA (left 18%-82%, top 12%-88%) on the hero section
+      const isOverFlipbook = left > 16 && left < 84 && top > 10 && top < 88;
+
+      if (!isOverFlipbook) {
+        items.push({
+          id: count,
+          name,
+          left,
+          top,
+          fontSize: 1.85 + (count % 4) * 0.45, // Increased font size (1.85rem to 3.2rem)
+          rotation: (count % 7) * 4.5 - 12,    // -12deg to +12deg tilt
+          fontFamily: fontFamilies[count % fontFamilies.length],
+          color: colors[count % colors.length],
+        });
+        count++;
+      }
     }
 
     return items;
@@ -68,12 +75,12 @@ export default function FadedKidsNamesBackground() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 overflow-hidden select-none z-20 opacity-90"
+      className="pointer-events-none fixed inset-0 overflow-hidden select-none z-20 opacity-95"
     >
       {namesList.map((item) => (
         <span
           key={item.id}
-          className="absolute whitespace-nowrap font-semibold tracking-wide"
+          className="absolute whitespace-nowrap font-bold tracking-wide"
           style={{
             left: `${item.left}%`,
             top: `${item.top}%`,
@@ -82,7 +89,7 @@ export default function FadedKidsNamesBackground() {
             color: item.color,
             transform: `rotate(${item.rotation}deg)`,
             userSelect: "none",
-            textShadow: "0 1px 4px rgba(0,0,0,0.15)",
+            textShadow: "0 1px 3px rgba(255,255,255,0.4)",
           }}
         >
           {item.name}
