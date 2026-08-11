@@ -122,6 +122,12 @@ if (fs.existsSync(portraitSrc)) {
   console.log('Copied founders-portrait.jpg to out/ directory');
 }
 
+const promiseHeroSrc = path.join(__dirname, '../public/our-promise-hero.webp');
+if (fs.existsSync(promiseHeroSrc)) {
+  fs.copyFileSync(promiseHeroSrc, path.join(outDir, 'our-promise-hero.webp'));
+  console.log('Copied our-promise-hero.webp to out/ directory');
+}
+
 const slidesSrcDir = path.join(__dirname, '../public/hero-slides');
 const slidesOutDir = path.join(outDir, 'hero-slides');
 if (fs.existsSync(slidesSrcDir)) {
