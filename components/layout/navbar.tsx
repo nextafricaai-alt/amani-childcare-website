@@ -6,10 +6,11 @@ import { X, Menu, Sprout, ArrowUpRight } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 const links = [
-  { href: "/fees", label: "Fees" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/visit", label: "Visit Us" },
+  { href: "/", label: "Home" },
   { href: "/our-promise", label: "Our Promise" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/fees", label: "Fees" },
+  { href: "/visit", label: "Visit Us" },
 ];
 
 export default function Navbar() {
