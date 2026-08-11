@@ -66,13 +66,13 @@ export default function Navbar() {
           {/* Spacer */}
           <div className="flex-1" />
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-0.5">
+          {/* Desktop/Laptop links (1024px+) */}
+          <div className="hidden lg:flex items-center gap-0.5">
             {links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="px-3.5 py-2 rounded-full font-sans text-sm font-medium whitespace-nowrap transition-colors duration-150"
+                className="px-3 py-2 rounded-full font-sans text-xs lg:text-sm font-medium whitespace-nowrap transition-colors duration-150"
                 style={{
                   color: "oklch(30% 0.015 90)",
                   transition: "background 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms",
@@ -96,7 +96,7 @@ export default function Navbar() {
             href={getWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold hidden md:inline-flex ml-1 !py-2 whitespace-nowrap flex-shrink-0"
+            className="btn-gold hidden lg:inline-flex ml-1 !py-2 whitespace-nowrap flex-shrink-0"
             style={{ fontSize: "0.8125rem" }}
           >
             Book a Visit
@@ -105,10 +105,10 @@ export default function Navbar() {
             </span>
           </a>
 
-          {/* Mobile toggle */}
+          {/* Mobile/Tablet toggle (< 1024px) */}
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden flex items-center justify-center w-9 h-9 rounded-full ml-1"
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full ml-1"
             style={{
               background: open ? "oklch(22% 0.06 155 / 0.08)" : "transparent",
               color: "oklch(22% 0.06 155)",
@@ -151,9 +151,9 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* ── Mobile overlay — full screen glass expansion ── */}
+      {/* ── Mobile/Tablet overlay — full screen glass expansion ── */}
       <div
-        className="fixed inset-0 z-40 md:hidden flex flex-col"
+        className="fixed inset-0 z-40 lg:hidden flex flex-col"
         style={{
           background: "oklch(97% 0.012 85 / 0.95)",
           backdropFilter: "blur(32px) saturate(1.4)",

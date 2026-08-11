@@ -581,8 +581,8 @@ export default function ScrollMorphHero() {
       renderer.setSize(w, h, false);
       const aspect = w / h;
       camera.aspect = aspect;
-      // Tailor radius for mobile vs desktop for optimal framing
-      const radius = isMobile ? 2.3 : 2.1;
+      // Fluid framing radius calculated based on aspect ratio for perfect bounds on mobile, tablet & desktop
+      const radius = aspect < 1.1 ? 2.4 : aspect < 1.45 ? 2.25 : 2.05;
       const vFov = (camera.fov * Math.PI) / 180;
       let dist = radius / Math.sin(vFov / 2);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
@@ -779,7 +779,7 @@ export default function ScrollMorphHero() {
                 top: `${Math.max(1, Math.min(94, top))}%`,
                 color,
                 fontFamily,
-                fontSize: `${fontSize}rem`,
+                fontSize: `clamp(${0.85 + (i % 3) * 0.2}rem, ${1.0 + (i % 3) * 0.25}vw, ${1.35 + (i % 3) * 0.45}rem)`,
                 transform: `rotate(${(i % 5) * 3 - 6}deg)`,
               }}
             >
