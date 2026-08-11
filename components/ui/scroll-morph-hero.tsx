@@ -719,71 +719,69 @@ export default function ScrollMorphHero() {
         .kpf-bl { bottom: 26px; left: 30px; }
         .kpf-br { bottom: 26px; right: 30px; }
 
-        /* Orderly Billboard Children's Names Grid - Exclusively in Hero Section */
-        .kpf-billboard {
+        /* Dense Full-Coverage Solid Children's Names Background Wallpaper - Hero Only */
+        .kpf-names-wallpaper {
           position: absolute; inset: 0; pointer-events: none; z-index: 1;
-          font-family: "DM Mono", monospace;
-          color: rgba(229, 169, 60, 0.42);
-          text-transform: uppercase;
-          letter-spacing: 0.22em;
-          font-size: 12px;
-          font-weight: 500;
-          user-select: none;
+          overflow: hidden; opacity: 0.85; user-select: none;
         }
-        .kpf-billboard-row {
-          position: absolute; left: 0; right: 0;
-          display: flex; justify-content: space-evenly; align-items: center;
-          padding: 0 40px; white-space: nowrap; opacity: 0.75;
+        .kpf-solid-name {
+          position: absolute; whitespace-nowrap; font-weight: 700;
+          letter-spacing: 0.03em;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
-        .kpf-billboard-top { top: 68px; }
-        .kpf-billboard-bottom { bottom: 68px; }
-        .kpf-billboard-col {
-          position: absolute; top: 120px; bottom: 120px;
-          display: flex; flex-direction: column; justify-content: space-around;
-          opacity: 0.65; font-size: 11px;
-        }
-        .kpf-billboard-left { left: 36px; text-align: left; }
-        .kpf-billboard-right { right: 36px; text-align: right; }
 
-        @media (max-width: 768px) {
-          .kpf-billboard { font-size: 9px; letter-spacing: 0.16em; }
-          .kpf-billboard-top { top: 54px; }
-          .kpf-billboard-bottom { bottom: 54px; }
-          .kpf-billboard-left { left: 14px; }
-          .kpf-billboard-right { right: 14px; }
-        }
         @media (max-width: 640px) {
           .kpf-chrome span { font-size: 9px; letter-spacing: 0.12em; }
           .kpf-tl, .kpf-tr { top: 18px; }
           .kpf-tl, .kpf-bl { left: 18px; }
           .kpf-tr, .kpf-br { right: 18px; }
           .kpf-bl, .kpf-br { bottom: 18px; }
-          .kpf-billboard-col { display: none; }
+          .kpf-solid-name { font-size: 1.1rem !important; }
         }
       `}</style>
 
-      {/* Orderly Billboard Children's Names Frame */}
-      <div className="kpf-billboard" aria-hidden="true">
-        <div className="kpf-billboard-row kpf-billboard-top">
-          <span>LIAM</span><span>·</span><span>OLIVIA</span><span>·</span><span>NOAH</span><span>·</span><span>EMMA</span><span>·</span><span>AMELIA</span><span>·</span><span>ELIJAH</span><span>·</span><span>AVA</span><span>·</span><span>HENRY</span><span>·</span><span>SOPHIA</span>
-        </div>
-        <div className="kpf-billboard-col kpf-billboard-left">
-          <span>KWAME</span>
-          <span>ZURI</span>
-          <span>AMARA</span>
-          <span>SEKOU</span>
-          <span>AMANI</span>
-        </div>
-        <div className="kpf-billboard-col kpf-billboard-right">
-          <span>MAKENA</span>
-          <span>ZARA</span>
-          <span>IMANI</span>
-          <span>TENDO</span>
-          <span>KATO</span>
-        </div>
-        <div className="kpf-billboard-row kpf-billboard-bottom">
-          <span>LUCAS</span><span>·</span><span>ISABELLA</span><span>·</span><span>BENJAMIN</span><span>·</span><span>MIA</span><span>·</span><span>THEODORE</span><span>·</span><span>EVELYN</span><span>·</span><span>MATEO</span><span>·</span><span>HARPER</span><span>·</span><span>LEVI</span>
-        </div>
+      {/* Dense Full-Coverage Solid Children's Names Background Wallpaper */}
+      <div className="kpf-names-wallpaper" aria-hidden="true">
+        {[
+          "Liam", "Olivia", "Noah", "Emma", "Oliver", "Amelia", "Elijah", "Ava", "Henry", "Sophia",
+          "Lucas", "Isabella", "Benjamin", "Mia", "Theodore", "Evelyn", "Mateo", "Harper", "Levi", "Luna",
+          "Sebastian", "Camila", "Daniel", "Gianna", "Jack", "Elizabeth", "Alexander", "Eleanor", "Owen", "Ella",
+          "Asher", "Abigail", "Michael", "Ethan", "Avery", "Leo", "Scarlett", "Jackson", "Emily", "Mason",
+          "Aria", "Ezra", "Penelope", "John", "Chloe", "Hudson", "Layla", "Luca", "Mila", "Aidan",
+          "Zuri", "Kian", "Amara", "Tariq", "Jabari", "Nia", "Kwame", "Zola", "Sekou", "Zara",
+          "Amani", "Faraji", "Imani", "Bakari", "Kamau", "Makena", "Tendo", "Kato", "Babirye", "Sora"
+        ].map((name, i) => {
+          const row = Math.floor(i / 7);
+          const col = i % 7;
+          const left = (col * 14.2) + ((row % 2) * 5) + 1;
+          const top = (row * 9.5) + 2;
+          const colors = ["#E5A93C", "#FCFAF4", "#85B59D", "#D4AF37", "#487560"];
+          const fonts = [
+            "'Playfair Display', serif",
+            "'Fredoka', cursive, sans-serif",
+            "'Nunito', sans-serif",
+            "'Patrick Hand', cursive, sans-serif"
+          ];
+          const color = colors[i % colors.length];
+          const fontFamily = fonts[i % fonts.length];
+          const fontSize = 1.3 + (i % 3) * 0.45;
+          return (
+            <span
+              key={i}
+              className="kpf-solid-name"
+              style={{
+                left: `${Math.max(1, Math.min(92, left))}%`,
+                top: `${Math.max(1, Math.min(94, top))}%`,
+                color,
+                fontFamily,
+                fontSize: `${fontSize}rem`,
+                transform: `rotate(${(i % 5) * 3 - 6}deg)`,
+              }}
+            >
+              {name}
+            </span>
+          );
+        })}
       </div>
 
       <div className="kpf-chrome">
