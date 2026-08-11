@@ -718,14 +718,74 @@ export default function ScrollMorphHero() {
         .kpf-tr { top: 26px; right: 30px; }
         .kpf-bl { bottom: 26px; left: 30px; }
         .kpf-br { bottom: 26px; right: 30px; }
+
+        /* Orderly Billboard Children's Names Grid - Exclusively in Hero Section */
+        .kpf-billboard {
+          position: absolute; inset: 0; pointer-events: none; z-index: 1;
+          font-family: "DM Mono", monospace;
+          color: rgba(229, 169, 60, 0.42);
+          text-transform: uppercase;
+          letter-spacing: 0.22em;
+          font-size: 12px;
+          font-weight: 500;
+          user-select: none;
+        }
+        .kpf-billboard-row {
+          position: absolute; left: 0; right: 0;
+          display: flex; justify-content: space-evenly; align-items: center;
+          padding: 0 40px; white-space: nowrap; opacity: 0.75;
+        }
+        .kpf-billboard-top { top: 68px; }
+        .kpf-billboard-bottom { bottom: 68px; }
+        .kpf-billboard-col {
+          position: absolute; top: 120px; bottom: 120px;
+          display: flex; flex-direction: column; justify-content: space-around;
+          opacity: 0.65; font-size: 11px;
+        }
+        .kpf-billboard-left { left: 36px; text-align: left; }
+        .kpf-billboard-right { right: 36px; text-align: right; }
+
+        @media (max-width: 768px) {
+          .kpf-billboard { font-size: 9px; letter-spacing: 0.16em; }
+          .kpf-billboard-top { top: 54px; }
+          .kpf-billboard-bottom { bottom: 54px; }
+          .kpf-billboard-left { left: 14px; }
+          .kpf-billboard-right { right: 14px; }
+        }
         @media (max-width: 640px) {
           .kpf-chrome span { font-size: 9px; letter-spacing: 0.12em; }
           .kpf-tl, .kpf-tr { top: 18px; }
           .kpf-tl, .kpf-bl { left: 18px; }
           .kpf-tr, .kpf-br { right: 18px; }
           .kpf-bl, .kpf-br { bottom: 18px; }
+          .kpf-billboard-col { display: none; }
         }
       `}</style>
+
+      {/* Orderly Billboard Children's Names Frame */}
+      <div className="kpf-billboard" aria-hidden="true">
+        <div className="kpf-billboard-row kpf-billboard-top">
+          <span>LIAM</span><span>·</span><span>OLIVIA</span><span>·</span><span>NOAH</span><span>·</span><span>EMMA</span><span>·</span><span>AMELIA</span><span>·</span><span>ELIJAH</span><span>·</span><span>AVA</span><span>·</span><span>HENRY</span><span>·</span><span>SOPHIA</span>
+        </div>
+        <div className="kpf-billboard-col kpf-billboard-left">
+          <span>KWAME</span>
+          <span>ZURI</span>
+          <span>AMARA</span>
+          <span>SEKOU</span>
+          <span>AMANI</span>
+        </div>
+        <div className="kpf-billboard-col kpf-billboard-right">
+          <span>MAKENA</span>
+          <span>ZARA</span>
+          <span>IMANI</span>
+          <span>TENDO</span>
+          <span>KATO</span>
+        </div>
+        <div className="kpf-billboard-row kpf-billboard-bottom">
+          <span>LUCAS</span><span>·</span><span>ISABELLA</span><span>·</span><span>BENJAMIN</span><span>·</span><span>MIA</span><span>·</span><span>THEODORE</span><span>·</span><span>EVELYN</span><span>·</span><span>MATEO</span><span>·</span><span>HARPER</span><span>·</span><span>LEVI</span>
+        </div>
+      </div>
+
       <div className="kpf-chrome">
         <span className="kpf-tl">PIKADON®</span>
         <span className="kpf-tr">Editorial Folio · Volume 01</span>

@@ -62,10 +62,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="relative bg-[var(--cream)] text-[var(--ink)] font-body min-h-screen">
-        <FadedKidsNamesBackground />
+      <body className="bg-[var(--cream)] text-[var(--ink)] font-body min-h-screen">
         <Navbar />
-        <main className="relative z-10">{children}</main>
+        <main>{children}</main>
         <Footer />
         <WhatsAppButton />
       </body>
