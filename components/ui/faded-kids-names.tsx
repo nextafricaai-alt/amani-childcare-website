@@ -10,11 +10,7 @@ const KIDS_NAMES = [
   "Asher", "Abigail", "Michael", "Sophia", "Ethan", "Avery", "Leo", "Scarlett", "Jackson", "Emily",
   "Mason", "Aria", "Ezra", "Penelope", "John", "Chloe", "Hudson", "Layla", "Luca", "Mila",
   "Aidan", "Zuri", "Kian", "Amara", "Tariq", "Jabari", "Nia", "Kwame", "Zola", "Sekou",
-  "Zara", "Amani", "Faraji", "Imani", "Bakari", "Kamau", "Makena", "Tendo", "Kato", "Babirye",
-  "Ethan", "Nyah", "Sora", "Kai", "Maya", "Léo", "Chloe", "Mateo", "Kira", "Tariq",
-  "Sam", "Joy", "Grace", "Faith", "Blessing", "Divine", "Prince", "Glory", "Peace", "Hope",
-  "David", "Sarah", "Joshua", "Hannah", "Caleb", "Esther", "Samuel", "Ruth", "Isaac", "Naomi",
-  "Kinsley", "Wyatt", "Silas", "Cora", "Waylon", "Maverick", "Piper", "Atlas", "Hazel", "Felix"
+  "Zara", "Amani", "Faraji", "Imani", "Bakari", "Kamau", "Makena", "Tendo", "Kato", "Babirye"
 ];
 
 interface FloatingName {
@@ -31,7 +27,7 @@ interface FloatingName {
 export default function FadedKidsNamesBackground() {
   const namesList = useMemo(() => {
     const items: FloatingName[] = [];
-    const totalNames = 45; // Well-spaced spread across viewport
+    const totalNames = 36; // Perfectly distributed floaters across the viewport
 
     const fontFamilies = [
       "'Patrick Hand', cursive, sans-serif",
@@ -39,28 +35,28 @@ export default function FadedKidsNamesBackground() {
       "'Nunito', sans-serif"
     ];
 
-    // Increased opacity (18% - 25%) so names are clearly visible yet tastefully soft & faded
+    // Colors engineered to look rich & legible over both dark and light sections
     const colors = [
-      "rgba(22, 53, 42, 0.22)",     // Pikadon Forest Green (soft visible)
-      "rgba(184, 147, 74, 0.26)",    // Warm Honey Gold
-      "rgba(61, 107, 87, 0.22)",     // Warm Sage
-      "rgba(40, 37, 29, 0.18)",      // Soft Ink
+      "rgba(229, 169, 60, 0.38)",   // Warm Honey Gold
+      "rgba(240, 235, 220, 0.32)",  // Soft Cream Ivory
+      "rgba(61, 107, 87, 0.35)",    // Warm Sage
+      "rgba(34, 72, 59, 0.30)",     // Pikadon Forest Green
     ];
 
     for (let i = 0; i < totalNames; i++) {
       const name = KIDS_NAMES[i % KIDS_NAMES.length];
-      const row = Math.floor(i / 5);
-      const col = i % 5;
-      const baseLeft = (col * 20) + (Math.sin(i * 3.7) * 7 + 4);
-      const baseTop = (row * 11) + (Math.cos(i * 2.3) * 4 + 3);
+      const row = Math.floor(i / 4);
+      const col = i % 4;
+      const baseLeft = (col * 24) + (Math.sin(i * 3.7) * 8 + 4);
+      const baseTop = (row * 10) + (Math.cos(i * 2.3) * 3.5 + 3);
 
       items.push({
         id: i,
         name,
-        left: Math.max(3, Math.min(90, baseLeft)),
-        top: Math.max(2, Math.min(94, baseTop)),
-        fontSize: 1.35 + (i % 4) * 0.45, // 1.35rem to 2.7rem for clear legibility
-        rotation: (i % 7) * 4.5 - 12,    // -12deg to +12deg tilt
+        left: Math.max(4, Math.min(88, baseLeft)),
+        top: Math.max(3, Math.min(92, baseTop)),
+        fontSize: 1.4 + (i % 4) * 0.4, // 1.4rem to 2.6rem
+        rotation: (i % 7) * 4.5 - 12,  // -12deg to +12deg tilt
         fontFamily: fontFamilies[i % fontFamilies.length],
         color: colors[i % colors.length],
       });
@@ -72,7 +68,7 @@ export default function FadedKidsNamesBackground() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 overflow-hidden select-none z-0 mix-blend-multiply opacity-80"
+      className="pointer-events-none fixed inset-0 overflow-hidden select-none z-20 opacity-90"
     >
       {namesList.map((item) => (
         <span
@@ -86,6 +82,7 @@ export default function FadedKidsNamesBackground() {
             color: item.color,
             transform: `rotate(${item.rotation}deg)`,
             userSelect: "none",
+            textShadow: "0 1px 4px rgba(0,0,0,0.15)",
           }}
         >
           {item.name}
