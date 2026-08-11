@@ -118,120 +118,103 @@ export default function OurPromisePage() {
   return (
     <div className="pt-20">
 
-      {/* ── Header Hero Section ─────────────────────────────── */}
-      <section className="section py-16 md:py-24 relative overflow-hidden" style={{ background: "oklch(22% 0.06 155)" }}>
-        <div className="container relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
-            {/* Left Content Column */}
-            <div className="lg:col-span-6">
-              <Reveal>
-                <span className="eyebrow eyebrow-light mb-6 inline-flex">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  Our Written Promise
-                </span>
-              </Reveal>
+      {/* ── Full-Bleed Edge-to-Edge Header Hero Section ─────────────────────────────── */}
+      <section className="relative w-full min-h-[580px] lg:min-h-[660px] flex items-center overflow-hidden py-24 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
+        
+        {/* Full-Bleed Edge-to-Edge Background Image */}
+        <img
+          src="/our-promise-hero.webp"
+          alt="Children holding hands in unity and care at Pikadon Child Development Network"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+        />
 
-              <Reveal delay={80}>
-                <h1
-                  className="display-lg mb-6 leading-tight"
-                  style={{ color: "oklch(97% 0.012 85)" }}
+        {/* Dark Vignette & Forest Green Gradient Overlays for High Legibility */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to right, rgba(10, 26, 17, 0.95) 0%, rgba(10, 26, 17, 0.82) 45%, rgba(10, 26, 17, 0.45) 80%, rgba(10, 26, 17, 0.3) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to top, rgba(10, 26, 17, 0.9) 0%, transparent 50%, rgba(10, 26, 17, 0.7) 100%)",
+          }}
+        />
+
+        {/* Hero Content Over Full-Bleed Image */}
+        <div className="container relative z-10 max-w-5xl mx-auto">
+          <div className="max-w-2xl">
+            <Reveal>
+              <span className="eyebrow eyebrow-light mb-6 inline-flex backdrop-blur-md px-3.5 py-1.5 rounded-full" style={{ background: "rgba(229, 169, 60, 0.15)", border: "1px solid rgba(229, 169, 60, 0.3)" }}>
+                <ShieldCheck className="w-3.5 h-3.5 text-[#e5a93c]" />
+                Our Written Safeguarding Promise
+              </span>
+            </Reveal>
+
+            <Reveal delay={80}>
+              <h1
+                className="display-lg mb-6 leading-tight drop-shadow-lg"
+                style={{ color: "#fcfaf4" }}
+              >
+                In the open.<br />
+                <em style={{ color: "#e5a93c" }}>Always.</em>
+              </h1>
+            </Reveal>
+
+            <Reveal delay={160}>
+              <p
+                className="body-lg mb-8 max-w-xl font-sans"
+                style={{ color: "rgba(252, 250, 244, 0.88)", lineHeight: 1.6 }}
+              >
+                Most childcare providers ask you to hope. We built Pikadon so you can verify. Below are the actual written safeguarding standards we run on — the exact commitments our staff sign and our founders uphold every single day.
+              </p>
+            </Reveal>
+
+            <Reveal delay={220}>
+              <div className="flex flex-wrap gap-4 items-center">
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-gold shadow-xl"
                 >
-                  In the open.<br />
-                  <em style={{ color: "oklch(68% 0.12 75)" }}>Always.</em>
-                </h1>
-              </Reveal>
-
-              <Reveal delay={160}>
-                <p
-                  className="body-lg mb-8 max-w-xl"
-                  style={{ color: "oklch(97% 0.012 85 / 0.75)" }}
+                  Book a Visit
+                  <span className="btn-arrow">
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </span>
+                </a>
+                <a
+                  href="#people"
+                  className="px-6 py-3.5 rounded-full font-sans text-sm font-semibold transition-all duration-200 backdrop-blur-md"
+                  style={{
+                    color: "#fcfaf4",
+                    background: "rgba(255, 255, 255, 0.12)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                  }}
                 >
-                  Most childcare providers ask you to hope. We built Pikadon so you can verify. Below are the actual written safeguarding standards we run on — the exact commitments our staff sign and our founders uphold every single day.
-                </p>
-              </Reveal>
-
-              <Reveal delay={220}>
-                <div className="flex flex-wrap gap-4 items-center">
-                  <a
-                    href={getWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-gold"
-                  >
-                    Book a Visit
-                    <span className="btn-arrow">
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </span>
-                  </a>
-                  <a
-                    href="#people"
-                    className="px-5 py-3 rounded-full font-sans text-sm font-semibold transition-all duration-200"
-                    style={{
-                      color: "oklch(97% 0.012 85)",
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid rgba(255, 255, 255, 0.15)",
-                    }}
-                  >
-                    Read Safeguarding Standards ↓
-                  </a>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right Feature Photo Column */}
-            <div className="lg:col-span-6">
-              <Reveal direction="scale" delay={120}>
-                <div className="relative group">
-                  {/* Decorative Gold Glow Frame */}
-                  <div
-                    className="absolute -inset-2 rounded-3xl opacity-40 blur-xl transition-all duration-500 group-hover:opacity-70"
-                    style={{ background: "linear-gradient(135deg, #e5a93c 0%, oklch(68% 0.12 75) 100%)" }}
-                  />
-                  
-                  {/* Image Card Container */}
-                  <div
-                    className="relative rounded-2xl overflow-hidden shadow-2xl"
-                    style={{
-                      border: "2px solid rgba(229, 169, 60, 0.4)",
-                      boxShadow: "0 20px 50px rgba(0,0,0,0.5)",
-                    }}
-                  >
-                    <img
-                      src="/our-promise-hero.webp"
-                      alt="Children holding hands in unity and care at Pikadon Child Development Network"
-                      className="w-full h-[380px] sm:h-[460px] object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-
-                    {/* Image Gradient Overlay */}
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: "linear-gradient(to top, rgba(10, 26, 17, 0.85) 0%, rgba(10, 26, 17, 0.1) 60%, transparent 100%)",
-                      }}
-                    />
-
-                    {/* Floating Handwritten Caption Badge */}
-                    <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
-                      <div
-                        className="px-4 py-2.5 rounded-xl backdrop-blur-md"
-                        style={{
-                          background: "rgba(10, 26, 17, 0.75)",
-                          border: "1px solid rgba(229, 169, 60, 0.35)",
-                        }}
-                      >
-                        <p className="font-handwriting text-lg sm:text-xl text-[#fcfaf4]">
-                          "Hand in hand · Built on trust, dignity & protection"
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
+                  Read Safeguarding Standards ↓
+                </a>
+              </div>
+            </Reveal>
           </div>
         </div>
+
+        {/* Floating Handwritten Caption Badge in Bottom Right */}
+        <div className="absolute bottom-6 right-6 lg:bottom-8 lg:right-12 z-10 hidden sm:block">
+          <div
+            className="px-5 py-3 rounded-2xl backdrop-blur-md shadow-2xl"
+            style={{
+              background: "rgba(10, 26, 17, 0.82)",
+              border: "1px solid rgba(229, 169, 60, 0.4)",
+            }}
+          >
+            <p className="font-handwriting text-lg sm:text-xl text-[#fcfaf4]">
+              "Hand in hand · Built on trust, dignity & protection"
+            </p>
+          </div>
+        </div>
+
       </section>
 
       {/* ── Manifesto plaque ────────────────────────────────── */}
