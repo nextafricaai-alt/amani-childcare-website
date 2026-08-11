@@ -582,7 +582,7 @@ export default function ScrollMorphHero() {
       const aspect = w / h;
       camera.aspect = aspect;
       // Fluid framing radius calculated based on aspect ratio for perfect bounds on mobile, tablet & desktop
-      const radius = aspect < 1.1 ? 2.4 : aspect < 1.45 ? 2.25 : 2.05;
+      const radius = aspect < 0.65 ? 3.1 : aspect < 0.85 ? 2.75 : aspect < 1.25 ? 2.3 : 2.05;
       const vFov = (camera.fov * Math.PI) / 180;
       let dist = radius / Math.sin(vFov / 2);
       const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
@@ -756,9 +756,10 @@ export default function ScrollMorphHero() {
           const left = (col * 14.2) + ((row % 2) * 5) + 1;
           const top = (row * 9.5) + 2;
 
-          // Exclude names that fall directly inside the 3D flip book bounds (left 21%-79%, top 20%-84%)
-          const isInsideBook = left > 21 && left < 79 && top > 20 && top < 84;
-          if (isInsideBook) return null;
+          // Exclude names that fall directly inside 3D book bounds or overlap top corner editorial labels
+          const isInsideBook = left > 21 && left < 79 && top > 18 && top < 84;
+          const isTopCornerOverlap = top < 6.5 && (left < 18 || left > 68);
+          if (isInsideBook || isTopCornerOverlap) return null;
 
           const colors = ["#E5A93C", "#FCFAF4", "#85B59D", "#D4AF37", "#487560"];
           const fonts = [

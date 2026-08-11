@@ -91,12 +91,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA (640px+) */}
           <a
             href={getWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold hidden lg:inline-flex ml-1 !py-2 whitespace-nowrap flex-shrink-0"
+            className="btn-gold hidden sm:inline-flex ml-1 !py-2 whitespace-nowrap flex-shrink-0"
             style={{ fontSize: "0.8125rem" }}
           >
             Book a Visit
