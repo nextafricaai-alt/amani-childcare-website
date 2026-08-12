@@ -1,12 +1,12 @@
-"use client";
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 /* ────────────────────────────────────────────────────────────────────────
    Pikadon 3D Pageflip Folio — High-Performance Editorial Hero Component
 
    Features:
+   - Full-bleed smooth cross-fade background slideshow featuring dark-skinned
+     children studio photography pointing directly at PIKADON.
    - Dynamic 3D page flip with physical cylinder bending & shadow-mapped lighting.
    - Non-blocking wheel & touch scrolling:
      - Scrolling down flips pages until the last page (SHEETS), then naturally
@@ -19,18 +19,38 @@ import * as THREE from "three";
 
 /* The page photos (Pikadon early childhood & campus editorial). */
 const IMAGES = [
-  "black-child-pointing-pikadon.jpg",
-  "black-child-peeking-pikadon.jpg",
-  "black-child-astronaut.jpg",
-  "black-child-blocks.jpg",
-  "our-promise-hero.webp",
-  "black-child-yellow-burst.jpg",
+  "hero-slides/slide1.jpg",
   "hero-slides/slide2.jpg",
   "hero-slides/slide3.webp",
   "hero-slides/slide4.jpg",
   "hero-slides/slide5.jpg",
   "hero-slides/slide6.jpg",
   "standards-cards/card1.jpg",
+  "standards-cards/card2.jpg",
+  "standards-cards/card3.webp",
+  "our-promise-hero.webp",
+  "founders-portrait.jpg",
+  "hero-slides/slide2.jpg",
+];
+
+// Full-bleed Hero section background slideshow of dark-skinned children studio images
+const BG_SLIDES = [
+  {
+    src: "black-child-pointing-pikadon.jpg",
+    alt: "Dark-skinned Black child pointing directly at PIKADON",
+  },
+  {
+    src: "black-child-peeking-pikadon.jpg",
+    alt: "Dark-skinned Black child peeking behind PIKADON poster board",
+  },
+  {
+    src: "black-child-astronaut.jpg",
+    alt: "Dark-skinned Black child astronaut dreaming big",
+  },
+  {
+    src: "black-child-blocks.jpg",
+    alt: "Dark-skinned Black child playing with Montessori blocks",
+  },
 ];
 
 // One short caption per page (drawn small over the photo), and a section kicker.
@@ -62,6 +82,14 @@ const FLIP_MS = 850;       // snappy auto-flip duration
 
 export default function ScrollMorphHero() {
   const hostRef = useRef<HTMLDivElement>(null);
+  const [slideIdx, setSlideIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlideIdx((prev) => (prev + 1) % BG_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -719,15 +747,13 @@ export default function ScrollMorphHero() {
         .kpf-bl { bottom: 26px; left: 30px; }
         .kpf-br { bottom: 26px; right: 30px; }
 
-        /* Dense Full-Coverage Solid Children's Names Background Wallpaper - Hero Only */
-        .kpf-names-wallpaper {
+        /* Full-Bleed Background Hero Slideshow Layer */
+        .kpf-hero-slideshow {
           position: absolute; inset: 0; pointer-events: none; z-index: 1;
-          overflow: hidden; opacity: 0.85; user-select: none;
+          overflow: hidden; user-select: none;
         }
-        .kpf-solid-name {
-          position: absolute; whitespace-nowrap; font-weight: 700;
-          letter-spacing: 0.03em;
-          text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        .kpf-slide-item {
+          position: absolute; inset: 0; width: 100%; height: 100%;
         }
 
         @media (max-width: 640px) {
@@ -736,58 +762,41 @@ export default function ScrollMorphHero() {
           .kpf-tl, .kpf-bl { left: 18px; }
           .kpf-tr, .kpf-br { right: 18px; }
           .kpf-bl, .kpf-br { bottom: 18px; }
-          .kpf-solid-name { font-size: 1.1rem !important; }
         }
       `}</style>
 
-      {/* Dense Solid Children's Names Background Wallpaper (Excludes area inside the 3D flip book) */}
-      <div className="kpf-names-wallpaper" aria-hidden="true">
-        {[
-          "Liam", "Olivia", "Noah", "Emma", "Oliver", "Amelia", "Elijah", "Ava", "Henry", "Sophia",
-          "Lucas", "Isabella", "Benjamin", "Mia", "Theodore", "Evelyn", "Mateo", "Harper", "Levi", "Luna",
-          "Sebastian", "Camila", "Daniel", "Gianna", "Jack", "Elizabeth", "Alexander", "Eleanor", "Owen", "Ella",
-          "Asher", "Abigail", "Michael", "Ethan", "Avery", "Leo", "Scarlett", "Jackson", "Emily", "Mason",
-          "Aria", "Ezra", "Penelope", "John", "Chloe", "Hudson", "Layla", "Luca", "Mila", "Aidan",
-          "Zuri", "Kian", "Amara", "Tariq", "Jabari", "Nia", "Kwame", "Zola", "Sekou", "Zara",
-          "Amani", "Faraji", "Imani", "Bakari", "Kamau", "Makena", "Tendo", "Kato", "Babirye", "Sora"
-        ].map((name, i) => {
-          const row = Math.floor(i / 7);
-          const col = i % 7;
-          const left = (col * 14.2) + ((row % 2) * 5) + 1;
-          const top = (row * 9.5) + 2;
+      {/* Full-Bleed Background Slideshow of Dark-Skinned Children Studio Photography */}
+      <div className="kpf-hero-slideshow" aria-hidden="true">
+        {BG_SLIDES.map((slide, idx) => (
+          <div
+            key={slide.src}
+            className="kpf-slide-item"
+            style={{
+              opacity: idx === slideIdx ? 1 : 0,
+              transition: "opacity 1400ms cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            <img
+              src={`/${slide.src}`}
+              alt={slide.alt}
+              className="w-full h-full object-cover object-center scale-105"
+            />
+          </div>
+        ))}
 
-          // Exclude names that fall directly inside 3D book bounds or overlap top corner editorial labels
-          const isInsideBook = left > 21 && left < 79 && top > 18 && top < 84;
-          const isTopCornerOverlap = top < 6.5 && (left < 18 || left > 68);
-          if (isInsideBook || isTopCornerOverlap) return null;
-
-          const colors = ["#E5A93C", "#FCFAF4", "#85B59D", "#D4AF37", "#487560"];
-          const fonts = [
-            "'Playfair Display', serif",
-            "'Fredoka', cursive, sans-serif",
-            "'Nunito', sans-serif",
-            "'Patrick Hand', cursive, sans-serif"
-          ];
-          const color = colors[i % colors.length];
-          const fontFamily = fonts[i % fonts.length];
-          const fontSize = 1.3 + (i % 3) * 0.45;
-          return (
-            <span
-              key={i}
-              className="kpf-solid-name"
-              style={{
-                left: `${Math.max(1, Math.min(92, left))}%`,
-                top: `${Math.max(1, Math.min(94, top))}%`,
-                color,
-                fontFamily,
-                fontSize: `clamp(${0.85 + (i % 3) * 0.2}rem, ${1.0 + (i % 3) * 0.25}vw, ${1.35 + (i % 3) * 0.45}rem)`,
-                transform: `rotate(${(i % 5) * 3 - 6}deg)`,
-              }}
-            >
-              {name}
-            </span>
-          );
-        })}
+        {/* Dark Radial & Edge Vignette Overlays for 3D Book & Typography Contrast */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at center, rgba(10, 26, 17, 0.52) 0%, rgba(10, 26, 17, 0.88) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(5, 13, 9, 0.6) 0%, transparent 20%, transparent 80%, rgba(5, 13, 9, 0.85) 100%)",
+          }}
+        />
       </div>
 
       <div className="kpf-chrome">
