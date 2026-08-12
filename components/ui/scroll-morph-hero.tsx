@@ -6,38 +6,16 @@ import { useEffect, useState } from "react";
    Pikadon Editorial Hero Component
 
    High-End Design Features:
-   - Strategic floating glassmorphism quote card positioned in the hero layout,
-     integrating nanny promises, doctor & astronaut career dreams, and early
-     childhood inspiration.
+   - Customized card layouts per slide:
+     - Horizontal long cards sitting directly below PIKADON headers.
+     - Bottom-right quote cards for featured celebration slides.
+     - Strategic left editorial glassmorphism cards for moody chalk dreams.
    - Full-bleed smooth cross-fade slideshow featuring dark moody chalk-drawn
      career dream photography and bright studio children photography.
    - Zoomed out, uncropped, 100% clear display.
-   - Clean editorial chrome labels.
    ──────────────────────────────────────────────────────────────────────── */
 
 const BG_SLIDES = [
-  {
-    src: "black-child-doctor-dream.jpg",
-    alt: "Dark-skinned Black child dreaming of being a doctor with chalk drawings",
-    bgColor: "#142533",
-    badge: "🩺 FUTURE DOCTOR PROMISE",
-    quote: "My nanny at Pikadon says if I listen to my parents, eat well, and stay curious, I will be a great doctor one day!",
-    author: "Kato · Age 5 · Junior Scholar",
-    pillBg: "rgba(15, 23, 42, 0.88)",
-    textColor: "#FCFAF4",
-    accentColor: "#38BDF8",
-  },
-  {
-    src: "black-child-dark-astronaut.jpg",
-    alt: "Dark-skinned Black child astronaut space dream with chalk helmet and rocket",
-    bgColor: "#181E29",
-    badge: "🚀 BIG DREAMS & DISCOVERY",
-    quote: "My nanny at Pikadon says if I dream big and keep asking questions, I can explore the universe as an astronaut!",
-    author: "Zuri · Age 4 · Explorer Class",
-    pillBg: "rgba(15, 23, 42, 0.88)",
-    textColor: "#FCFAF4",
-    accentColor: "#F472B6",
-  },
   {
     src: "black-child-pointing-pikadon.jpg",
     alt: "Dark-skinned Black child pointing directly at PIKADON",
@@ -45,9 +23,13 @@ const BG_SLIDES = [
     badge: "✨ PIKADON EARLY LEARNING",
     quote: "Where curiosity ignites, confidence blossoms, and every single child is known by name.",
     author: "Pikadon Campus Vision · Najjera",
-    pillBg: "rgba(255, 255, 255, 0.94)",
+    pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#1A2E22",
     accentColor: "#2D4F39",
+    btnBg: "#2D4F39",
+    btnText: "#FFFFFF",
+    layoutType: "horizontal-below-pikadon",
+    posClass: "top-[20%] sm:top-[24%] left-1/2 -translate-x-1/2",
   },
   {
     src: "black-child-celebrate-pikadon.jpg",
@@ -56,9 +38,43 @@ const BG_SLIDES = [
     badge: "🎉 JOYFUL LEARNING HAVEN",
     quote: "A vibrant haven in Najjera where little leaders discover the thrill of learning every day!",
     author: "Tariq · Age 5 · Senior Kinder",
-    pillBg: "rgba(255, 255, 255, 0.94)",
+    pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#1A2E22",
     accentColor: "#D97706",
+    btnBg: "#D97706",
+    btnText: "#FFFFFF",
+    layoutType: "bottom-right",
+    posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
+  },
+  {
+    src: "black-child-doctor-dream.jpg",
+    alt: "Dark-skinned Black child dreaming of being a doctor with chalk drawings",
+    bgColor: "#142533",
+    badge: "🩺 FUTURE DOCTOR PROMISE",
+    quote: "My nanny at Pikadon says if I listen to my parents, eat well, and stay curious, I will be a great doctor one day!",
+    author: "Kato · Age 5 · Junior Scholar",
+    pillBg: "rgba(15, 23, 42, 0.92)",
+    textColor: "#FCFAF4",
+    accentColor: "#38BDF8",
+    btnBg: "#38BDF8",
+    btnText: "#0F172A",
+    layoutType: "left-editorial",
+    posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
+  },
+  {
+    src: "black-child-dark-astronaut.jpg",
+    alt: "Dark-skinned Black child astronaut space dream with chalk helmet and rocket",
+    bgColor: "#181E29",
+    badge: "🚀 BIG DREAMS & DISCOVERY",
+    quote: "My nanny at Pikadon says if I dream big and keep asking questions, I can explore the universe as an astronaut!",
+    author: "Zuri · Age 4 · Explorer Class",
+    pillBg: "rgba(15, 23, 42, 0.92)",
+    textColor: "#FCFAF4",
+    accentColor: "#F472B6",
+    btnBg: "#F472B6",
+    btnText: "#0F172A",
+    layoutType: "left-editorial",
+    posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
   },
   {
     src: "black-child-lightbulb-idea.jpg",
@@ -70,6 +86,10 @@ const BG_SLIDES = [
     pillBg: "rgba(26, 46, 34, 0.94)",
     textColor: "#FCFAF4",
     accentColor: "#FBBF24",
+    btnBg: "#FBBF24",
+    btnText: "#1A2E22",
+    layoutType: "bottom-right",
+    posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
   },
   {
     src: "black-children-circle-learning.jpg",
@@ -78,9 +98,13 @@ const BG_SLIDES = [
     badge: "💛 VETTED CARE & WARMTH",
     quote: "A warm, loving family of certified caregivers dedicated to guiding your child's growth step by step.",
     author: "Caregiver & Nanny Excellence",
-    pillBg: "rgba(255, 255, 255, 0.94)",
+    pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#1A2E22",
     accentColor: "#059669",
+    btnBg: "#059669",
+    btnText: "#FFFFFF",
+    layoutType: "left-editorial",
+    posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
   },
   {
     src: "black-child-peeking-pikadon.jpg",
@@ -89,9 +113,13 @@ const BG_SLIDES = [
     badge: "🛡️ SAFE & SANITIZED SPACES",
     quote: "Safe, sanitized, and playful spaces designed to make every morning feel like a magical adventure.",
     author: "Pikadon Health Standard",
-    pillBg: "rgba(255, 255, 255, 0.94)",
+    pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#1A2E22",
     accentColor: "#2563EB",
+    btnBg: "#2563EB",
+    btnText: "#FFFFFF",
+    layoutType: "horizontal-below-pikadon",
+    posClass: "bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2",
   },
 ];
 
@@ -202,54 +230,89 @@ export default function ScrollMorphHero() {
         ))}
       </div>
 
-      {/* Strategic Floating High-End Editorial Quote Card (Positioned Dynamically in Hero Layout) */}
-      <div className="absolute top-28 sm:top-36 left-4 sm:left-10 md:left-14 z-20 w-[92%] sm:w-[420px] md:w-[480px] pointer-events-auto">
+      {/* Strategic Floating High-End Quote Cards Layer */}
+      <div className="absolute inset-0 pointer-events-none z-20 overflow-hidden">
         {BG_SLIDES.map((slide, idx) => (
           <div
             key={slide.src}
-            className={`transition-all duration-800 ease-out transform ${
+            className={`absolute ${slide.posClass} transition-all duration-700 ease-out transform ${
               idx === slideIdx
-                ? "opacity-100 translate-y-0 relative scale-100"
-                : "opacity-0 -translate-y-4 absolute inset-0 pointer-events-none scale-95"
+                ? "opacity-100 translate-y-0 pointer-events-auto scale-100"
+                : "opacity-0 translate-y-4 pointer-events-none scale-95"
             }`}
           >
-            <div
-              className="rounded-3xl p-6 sm:p-7 shadow-2xl backdrop-blur-xl border border-white/30 relative overflow-hidden"
-              style={{
-                backgroundColor: slide.pillBg,
-                color: slide.textColor,
-                boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.25)",
-              }}
-            >
-              {/* Top Accent Line */}
+            {slide.layoutType === "horizontal-below-pikadon" ? (
+              /* Horizontal Long Card sitting directly below the PIKADON header */
               <div
-                className="absolute top-0 left-0 right-0 h-1.5"
-                style={{ backgroundColor: slide.accentColor }}
-              />
-
-              {/* Category / Dream Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-3 bg-white/20 border border-white/20">
-                <span style={{ color: slide.accentColor }}>●</span>
-                <span>{slide.badge}</span>
+                className="w-[92vw] max-w-3xl rounded-2xl p-4 sm:p-5 shadow-2xl backdrop-blur-xl border border-white/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-6 relative overflow-hidden"
+                style={{
+                  backgroundColor: slide.pillBg,
+                  color: slide.textColor,
+                  boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <div
+                  className="absolute top-0 left-0 bottom-0 w-1.5"
+                  style={{ backgroundColor: slide.accentColor }}
+                />
+                <div className="flex-1 pl-2">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase mb-1.5 bg-black/5 dark:bg-white/10">
+                    <span style={{ color: slide.accentColor }}>●</span>
+                    <span>{slide.badge}</span>
+                  </div>
+                  <blockquote className="font-[family-name:var(--font-fredoka)] text-xs sm:text-sm md:text-base font-semibold leading-snug">
+                    "{slide.quote}"
+                  </blockquote>
+                </div>
+                <div className="flex items-center gap-3 shrink-0 self-end md:self-center pl-2 md:pl-0 border-t md:border-t-0 md:border-l border-black/10 dark:border-white/10 pt-2 md:pt-0 md:pl-6">
+                  <span className="text-xs font-medium opacity-80 whitespace-nowrap">
+                    {slide.author}
+                  </span>
+                  <a
+                    href="/visit"
+                    className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 hover:scale-105 shadow-md"
+                    style={{
+                      backgroundColor: slide.btnBg,
+                      color: slide.btnText,
+                    }}
+                  >
+                    Book Visit →
+                  </a>
+                </div>
               </div>
-
-              {/* Quote Content */}
-              <blockquote className="font-[family-name:var(--font-fredoka)] text-base sm:text-lg md:text-xl font-semibold leading-snug tracking-wide mb-4">
-                "{slide.quote}"
-              </blockquote>
-
-              {/* Author & CTA Line */}
-              <div className="flex items-center justify-between pt-3 border-t border-black/10 dark:border-white/10 text-xs sm:text-sm">
-                <span className="font-medium opacity-80">{slide.author}</span>
-                <a
-                  href="/visit"
-                  className="inline-flex items-center gap-1 font-bold hover:underline transition-all"
-                  style={{ color: slide.accentColor }}
-                >
-                  Book a Visit →
-                </a>
+            ) : (
+              /* Editorial Card (Left or Bottom Right) */
+              <div
+                className="w-[92vw] sm:w-[420px] md:w-[460px] rounded-3xl p-6 sm:p-7 shadow-2xl backdrop-blur-xl border border-white/30 relative overflow-hidden"
+                style={{
+                  backgroundColor: slide.pillBg,
+                  color: slide.textColor,
+                  boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <div
+                  className="absolute top-0 left-0 right-0 h-1.5"
+                  style={{ backgroundColor: slide.accentColor }}
+                />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-3 bg-white/20 border border-white/20">
+                  <span style={{ color: slide.accentColor }}>●</span>
+                  <span>{slide.badge}</span>
+                </div>
+                <blockquote className="font-[family-name:var(--font-fredoka)] text-base sm:text-lg md:text-xl font-semibold leading-snug tracking-wide mb-4">
+                  "{slide.quote}"
+                </blockquote>
+                <div className="flex items-center justify-between pt-3 border-t border-black/10 dark:border-white/10 text-xs sm:text-sm">
+                  <span className="font-medium opacity-80">{slide.author}</span>
+                  <a
+                    href="/visit"
+                    className="inline-flex items-center gap-1 font-bold hover:underline transition-all"
+                    style={{ color: slide.accentColor }}
+                  >
+                    Book a Visit →
+                  </a>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
       </div>
