@@ -38,18 +38,22 @@ const BG_SLIDES = [
   {
     src: "black-child-pointing-pikadon.jpg",
     alt: "Dark-skinned Black child pointing directly at PIKADON",
+    bgColor: "#EFA825",
   },
   {
     src: "black-child-peeking-pikadon.jpg",
     alt: "Dark-skinned Black child peeking behind PIKADON poster board",
+    bgColor: "#FAF8F5",
   },
   {
     src: "black-child-astronaut.jpg",
     alt: "Dark-skinned Black child astronaut dreaming big",
+    bgColor: "#ECEAE6",
   },
   {
     src: "black-child-blocks.jpg",
     alt: "Dark-skinned Black child playing with Montessori blocks",
+    bgColor: "#E5E1D8",
   },
 ];
 
@@ -765,38 +769,25 @@ export default function ScrollMorphHero() {
         }
       `}</style>
 
-      {/* Full-Bleed Background Slideshow of Dark-Skinned Children Studio Photography */}
+      {/* Full-Bleed Clear Background Slideshow of Dark-Skinned Children Studio Photography (No Dark Overlay, Zoomed Out & Whole) */}
       <div className="kpf-hero-slideshow" aria-hidden="true">
         {BG_SLIDES.map((slide, idx) => (
           <div
             key={slide.src}
-            className="kpf-slide-item"
+            className="kpf-slide-item flex items-center justify-center p-2 sm:p-4 md:p-8"
             style={{
               opacity: idx === slideIdx ? 1 : 0,
-              transition: "opacity 1400ms cubic-bezier(0.4, 0, 0.2, 1)",
+              backgroundColor: slide.bgColor,
+              transition: "opacity 1400ms cubic-bezier(0.4, 0, 0.2, 1), background-color 1400ms cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
             <img
               src={`/${slide.src}`}
               alt={slide.alt}
-              className="w-full h-full object-cover object-center scale-105"
+              className="w-full h-full object-contain object-center"
             />
           </div>
         ))}
-
-        {/* Dark Radial & Edge Vignette Overlays for 3D Book & Typography Contrast */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at center, rgba(10, 26, 17, 0.52) 0%, rgba(10, 26, 17, 0.88) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, rgba(5, 13, 9, 0.6) 0%, transparent 20%, transparent 80%, rgba(5, 13, 9, 0.85) 100%)",
-          }}
-        />
       </div>
 
       <div className="kpf-chrome">
