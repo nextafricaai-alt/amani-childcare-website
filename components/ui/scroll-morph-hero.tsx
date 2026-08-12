@@ -19,6 +19,11 @@ import * as THREE from "three";
 
 /* The page photos (Pikadon early childhood & campus editorial). */
 const IMAGES = [
+  "black-child-yellow-burst.jpg",
+  "black-child-peeking.jpg",
+  "black-child-astronaut.jpg",
+  "black-child-blocks.jpg",
+  "our-promise-hero.webp",
   "hero-slides/slide2.jpg",
   "hero-slides/slide3.webp",
   "hero-slides/slide4.jpg",
@@ -26,11 +31,6 @@ const IMAGES = [
   "hero-slides/slide6.jpg",
   "standards-cards/card1.jpg",
   "standards-cards/card2.jpg",
-  "standards-cards/card3.webp",
-  "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=800&q=80",
-  "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80",
-  "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
-  "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
 ];
 
 // One short caption per page (drawn small over the photo), and a section kicker.
