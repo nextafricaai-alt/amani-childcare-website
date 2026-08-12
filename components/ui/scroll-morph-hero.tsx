@@ -19,8 +19,8 @@ const BG_SLIDES = [
     bgColor: "#EFA825",
   },
   {
-    src: "black-child-yellow-celebrate.jpg",
-    alt: "Dark-skinned Black child celebrating with arms raised bursting through yellow wall",
+    src: "black-child-celebrate-pikadon.jpg",
+    alt: "Dark-skinned Black child celebrating with arms raised bursting through yellow wall with PIKADON title",
     bgColor: "#F3B529",
   },
   {
