@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
    - Full-bleed smooth cross-fade slideshow featuring dark-skinned children
      studio photography pointing directly at the PIKADON brand title.
    - Zoomed out, uncropped, 100% clear display with zero dark overlays.
+   - Inspiring, high-impact sentence on every slide that attracts parents & kids.
    - Clean editorial corner labels.
    ──────────────────────────────────────────────────────────────────────── */
 
@@ -17,36 +18,57 @@ const BG_SLIDES = [
     src: "black-child-pointing-pikadon.jpg",
     alt: "Dark-skinned Black child pointing directly at PIKADON",
     bgColor: "#EFA825",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "Where curiosity ignites, confidence blossoms, and every single child is known by name.",
   },
   {
     src: "black-child-celebrate-pikadon.jpg",
     alt: "Dark-skinned Black child celebrating with arms raised bursting through yellow wall with PIKADON title",
     bgColor: "#F3B529",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "A joyful haven in Najjera where little leaders discover the thrill of learning every day!",
   },
   {
     src: "black-child-lightbulb-idea.jpg",
     alt: "Dark-skinned Black child looking up thoughtfully at glowing lightbulb idea",
     bgColor: "#364147",
+    textColor: "#FCFAF4",
+    pillBg: "rgba(26, 46, 34, 0.94)",
+    quote: "Nurturing brilliant young minds with hands-on discovery, creative problem solving, and endless wonder.",
   },
   {
     src: "black-children-circle-learning.jpg",
     alt: "Overhead view of dark-skinned Black children sitting in circle learning with teacher",
     bgColor: "#D5CBC0",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "A warm, loving family of certified caregivers dedicated to guiding your child's growth step by step.",
   },
   {
     src: "black-child-peeking-pikadon.jpg",
     alt: "Dark-skinned Black child peeking behind PIKADON poster board",
     bgColor: "#FAF8F5",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "Safe, sanitized, and playful spaces designed to make every morning feel like a magical adventure.",
   },
   {
     src: "black-child-astronaut.jpg",
     alt: "Dark-skinned Black child astronaut dreaming big",
     bgColor: "#ECEAE6",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "Empowering big dreams in little hearts — building foundational skills for a lifetime of success.",
   },
   {
     src: "black-child-blocks.jpg",
     alt: "Dark-skinned Black child playing with Montessori blocks",
     bgColor: "#E5E1D8",
+    textColor: "#1A2E22",
+    pillBg: "rgba(255, 255, 255, 0.94)",
+    quote: "Structured Montessori play that builds focus, fine motor skills, and independent thinking.",
   },
 ];
 
@@ -56,7 +78,7 @@ export default function ScrollMorphHero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setSlideIdx((prev) => (prev + 1) % BG_SLIDES.length);
-    }, 5000);
+    }, 5500);
     return () => clearInterval(timer);
   }, []);
 
@@ -153,6 +175,32 @@ export default function ScrollMorphHero() {
               alt={slide.alt}
               className="w-full h-full object-contain object-center"
             />
+          </div>
+        ))}
+      </div>
+
+      {/* Inspiring Parent & Child Attracting Sentence Overlay */}
+      <div className="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 z-30 w-[92%] max-w-2xl text-center pointer-events-none px-2 sm:px-4">
+        {BG_SLIDES.map((slide, idx) => (
+          <div
+            key={slide.src}
+            className={`transition-all duration-700 ease-out transform ${
+              idx === slideIdx
+                ? "opacity-100 translate-y-0 relative scale-100"
+                : "opacity-0 translate-y-4 absolute inset-0 pointer-events-none scale-95"
+            }`}
+          >
+            <div
+              className="inline-block px-5 py-3 sm:px-8 sm:py-4 rounded-2xl shadow-xl backdrop-blur-md border border-white/40"
+              style={{
+                backgroundColor: slide.pillBg,
+                color: slide.textColor,
+              }}
+            >
+              <p className="font-[family-name:var(--font-fredoka)] text-xs sm:text-base md:text-lg font-semibold leading-relaxed tracking-wide">
+                "{slide.quote}"
+              </p>
+            </div>
           </div>
         ))}
       </div>
