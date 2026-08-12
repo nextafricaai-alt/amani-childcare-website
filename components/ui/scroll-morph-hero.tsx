@@ -19,6 +19,21 @@ const BG_SLIDES = [
     bgColor: "#EFA825",
   },
   {
+    src: "black-child-yellow-celebrate.jpg",
+    alt: "Dark-skinned Black child celebrating with arms raised bursting through yellow wall",
+    bgColor: "#F3B529",
+  },
+  {
+    src: "black-child-lightbulb-idea.jpg",
+    alt: "Dark-skinned Black child looking up thoughtfully at glowing lightbulb idea",
+    bgColor: "#364147",
+  },
+  {
+    src: "black-children-circle-learning.jpg",
+    alt: "Overhead view of dark-skinned Black children sitting in circle learning with teacher",
+    bgColor: "#D5CBC0",
+  },
+  {
     src: "black-child-peeking-pikadon.jpg",
     alt: "Dark-skinned Black child peeking behind PIKADON poster board",
     bgColor: "#FAF8F5",
