@@ -128,7 +128,7 @@ if (fs.existsSync(promiseHeroSrc)) {
   console.log('Copied our-promise-hero.webp to out/ directory');
 }
 
-['black-child-yellow-burst.jpg', 'black-child-peeking.jpg', 'black-child-astronaut.jpg', 'black-child-blocks.jpg'].forEach(imgName => {
+['black-child-yellow-burst.jpg', 'black-child-peeking.jpg', 'black-child-astronaut.jpg', 'black-child-blocks.jpg', 'black-child-pointing-pikadon.jpg', 'black-child-peeking-pikadon.jpg'].forEach(imgName => {
   const imgSrc = path.join(__dirname, `../public/${imgName}`);
   if (fs.existsSync(imgSrc)) {
     fs.copyFileSync(imgSrc, path.join(outDir, imgName));

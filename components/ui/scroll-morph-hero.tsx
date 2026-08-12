@@ -19,18 +19,18 @@ import * as THREE from "three";
 
 /* The page photos (Pikadon early childhood & campus editorial). */
 const IMAGES = [
-  "black-child-yellow-burst.jpg",
-  "black-child-peeking.jpg",
+  "black-child-pointing-pikadon.jpg",
+  "black-child-peeking-pikadon.jpg",
   "black-child-astronaut.jpg",
   "black-child-blocks.jpg",
   "our-promise-hero.webp",
+  "black-child-yellow-burst.jpg",
   "hero-slides/slide2.jpg",
   "hero-slides/slide3.webp",
   "hero-slides/slide4.jpg",
   "hero-slides/slide5.jpg",
   "hero-slides/slide6.jpg",
   "standards-cards/card1.jpg",
-  "standards-cards/card2.jpg",
 ];
 
 // One short caption per page (drawn small over the photo), and a section kicker.
