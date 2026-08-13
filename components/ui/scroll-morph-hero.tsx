@@ -28,8 +28,8 @@ const BG_SLIDES = [
     accentColor: "#2D4F39",
     btnBg: "#2D4F39",
     btnText: "#FFFFFF",
-    layoutType: "horizontal-below-pikadon",
-    posClass: "top-[20%] sm:top-[24%] left-1/2 -translate-x-1/2",
+    layoutType: "bottom-right",
+    posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
   },
   {
     src: "black-child-celebrate-pikadon.jpg",
@@ -43,8 +43,8 @@ const BG_SLIDES = [
     accentColor: "#D97706",
     btnBg: "#D97706",
     btnText: "#FFFFFF",
-    layoutType: "bottom-right",
-    posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
+    layoutType: "horizontal-below-pikadon",
+    posClass: "top-[48%] sm:top-[50%] right-4 sm:right-10 md:right-16 -translate-y-1/2",
   },
   {
     src: "black-child-doctor-dream.jpg",
