@@ -253,7 +253,7 @@ export default function OurPromisePage() {
           }}
         >
           <div className="container">
-            <div className="flex flex-col md:flex-row gap-12 md:gap-20">
+            <div className={`flex flex-col md:flex-row gap-12 md:gap-20 ${sIdx % 2 === 1 ? "md:flex-row-reverse" : ""}`}>
 
               {/* Text side */}
               <div className="md:w-3/5">
