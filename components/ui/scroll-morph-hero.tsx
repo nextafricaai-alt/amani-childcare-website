@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 
    High-End Design Features:
    - Customized card layouts per slide:
-     - Horizontal long cards sitting directly below PIKADON headers.
-     - Bottom-right quote cards for featured celebration slides.
-     - Strategic left editorial glassmorphism cards for moody chalk dreams.
+     - Pointing girl slide: Quote card positioned in the bottom right corner.
+     - Celebrate boy & Peeking girl slides: Sleek, long and small horizontal cards
+       positioned directly BELOW the word PIKADON without covering it.
+     - Moody dark chalk dream slides: Strategic left-editorial glassmorphism cards.
    - Full-bleed smooth cross-fade slideshow featuring dark moody chalk-drawn
      career dream photography and bright studio children photography.
    - Zoomed out, uncropped, 100% clear display.
@@ -44,7 +45,7 @@ const BG_SLIDES = [
     btnBg: "#D97706",
     btnText: "#FFFFFF",
     layoutType: "horizontal-below-pikadon",
-    posClass: "top-[48%] sm:top-[50%] right-4 sm:right-10 md:right-16 -translate-y-1/2",
+    posClass: "top-[66%] sm:top-[68%] right-[2%] sm:right-[5%] md:right-[8%]",
   },
   {
     src: "black-child-doctor-dream.jpg",
@@ -119,7 +120,7 @@ const BG_SLIDES = [
     btnBg: "#2563EB",
     btnText: "#FFFFFF",
     layoutType: "horizontal-below-pikadon",
-    posClass: "bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2",
+    posClass: "top-[70%] sm:top-[72%] right-[2%] sm:right-[5%] md:right-[8%]",
   },
 ];
 
@@ -242,13 +243,13 @@ export default function ScrollMorphHero() {
             }`}
           >
             {slide.layoutType === "horizontal-below-pikadon" ? (
-              /* Horizontal Long Card sitting directly below the PIKADON header */
+              /* Long and Small Horizontal Card sitting directly below the PIKADON title without covering it */
               <div
-                className="w-[92vw] max-w-3xl rounded-2xl p-4 sm:p-5 shadow-2xl backdrop-blur-xl border border-white/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-6 relative overflow-hidden"
+                className="w-[90vw] max-w-md sm:max-w-lg md:max-w-xl rounded-xl p-3 sm:p-4 shadow-xl backdrop-blur-xl border border-white/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-4 relative overflow-hidden"
                 style={{
                   backgroundColor: slide.pillBg,
                   color: slide.textColor,
-                  boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.25)",
+                  boxShadow: "0 12px 30px -10px rgba(0, 0, 0, 0.22)",
                 }}
               >
                 <div
@@ -256,21 +257,21 @@ export default function ScrollMorphHero() {
                   style={{ backgroundColor: slide.accentColor }}
                 />
                 <div className="flex-1 pl-2">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase mb-1.5 bg-black/5 dark:bg-white/10">
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase mb-1 bg-black/5 dark:bg-white/10">
                     <span style={{ color: slide.accentColor }}>●</span>
                     <span>{slide.badge}</span>
                   </div>
-                  <blockquote className="font-[family-name:var(--font-fredoka)] text-xs sm:text-sm md:text-base font-semibold leading-snug">
+                  <blockquote className="font-[family-name:var(--font-fredoka)] text-xs sm:text-sm font-semibold leading-tight">
                     "{slide.quote}"
                   </blockquote>
                 </div>
-                <div className="flex items-center gap-3 shrink-0 self-end md:self-center pl-2 md:pl-0 border-t md:border-t-0 md:border-l border-black/10 dark:border-white/10 pt-2 md:pt-0 md:pl-6">
-                  <span className="text-xs font-medium opacity-80 whitespace-nowrap">
+                <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center pl-2 sm:pl-0 border-t sm:border-t-0 sm:border-l border-black/10 dark:border-white/10 pt-1.5 sm:pt-0 sm:pl-4">
+                  <span className="text-[11px] sm:text-xs font-medium opacity-80 whitespace-nowrap">
                     {slide.author}
                   </span>
                   <a
                     href="/visit"
-                    className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 hover:scale-105 shadow-md"
+                    className="px-3 py-1 rounded-lg text-[11px] sm:text-xs font-bold transition-all shrink-0 hover:scale-105 shadow-sm"
                     style={{
                       backgroundColor: slide.btnBg,
                       color: slide.btnText,
@@ -283,7 +284,7 @@ export default function ScrollMorphHero() {
             ) : (
               /* Editorial Card (Left or Bottom Right) */
               <div
-                className="w-[92vw] sm:w-[420px] md:w-[460px] rounded-3xl p-6 sm:p-7 shadow-2xl backdrop-blur-xl border border-white/30 relative overflow-hidden"
+                className="w-[92vw] sm:w-[400px] md:w-[440px] rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-xl border border-white/30 relative overflow-hidden"
                 style={{
                   backgroundColor: slide.pillBg,
                   color: slide.textColor,
@@ -294,14 +295,14 @@ export default function ScrollMorphHero() {
                   className="absolute top-0 left-0 right-0 h-1.5"
                   style={{ backgroundColor: slide.accentColor }}
                 />
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-3 bg-white/20 border border-white/20">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase mb-2.5 bg-white/20 border border-white/20">
                   <span style={{ color: slide.accentColor }}>●</span>
                   <span>{slide.badge}</span>
                 </div>
-                <blockquote className="font-[family-name:var(--font-fredoka)] text-base sm:text-lg md:text-xl font-semibold leading-snug tracking-wide mb-4">
+                <blockquote className="font-[family-name:var(--font-fredoka)] text-sm sm:text-base md:text-lg font-semibold leading-snug tracking-wide mb-3.5">
                   "{slide.quote}"
                 </blockquote>
-                <div className="flex items-center justify-between pt-3 border-t border-black/10 dark:border-white/10 text-xs sm:text-sm">
+                <div className="flex items-center justify-between pt-2.5 border-t border-black/10 dark:border-white/10 text-xs sm:text-sm">
                   <span className="font-medium opacity-80">{slide.author}</span>
                   <a
                     href="/visit"
