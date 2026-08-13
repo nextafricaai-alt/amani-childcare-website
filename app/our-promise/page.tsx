@@ -287,11 +287,11 @@ export default function OurPromisePage() {
                 </div>
 
                 {/* Key safeguarding checklist items rendered under the body paragraphs */}
-                {(id === "people" || id === "safety") && (
+                {(id === "people" || id === "safety" || id === "faith") && (
                   <Reveal delay={220}>
                     <div className="border-t border-black/10 pt-6 mt-8">
                       <p className="label-xs mb-4 text-[#e5a93c] tracking-wider uppercase font-bold">
-                        Key Safeguards & Protocols
+                        {id === "faith" ? "Faith & Character Values" : "Key Safeguards & Protocols"}
                       </p>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         {items.map((item) => (
@@ -312,7 +312,7 @@ export default function OurPromisePage() {
               <Reveal direction="scale" delay={120} className="md:w-2/5">
                 <div className="card-shell h-full min-h-[460px]">
                   <div className={`card-core h-full relative overflow-hidden rounded-3xl ${
-                    (id === "people" || id === "safety") ? "p-0" : "p-6"
+                    (id === "people" || id === "safety" || id === "faith") ? "p-0" : "p-6"
                   }`}>
                     {id === "people" && (
                       /* Pure Image Card at Full Clarity for Section 01 */
@@ -334,7 +334,17 @@ export default function OurPromisePage() {
                         />
                       </div>
                     )}
-                    {id !== "people" && id !== "safety" && (
+                    {id === "faith" && (
+                      /* Pure Image Card at Full Clarity for Section 03 */
+                      <div className="relative w-full h-full min-h-[460px] overflow-hidden group">
+                        <img
+                          src="/bible-faith-card.jpg"
+                          alt="Holy Bible resting on an elegant wooden table at Pikadon"
+                          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    {id !== "people" && id !== "safety" && id !== "faith" && (
                       /* Standard Card for Other Sections */
                       <div className="flex flex-col justify-between h-full">
                         <div>
