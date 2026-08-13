@@ -287,33 +287,29 @@ export default function OurPromisePage() {
                 </div>
 
                 {/* Key safeguarding checklist items rendered under the body paragraphs */}
-                {(id === "people" || id === "safety" || id === "faith") && (
-                  <Reveal delay={220}>
-                    <div className="border-t border-black/10 pt-6 mt-8">
-                      <p className="label-xs mb-4 text-[#e5a93c] tracking-wider uppercase font-bold">
-                        {id === "faith" ? "Faith & Character Values" : "Key Safeguards & Protocols"}
-                      </p>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        {items.map((item) => (
-                          <li key={item} className="flex items-start gap-3">
-                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
-                            <span className="body-sm text-[#1a2e22] font-semibold">
-                              {item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Reveal>
-                )}
+                <Reveal delay={220}>
+                  <div className="border-t border-black/10 pt-6 mt-8">
+                    <p className="label-xs mb-4 text-[#e5a93c] tracking-wider uppercase font-bold">
+                      {id === "faith" ? "Faith & Character Values" : id === "daily" ? "Daily Program & Reporting" : "Key Safeguards & Protocols"}
+                    </p>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {items.map((item) => (
+                        <li key={item} className="flex items-start gap-3">
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
+                          <span className="body-sm text-[#1a2e22] font-semibold">
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
               </div>
 
               {/* Checklist card */}
               <Reveal direction="scale" delay={120} className="md:w-2/5">
                 <div className="card-shell h-full min-h-[460px]">
-                  <div className={`card-core h-full relative overflow-hidden rounded-3xl ${
-                    (id === "people" || id === "safety" || id === "faith") ? "p-0" : "p-6"
-                  }`}>
+                  <div className="card-core h-full relative overflow-hidden rounded-3xl p-0">
                     {id === "people" && (
                       /* Pure Image Card at Full Clarity for Section 01 */
                       <div className="relative w-full h-full min-h-[460px] overflow-hidden group">
@@ -344,24 +340,14 @@ export default function OurPromisePage() {
                         />
                       </div>
                     )}
-                    {id !== "people" && id !== "safety" && id !== "faith" && (
-                      /* Standard Card for Other Sections */
-                      <div className="flex flex-col justify-between h-full">
-                        <div>
-                          <p className="label-xs mb-4" style={{ color: "oklch(68% 0.12 75)" }}>
-                            At a glance
-                          </p>
-                          <ul className="flex flex-col gap-3">
-                            {items.map((item) => (
-                              <li key={item} className="flex items-start gap-3">
-                                <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
-                                <span className="body-sm text-[#1a2e22] font-medium">
-                                  {item}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                    {id === "daily" && (
+                      /* Pure Image Card at Full Clarity for Section 04 */
+                      <div className="relative w-full h-full min-h-[460px] overflow-hidden group">
+                        <img
+                          src="/daily-life-card.jpg"
+                          alt="Happy Black children playing together in playground at Pikadon"
+                          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                        />
                       </div>
                     )}
                   </div>
