@@ -296,15 +296,15 @@ export default function OurPromisePage() {
                         At a glance
                       </p>
 
-                      {/* Featured image inside the At a Glance box for Section 01 */}
+                      {/* Featured image fitting perfectly inside the At a Glance box for Section 01 */}
                       {id === "people" && (
-                        <div className="mb-5 overflow-hidden rounded-2xl border border-[#e5a93c]/30 shadow-md relative group">
+                        <div className="mb-5 overflow-hidden rounded-2xl border border-[#e5a93c]/30 shadow-md relative group bg-[#0a1a11]">
                           <img
                             src="/black-vetted-nanny-pikadon.jpg"
                             alt="Pikadon certified vetted nanny reading storybook with toddlers"
-                            className="w-full h-48 sm:h-56 object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                            className="w-full h-auto aspect-[4/3] object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
                           />
-                          <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#0a1a11]/90 backdrop-blur-md p-2.5 rounded-xl border border-white/20 text-[#fcfaf4]">
+                          <div className="absolute bottom-2 left-2 right-2 bg-[#0a1a11]/90 backdrop-blur-md p-2.5 rounded-xl border border-white/20 text-[#fcfaf4]">
                             <p className="font-handwriting text-sm sm:text-base text-[#e5a93c] leading-tight">
                               "100% Background-Checked Caregivers"
                             </p>
