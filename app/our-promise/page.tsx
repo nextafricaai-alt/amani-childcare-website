@@ -273,6 +273,25 @@ export default function OurPromisePage() {
                   </h2>
                 </Reveal>
 
+                {/* Vetted Nanny Caregiver Feature Image for Section 01: Everyone is vetted. No exceptions. */}
+                {id === "people" && (
+                  <Reveal delay={90} className="mb-8 overflow-hidden rounded-3xl border border-[#e5a93c]/30 shadow-xl relative group">
+                    <img
+                      src="/black-vetted-nanny-pikadon.jpg"
+                      alt="Pikadon certified vetted nanny reading storybook with toddlers"
+                      className="w-full h-auto max-h-[420px] object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 left-4 right-4 bg-[#0a1a11]/85 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border border-white/20 text-[#fcfaf4]">
+                      <p className="font-handwriting text-base sm:text-xl text-[#e5a93c]">
+                        "100% Background-Checked Caregivers & Certified Nannies"
+                      </p>
+                      <p className="text-xs sm:text-sm text-white/80 mt-0.5">
+                        INTERPOL cleared · 3 verified reference calls · TB screened · Paediatric First-Aid Certified
+                      </p>
+                    </div>
+                  </Reveal>
+                )}
+
                 <div className="flex flex-col gap-4">
                   {body.map((para, i) => (
                     <Reveal key={i} delay={100 + i * 60}>
