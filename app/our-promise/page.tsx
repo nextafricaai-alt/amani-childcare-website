@@ -289,57 +289,62 @@ export default function OurPromisePage() {
 
               {/* Checklist card */}
               <Reveal direction="scale" delay={120} className="md:w-2/5">
-                <div className="card-shell h-full">
-                  <div className="card-core p-6 h-full flex flex-col justify-between">
-                    <div>
-                      <p className="label-xs mb-4" style={{ color: "oklch(68% 0.12 75)" }}>
-                        At a glance
-                      </p>
+                <div className="card-shell h-full min-h-[460px]">
+                  <div className={`card-core h-full relative overflow-hidden rounded-3xl ${id === "people" ? "p-0" : "p-6"}`}>
+                    {id === "people" ? (
+                      /* Full Card Image Fill for Section 01: Everyone is vetted. No exceptions. */
+                      <div className="relative w-full h-full min-h-[460px] flex flex-col justify-between p-6 sm:p-7 overflow-hidden text-[#fcfaf4] group">
+                        {/* Background Image filling 100% of the card */}
+                        <img
+                          src="/black-vetted-nanny-pikadon.jpg"
+                          alt="Pikadon certified vetted nanny reading storybook with toddlers"
+                          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                        />
+                        {/* Dark Gradient Overlay for Readability */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a11]/95 via-[#0a1a11]/65 to-[#0a1a11]/45" />
 
-                      {/* Featured image fitting perfectly inside the At a Glance box for Section 01 */}
-                      {id === "people" && (
-                        <div className="mb-5 overflow-hidden rounded-2xl border border-[#e5a93c]/30 shadow-md relative group bg-[#0a1a11]">
-                          <img
-                            src="/black-vetted-nanny-pikadon.jpg"
-                            alt="Pikadon certified vetted nanny reading storybook with toddlers"
-                            className="w-full h-auto aspect-[4/3] object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute bottom-2 left-2 right-2 bg-[#0a1a11]/90 backdrop-blur-md p-2.5 rounded-xl border border-white/20 text-[#fcfaf4]">
-                            <p className="font-handwriting text-sm sm:text-base text-[#e5a93c] leading-tight">
-                              "100% Background-Checked Caregivers"
-                            </p>
-                            <p className="text-[11px] text-white/80 mt-0.5 leading-tight">
-                              INTERPOL cleared · TB screened · First-Aid Certified
-                            </p>
-                          </div>
+                        {/* Top Header inside Card */}
+                        <div className="relative z-10">
+                          <p className="label-xs mb-1.5 text-[#e5a93c] tracking-widest font-bold uppercase">
+                            At a glance
+                          </p>
+                          <h3 className="font-handwriting text-xl sm:text-2xl text-[#fcfaf4] leading-tight">
+                            "100% Background-Checked Staff"
+                          </h3>
                         </div>
-                      )}
 
-                      <ul className="flex flex-col gap-3">
-                      {items.map((item, i) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-3"
-                          style={{
-                            opacity: 0,
-                            transform: "translateY(8px)",
-                            animation: `fade-up 500ms cubic-bezier(0.23, 1, 0.32, 1) ${200 + i * 50}ms forwards`,
-                          }}
-                        >
-                          <span
-                            className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0"
-                            style={{ background: "oklch(68% 0.12 75)" }}
-                          />
-                          <span
-                            className="body-sm"
-                            style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                          >
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    </div>
+                        {/* Bottom Checklist over Image */}
+                        <div className="relative z-10 mt-6 bg-[#0a1a11]/85 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20">
+                          <ul className="flex flex-col gap-2.5">
+                            {items.map((item) => (
+                              <li key={item} className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#fcfaf4]">
+                                <span className="w-2 h-2 rounded-full bg-[#e5a93c] shrink-0" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Standard Card for Other Sections */
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <p className="label-xs mb-4" style={{ color: "oklch(68% 0.12 75)" }}>
+                            At a glance
+                          </p>
+                          <ul className="flex flex-col gap-3">
+                            {items.map((item) => (
+                              <li key={item} className="flex items-start gap-3">
+                                <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
+                                <span className="body-sm text-[#1a2e22] font-medium">
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Reveal>
