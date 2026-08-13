@@ -273,25 +273,6 @@ export default function OurPromisePage() {
                   </h2>
                 </Reveal>
 
-                {/* Vetted Nanny Caregiver Feature Image for Section 01: Everyone is vetted. No exceptions. */}
-                {id === "people" && (
-                  <Reveal delay={90} className="mb-8 overflow-hidden rounded-3xl border border-[#e5a93c]/30 shadow-xl relative group">
-                    <img
-                      src="/black-vetted-nanny-pikadon.jpg"
-                      alt="Pikadon certified vetted nanny reading storybook with toddlers"
-                      className="w-full h-auto max-h-[420px] object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-4 left-4 right-4 bg-[#0a1a11]/85 backdrop-blur-md p-3.5 sm:p-4 rounded-2xl border border-white/20 text-[#fcfaf4]">
-                      <p className="font-handwriting text-base sm:text-xl text-[#e5a93c]">
-                        "100% Background-Checked Caregivers & Certified Nannies"
-                      </p>
-                      <p className="text-xs sm:text-sm text-white/80 mt-0.5">
-                        INTERPOL cleared · 3 verified reference calls · TB screened · Paediatric First-Aid Certified
-                      </p>
-                    </div>
-                  </Reveal>
-                )}
-
                 <div className="flex flex-col gap-4">
                   {body.map((para, i) => (
                     <Reveal key={i} delay={100 + i * 60}>
@@ -309,11 +290,32 @@ export default function OurPromisePage() {
               {/* Checklist card */}
               <Reveal direction="scale" delay={120} className="md:w-2/5">
                 <div className="card-shell h-full">
-                  <div className="card-core p-6 h-full">
-                    <p className="label-xs mb-5" style={{ color: "oklch(68% 0.12 75)" }}>
-                      At a glance
-                    </p>
-                    <ul className="flex flex-col gap-3">
+                  <div className="card-core p-6 h-full flex flex-col justify-between">
+                    <div>
+                      <p className="label-xs mb-4" style={{ color: "oklch(68% 0.12 75)" }}>
+                        At a glance
+                      </p>
+
+                      {/* Featured image inside the At a Glance box for Section 01 */}
+                      {id === "people" && (
+                        <div className="mb-5 overflow-hidden rounded-2xl border border-[#e5a93c]/30 shadow-md relative group">
+                          <img
+                            src="/black-vetted-nanny-pikadon.jpg"
+                            alt="Pikadon certified vetted nanny reading storybook with toddlers"
+                            className="w-full h-48 sm:h-56 object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                          />
+                          <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#0a1a11]/90 backdrop-blur-md p-2.5 rounded-xl border border-white/20 text-[#fcfaf4]">
+                            <p className="font-handwriting text-sm sm:text-base text-[#e5a93c] leading-tight">
+                              "100% Background-Checked Caregivers"
+                            </p>
+                            <p className="text-[11px] text-white/80 mt-0.5 leading-tight">
+                              INTERPOL cleared · TB screened · First-Aid Certified
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      <ul className="flex flex-col gap-3">
                       {items.map((item, i) => (
                         <li
                           key={item}
@@ -337,6 +339,7 @@ export default function OurPromisePage() {
                         </li>
                       ))}
                     </ul>
+                    </div>
                   </div>
                 </div>
               </Reveal>
