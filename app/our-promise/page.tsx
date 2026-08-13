@@ -285,47 +285,56 @@ export default function OurPromisePage() {
                     </Reveal>
                   ))}
                 </div>
+
+                {/* Key safeguarding checklist items rendered under the body paragraphs */}
+                {(id === "people" || id === "safety") && (
+                  <Reveal delay={220}>
+                    <div className="border-t border-black/10 pt-6 mt-8">
+                      <p className="label-xs mb-4 text-[#e5a93c] tracking-wider uppercase font-bold">
+                        Key Safeguards & Protocols
+                      </p>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        {items.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
+                            <span className="body-sm text-[#1a2e22] font-semibold">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Reveal>
+                )}
               </div>
 
               {/* Checklist card */}
               <Reveal direction="scale" delay={120} className="md:w-2/5">
                 <div className="card-shell h-full min-h-[460px]">
-                  <div className={`card-core h-full relative overflow-hidden rounded-3xl ${id === "people" ? "p-0" : "p-6"}`}>
-                    {id === "people" ? (
-                      /* Full Card Image Fill for Section 01: Everyone is vetted. No exceptions. */
-                      <div className="relative w-full h-full min-h-[460px] flex flex-col justify-between p-6 sm:p-7 overflow-hidden text-[#fcfaf4] group">
-                        {/* Background Image filling 100% of the card */}
+                  <div className={`card-core h-full relative overflow-hidden rounded-3xl ${
+                    (id === "people" || id === "safety") ? "p-0" : "p-6"
+                  }`}>
+                    {id === "people" && (
+                      /* Pure Image Card at Full Clarity for Section 01 */
+                      <div className="relative w-full h-full min-h-[460px] overflow-hidden group">
                         <img
                           src="/black-vetted-nanny-pikadon.jpg"
                           alt="Pikadon certified vetted nanny reading storybook with toddlers"
                           className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
                         />
-                        {/* Dark Gradient Overlay for Readability */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a11]/95 via-[#0a1a11]/65 to-[#0a1a11]/45" />
-
-                        {/* Top Header inside Card */}
-                        <div className="relative z-10">
-                          <p className="label-xs mb-1.5 text-[#e5a93c] tracking-widest font-bold uppercase">
-                            At a glance
-                          </p>
-                          <h3 className="font-handwriting text-xl sm:text-2xl text-[#fcfaf4] leading-tight">
-                            "100% Background-Checked Staff"
-                          </h3>
-                        </div>
-
-                        {/* Bottom Checklist over Image */}
-                        <div className="relative z-10 mt-6 bg-[#0a1a11]/85 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20">
-                          <ul className="flex flex-col gap-2.5">
-                            {items.map((item) => (
-                              <li key={item} className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-[#fcfaf4]">
-                                <span className="w-2 h-2 rounded-full bg-[#e5a93c] shrink-0" />
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
                       </div>
-                    ) : (
+                    )}
+                    {id === "safety" && (
+                      /* Pure Image Card at Full Clarity for Section 02 */
+                      <div className="relative w-full h-full min-h-[460px] overflow-hidden group">
+                        <img
+                          src="/black-child-reading-safety.jpg"
+                          alt="Cute Black child reading storybook in bright playroom at Pikadon"
+                          className="absolute inset-0 w-full h-full object-cover object-center transform transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    {id !== "people" && id !== "safety" && (
                       /* Standard Card for Other Sections */
                       <div className="flex flex-col justify-between h-full">
                         <div>
