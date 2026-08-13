@@ -43,20 +43,34 @@ export default function GalleryPage() {
   return (
     <div className="pt-20">
 
-      {/* ── Header ─────────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(22% 0.06 155)" }}>
-        <div className="container-narrow text-center">
+      {/* ── Full-Bleed Edge-to-Edge Header Hero Section ─────────────────────────────── */}
+      <section className="relative w-full min-h-[460px] sm:min-h-[520px] flex items-center overflow-hidden pt-32 pb-20 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
+        
+        {/* Full-Bleed Edge-to-Edge Background Image */}
+        <img
+          src="/black-child-camera-gallery.jpg"
+          alt="Cute Black child taking a photo with a yellow toy camera"
+          className="absolute inset-0 w-full h-full object-cover object-[center_35%] scale-105"
+        />
+
+        {/* Dark Vignette Overlay for Readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a11]/95 via-[#0a1a11]/70 to-[#0a1a11]/45" />
+
+        {/* Floating Accent Gradient Ring */}
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full filter blur-[120px] opacity-25 pointer-events-none" style={{ background: "radial-gradient(circle, #e5a93c 0%, transparent 70%)" }} />
+
+        {/* Content Container */}
+        <div className="container relative z-10 w-full max-w-5xl mx-auto text-center">
           <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">
-              <Camera className="w-3 h-3" />
+            <span className="eyebrow eyebrow-light mb-6 inline-flex">
+              <Camera className="w-3.5 h-3.5 text-[#e5a93c]" />
               Photo Gallery
             </span>
           </Reveal>
 
           <Reveal delay={80}>
             <h1
-              className="display-lg mb-6"
-              style={{ color: "oklch(97% 0.012 85)" }}
+              className="display-lg mb-6 text-[#fcfaf4]"
             >
               Life at Pikadon.<br />
               <em style={{ color: "oklch(68% 0.12 75)" }}>Real moments.</em>
@@ -65,10 +79,10 @@ export default function GalleryPage() {
 
           <Reveal delay={160}>
             <p
-              className="body-lg max-w-xl mx-auto"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              className="body-lg max-w-xl mx-auto text-white/80"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
-              Explore our classrooms, learning materials, outdoor play areas, and daily activities. Click any card to view full screen.
+              Explore our classrooms, Montessori learning materials, physical play, creative art sessions, and happy daily milestones. Click any card to view full screen.
             </p>
           </Reveal>
         </div>

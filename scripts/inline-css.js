@@ -128,7 +128,7 @@ if (fs.existsSync(promiseHeroSrc)) {
   console.log('Copied our-promise-hero.webp to out/ directory');
 }
 
-['black-child-yellow-burst.jpg', 'black-child-peeking.jpg', 'black-child-astronaut.jpg', 'black-child-blocks.jpg', 'black-child-pointing-pikadon.jpg', 'black-child-peeking-pikadon.jpg', 'black-child-yellow-celebrate.jpg', 'black-child-celebrate-pikadon.jpg', 'black-child-lightbulb-idea.jpg', 'black-children-circle-learning.jpg', 'black-child-doctor-dream.jpg', 'black-child-dark-astronaut.jpg', 'black-vetted-nanny-pikadon.jpg', 'black-child-reading-safety.jpg', 'bible-faith-card.jpg', 'daily-life-card.jpg'].forEach(imgName => {
+['black-child-yellow-burst.jpg', 'black-child-peeking.jpg', 'black-child-astronaut.jpg', 'black-child-blocks.jpg', 'black-child-pointing-pikadon.jpg', 'black-child-peeking-pikadon.jpg', 'black-child-yellow-celebrate.jpg', 'black-child-celebrate-pikadon.jpg', 'black-child-lightbulb-idea.jpg', 'black-children-circle-learning.jpg', 'black-child-doctor-dream.jpg', 'black-child-dark-astronaut.jpg', 'black-vetted-nanny-pikadon.jpg', 'black-child-reading-safety.jpg', 'bible-faith-card.jpg', 'daily-life-card.jpg', 'black-child-camera-gallery.jpg'].forEach(imgName => {
   const imgSrc = path.join(__dirname, `../public/${imgName}`);
   if (fs.existsSync(imgSrc)) {
     fs.copyFileSync(imgSrc, path.join(outDir, imgName));
