@@ -116,6 +116,12 @@ if (fs.existsSync(crawlingBabySrc)) {
   console.log('Copied crawling-baby.mp4 to out/ directory');
 }
 
+const slidingChildSrc = path.join(__dirname, '../public/sliding-child.mp4');
+if (fs.existsSync(slidingChildSrc)) {
+  fs.copyFileSync(slidingChildSrc, path.join(outDir, 'sliding-child.mp4'));
+  console.log('Copied sliding-child.mp4 to out/ directory');
+}
+
 const portraitSrc = path.join(__dirname, '../public/founders-portrait.jpg');
 if (fs.existsSync(portraitSrc)) {
   fs.copyFileSync(portraitSrc, path.join(outDir, 'founders-portrait.jpg'));

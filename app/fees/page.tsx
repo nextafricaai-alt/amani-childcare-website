@@ -54,22 +54,37 @@ const faq = [
 
 export default function FeesPage() {
   return (
-    <div className="pt-20">
+    <div className="relative pt-20 bg-[#0a1a11] min-h-screen overflow-hidden">
 
-      {/* ── Header ─────────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(22% 0.06 155)" }}>
-        <div className="container-narrow">
+      {/* ── Fixed Background Video Layer ──────────────────────────────── */}
+      {/* Play playground sliding child video in background at full clarity */}
+      <div className="fixed inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-[0.24] scale-105"
+        >
+          <source src="/sliding-child.mp4" type="video/mp4" />
+        </video>
+        {/* Soft color overlay to integrate the video with Pikadon green design brand */}
+        <div className="absolute inset-0 bg-[#0a1a11]/70 mix-blend-multiply" />
+      </div>
+
+      {/* ── Header (Seen) ─────────────────────────────────────────── */}
+      <section className="relative z-10 w-full min-h-[460px] sm:min-h-[520px] flex items-center bg-transparent pt-24 pb-16 px-4 sm:px-6 lg:px-12">
+        <div className="container-narrow w-full max-w-5xl mx-auto text-left">
           <Reveal>
             <span className="eyebrow eyebrow-light mb-8 inline-flex">
-              <Banknote className="w-3 h-3" />
+              <Banknote className="w-3.5 h-3.5 text-[#e5a93c]" />
               Fees & Pricing
             </span>
           </Reveal>
 
           <Reveal delay={80}>
             <h1
-              className="display-lg mb-6"
-              style={{ color: "oklch(97% 0.012 85)" }}
+              className="display-lg mb-6 text-[#fcfaf4]"
             >
               Clear fees.<br />
               <em style={{ color: "oklch(68% 0.12 75)" }}>No surprises.</em>
@@ -78,8 +93,8 @@ export default function FeesPage() {
 
           <Reveal delay={160}>
             <p
-              className="body-lg max-w-xl"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              className="body-lg max-w-xl text-white/80"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
               We publish our fees because trust begins with transparency. One registration fee. One monthly fee. Everything included. The same fair price for every family — no negotiation at the gate.
             </p>
@@ -87,8 +102,9 @@ export default function FeesPage() {
         </div>
       </section>
 
-      {/* ── Fee table ──────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      {/* ── Fee table (Not Seen) ──────────────────────────────────────── */}
+      {/* Opaque solid background blocks out the sliding video completely */}
+      <section className="relative z-10 section" style={{ background: "oklch(93% 0.016 82)" }}>
         <div className="container-narrow">
 
           <Reveal direction="scale">
@@ -175,32 +191,32 @@ export default function FeesPage() {
         </div>
       </section>
 
-      {/* ── What's included ────────────────────────────────── */}
-      <section className="section">
+      {/* ── What's included (Seen) ────────────────────────────────── */}
+      {/* Transparent background reveals the child sliding down in the background again */}
+      <section className="relative z-10 section bg-transparent">
         <div className="container-narrow">
           <Reveal>
-            <span className="eyebrow mb-8 inline-flex">What's included</span>
+            <span className="eyebrow eyebrow-light mb-8 inline-flex">What's included</span>
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-10" style={{ color: "oklch(22% 0.06 155)" }}>
+            <h2 className="display-md mb-10 text-[#fcfaf4]">
               Everything your child needs.<br />
               <em style={{ color: "oklch(68% 0.12 75)" }}>Already in the price.</em>
             </h2>
           </Reveal>
 
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {included.map((item, i) => (
               <Reveal key={item} delay={i * 50}>
-                <li className="card-shell">
-                  <div className="card-core flex items-start gap-3.5 px-5 py-4">
+                <li className="rounded-2xl overflow-hidden border border-white/15 bg-white/[0.04] backdrop-blur-md shadow-lg">
+                  <div className="flex items-start gap-3.5 px-5 py-4">
                     <CheckCircle2
-                      className="w-4 h-4 mt-0.5 flex-shrink-0"
-                      style={{ color: "oklch(68% 0.12 75)" }}
+                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#e5a93c]"
                     />
                     <span
-                      className="body-sm"
-                      style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      className="body-sm text-[#fcfaf4] font-medium"
+                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
                       {item}
                     </span>
@@ -212,26 +228,26 @@ export default function FeesPage() {
         </div>
       </section>
 
-      {/* ── How to pay ─────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      {/* ── How to pay (Seen) ─────────────────────────────────────── */}
+      {/* Transparent background with premium glassmorphic payment card details overlay */}
+      <section className="relative z-10 section bg-transparent pt-0">
         <div className="container-narrow">
           <Reveal direction="scale">
-            <div className="card-shell">
-              <div className="card-core p-8 md:p-12">
-                <div className="flex items-start gap-4 mb-5">
+            <div className="rounded-3xl border border-white/20 bg-white/[0.04] backdrop-blur-xl shadow-2xl overflow-hidden">
+              <div className="p-8 md:p-12 text-[#fcfaf4]">
+                <div className="flex items-start gap-4 mb-6">
                   <div
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: "oklch(22% 0.06 155)" }}
+                    className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#e5a93c]/20 border border-[#e5a93c]/40"
                   >
-                    <Banknote className="text-white" style={{ width: 18, height: 18 }} />
+                    <Banknote className="text-[#e5a93c]" style={{ width: 18, height: 18 }} />
                   </div>
                   <div>
-                    <span className="label-xs block mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
+                    <span className="label-xs block mb-1 text-white/60 tracking-wider uppercase font-bold">
                       Payment
                     </span>
                     <h2
-                      className="font-display font-medium"
-                      style={{ fontSize: "clamp(1.375rem, 3vw, 1.875rem)", color: "oklch(22% 0.06 155)", lineHeight: 1.2 }}
+                      className="font-display font-medium text-[#fcfaf4]"
+                      style={{ fontSize: "clamp(1.375rem, 3vw, 1.875rem)", lineHeight: 1.2 }}
                     >
                       How to pay
                     </h2>
@@ -239,25 +255,21 @@ export default function FeesPage() {
                 </div>
 
                 <p
-                  className="body-lg mb-6"
-                  style={{ color: "oklch(30% 0.015 90)" }}
+                  className="body-lg mb-6 text-white/90"
+                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 >
-                  We accept <strong style={{ color: "oklch(22% 0.06 155)" }}>MTN MoMo</strong>,{" "}
-                  <strong style={{ color: "oklch(22% 0.06 155)" }}>Airtel Money</strong>, and{" "}
-                  <strong style={{ color: "oklch(22% 0.06 155)" }}>bank transfer</strong>.
+                  We accept <strong className="text-[#e5a93c] font-bold">MTN MoMo</strong>,{" "}
+                  <strong className="text-[#e5a93c] font-bold">Airtel Money</strong>, and{" "}
+                  <strong className="text-[#e5a93c] font-bold">bank transfer</strong>.
                   Pikadon is a cashless centre — every payment gets an instant digital receipt sent directly to your phone.
                 </p>
 
                 <div
-                  className="rounded-2xl px-5 py-4"
-                  style={{
-                    background: "oklch(22% 0.06 155 / 0.05)",
-                    border: "1px solid oklch(22% 0.06 155 / 0.1)",
-                  }}
+                  className="rounded-2xl px-5 py-4 border border-white/10 bg-white/[0.02]"
                 >
-                  <p className="body-sm" style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                    <Clock className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5" style={{ color: "oklch(68% 0.12 75)" }} />
-                    Monthly fees are due on the <strong style={{ color: "oklch(30% 0.015 90)" }}>1st of each month</strong>. A 5% early-payment discount applies to termly payments made before the term begins.
+                  <p className="body-sm text-white/70" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <Clock className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5 text-[#e5a93c]" />
+                    Monthly fees are due on the <strong className="text-[#fcfaf4]">1st of each month</strong>. A 5% early-payment discount applies to termly payments made before the term begins.
                   </p>
                 </div>
               </div>
@@ -266,8 +278,9 @@ export default function FeesPage() {
         </div>
       </section>
 
-      {/* ── FAQ ────────────────────────────────────────────── */}
-      <section className="section">
+      {/* ── FAQ (Not Seen) ────────────────────────────────────────────── */}
+      {/* Opaque solid background blocks out the sliding video completely */}
+      <section className="relative z-10 section" style={{ background: "oklch(93% 0.016 82)" }}>
         <div className="container-narrow">
           <Reveal>
             <span className="eyebrow mb-8 inline-flex">
@@ -307,8 +320,9 @@ export default function FeesPage() {
         </div>
       </section>
 
-      {/* ── CTA ────────────────────────────────────────────── */}
-      <section className="section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
+      {/* ── CTA (Not Seen) ────────────────────────────────────────────── */}
+      {/* Opaque solid color header blocks out the sliding video completely */}
+      <section className="relative z-10 section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
         <div className="container-narrow">
           <Reveal>
             <span className="eyebrow eyebrow-light mb-8 inline-flex">Ready to enrol</span>
