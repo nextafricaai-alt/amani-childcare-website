@@ -5,6 +5,7 @@ import TrustStrip from "@/components/ui/trust-strip";
 import Reveal from "@/components/ui/reveal";
 import HeroWrapper from "@/components/ui/hero-wrapper";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
+import RequestLocationModal from "@/components/ui/request-location-modal";
 
 export const metadata: Metadata = {
   title: `${SITE_CONFIG.name} — Licensed Childcare in ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}`,
@@ -594,17 +595,20 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={220}>
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold"
-            >
-              Book a Visit on WhatsApp
-              <span className="btn-arrow">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                href={getWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold"
+              >
+                Book a Visit on WhatsApp
+                <span className="btn-arrow">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </a>
+              <RequestLocationModal buttonText="Request Pikadon in your area" variant="ghost" />
+            </div>
           </Reveal>
 
         </div>

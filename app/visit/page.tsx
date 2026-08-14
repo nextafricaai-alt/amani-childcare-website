@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, MapPin, Clock, Car, Bus, Navigation } from "lucide-react";
 import Reveal from "@/components/ui/reveal";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
+import RequestLocationModal from "@/components/ui/request-location-modal";
 
 export const metadata: Metadata = {
   title: "Visit Us",
@@ -92,17 +93,20 @@ export default function VisitPage() {
           </Reveal>
 
           <Reveal delay={220}>
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold inline-flex mt-8"
-            >
-              Book now on WhatsApp
-              <span className="btn-arrow">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mt-8">
+              <a
+                href={getWhatsAppUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gold inline-flex"
+              >
+                Book now on WhatsApp
+                <span className="btn-arrow">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </span>
+              </a>
+              <RequestLocationModal buttonText="Request Pikadon in your area" variant="ghost" />
+            </div>
           </Reveal>
         </div>
       </section>
