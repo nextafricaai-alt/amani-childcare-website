@@ -336,7 +336,6 @@ export default function ScrollMorphHero() {
 
       <div className="kpf-chrome">
         <span className="kpf-tl">PIKADON®</span>
-        <span className="kpf-tr">Editorial Folio · Volume 01</span>
         <span className="kpf-bl">Licensed Child Care · Early Childhood</span>
         <span className="kpf-br">Najjera, Kampala</span>
       </div>
