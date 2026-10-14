@@ -23,7 +23,7 @@ const BG_SLIDES = [
     bgColor: "#EFA825",
     badge: "✨ PIKADON EARLY LEARNING",
     quote: "Where curiosity ignites, confidence blossoms, and every single child is known by name.",
-    author: "Pikadon Campus Vision · Najjera",
+    author: "Pikadon Campus Vision · Kampala",
     pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#431F37",
     accentColor: "#802C5E",
@@ -37,7 +37,7 @@ const BG_SLIDES = [
     alt: "Dark-skinned Black child celebrating with arms raised bursting through yellow wall with PIKADON title",
     bgColor: "#F3B529",
     badge: "🎉 JOYFUL LEARNING HAVEN",
-    quote: "A vibrant haven in Najjera where little leaders discover the thrill of learning every day!",
+    quote: "A vibrant haven where little leaders discover the thrill of learning every day!",
     author: "Tariq · Age 5 · Senior Kinder",
     pillBg: "rgba(255, 255, 255, 0.95)",
     textColor: "#431F37",
@@ -337,7 +337,7 @@ export default function ScrollMorphHero() {
       <div className="kpf-chrome">
         <span className="kpf-tl">PIKADON®</span>
         <span className="kpf-bl">Licensed Child Care · Early Childhood</span>
-        <span className="kpf-br">Najjera, Kampala</span>
+        <span className="kpf-br">Kampala, Uganda</span>
       </div>
     </div>
   );

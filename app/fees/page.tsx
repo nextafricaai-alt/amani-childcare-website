@@ -6,7 +6,7 @@ import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Fees & Pricing",
-  description: `Transparent, published fees for ${SITE_CONFIG.name} childcare in ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}. Full day, half day, founding family discounts. No hidden charges.`,
+  description: `Transparent, published fees for ${SITE_CONFIG.name} childcare in ${SITE_CONFIG.city}. Full day, half day, founding family discounts. No hidden charges.`,
 };
 
 const fees = [

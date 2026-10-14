@@ -144,7 +144,7 @@ export default function GallerySection() {
                     {activeItem.title}
                   </h3>
                   <p className="body-sm text-[oklch(37.1%_0.030_339.7)] font-sans leading-relaxed mb-6">
-                    A glimpse into daily life at Pikadon Child Development Centre in Najjera — built for safety, structured learning, and authentic care.
+                    A glimpse into daily life at Pikadon Child Development Centre in Kampala — built for safety, structured learning, and authentic care.
                   </p>
                 </div>
 

@@ -6,7 +6,7 @@ import RequestLocationModal from "@/components/ui/request-location-modal";
 
 export const metadata: Metadata = {
   title: "Visit Us",
-  description: `Book a free visit to ${SITE_CONFIG.name} in ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}. See the centre, meet the team, and ask your hardest questions. No pressure.`,
+  description: `Book a free visit to ${SITE_CONFIG.name} in ${SITE_CONFIG.city}. See the centre, meet the team, and ask your hardest questions. No pressure.`,
 };
 
 const visitSteps = [
@@ -36,17 +36,17 @@ const howToFind = [
   {
     Icon: Car,
     label: "By car",
-    text: "From Kiwatule round-about, head towards Najjera. We are on the right side, 400m past the trading centre. Look for our green gate with the Pikadon sign.",
+    text: "WhatsApp us where you're starting from and we'll send clear directions and the exact pin. Look for the Pikadon sign at our gate.",
   },
   {
     Icon: Bus,
     label: "By taxi",
-    text: "Take any matatu towards Najjera or Kira. Alight at Najjera stage, then it's a 5-minute walk. Tell the driver you're going to Najjera stage.",
+    text: "Tell us where you're coming from and we'll tell you which taxi to take, the nearest stage, and the short walk from there.",
   },
   {
     Icon: Navigation,
     label: "Google Maps",
-    text: "Search 'Pikadon Child Development Najjera' or WhatsApp us for the pin. We'll send you the exact location link.",
+    text: "Search 'Pikadon Child Development' or WhatsApp us for the pin. We'll send you the exact location link.",
   },
 ];
 

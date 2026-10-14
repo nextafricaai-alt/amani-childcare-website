@@ -8,13 +8,13 @@ import FadedKidsNamesBackground from "@/components/ui/faded-kids-names";
 
 export const metadata: Metadata = {
   title: {
-    default: `${SITE_CONFIG.name} — Licensed Childcare & Early Learning in ${SITE_CONFIG.estate}, ${SITE_CONFIG.city} | Ages 2–5`,
+    default: `${SITE_CONFIG.name} — Licensed Childcare & Early Learning in ${SITE_CONFIG.city} | Ages 2–5`,
     template: `%s | ${SITE_CONFIG.name} Child Development`,
   },
   description: SITE_CONFIG.description,
   keywords: [
-    `childcare ${SITE_CONFIG.estate}`,
-    `daycare ${SITE_CONFIG.estate}`,
+    `childcare ${SITE_CONFIG.city}`,
+    `daycare ${SITE_CONFIG.city}`,
     "early childhood Kampala",
     "childcare Uganda",
     "licensed nursery Kampala",
@@ -42,8 +42,7 @@ const jsonLd = {
   telephone: `+${SITE_CONFIG.phone}`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: SITE_CONFIG.estate,
-    addressRegion: SITE_CONFIG.city,
+    addressLocality: SITE_CONFIG.city,
     addressCountry: "UG",
   },
   openingHours: "Mo-Fr 07:00-18:00",

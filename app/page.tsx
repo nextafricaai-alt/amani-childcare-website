@@ -8,7 +8,7 @@ import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 import RequestLocationModal from "@/components/ui/request-location-modal";
 
 export const metadata: Metadata = {
-  title: `${SITE_CONFIG.name} — Licensed Childcare in ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}`,
+  title: `${SITE_CONFIG.name} — Licensed Childcare in ${SITE_CONFIG.city}`,
   description: SITE_CONFIG.description,
 };
 

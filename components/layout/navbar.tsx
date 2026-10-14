@@ -206,7 +206,7 @@ export default function Navbar() {
         {/* Subtle brand mark at bottom */}
         <div className="px-8 pb-10" style={{ opacity: 0.3 }}>
           <span className="label-xs" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
-            {SITE_CONFIG.name} · {SITE_CONFIG.estate} · {SITE_CONFIG.city}
+            {SITE_CONFIG.name} · {SITE_CONFIG.city}
           </span>
         </div>
       </div>

@@ -2,9 +2,8 @@
 export const SITE_CONFIG = {
   name: "Pikadon",
   networkName: "Pikadon Child Development Network",
-  centreName: "Pikadon Najjera Centre",
+  centreName: "Pikadon Centre",
   tagline: "Child Development Network",
-  estate: "Najjera",
   city: "Kampala",
   country: "Uganda",
 
@@ -25,7 +24,7 @@ export const SITE_CONFIG = {
   // SEO
   siteUrl: "https://pikadon.ug",
   description:
-    "Pikadon is a licensed child development centre in Najjera for children aged 2–5 — where every caregiver is vetted and trained, every day is structured, and you hear from us every single day.",
+    "Pikadon is a licensed child development centre in Kampala for children aged 2–5 — where every caregiver is vetted and trained, every day is structured, and you hear from us every single day.",
 };
 
 export function getWhatsAppUrl(customMessage?: string): string {

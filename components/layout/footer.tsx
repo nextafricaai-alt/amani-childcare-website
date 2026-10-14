@@ -112,7 +112,7 @@ export default function Footer() {
               {[
                 {
                   Icon: MapPin,
-                  text: `${SITE_CONFIG.centreName}, ${SITE_CONFIG.estate}, ${SITE_CONFIG.city}`,
+                  text: `${SITE_CONFIG.centreName}, ${SITE_CONFIG.city}`,
                 },
                 {
                   Icon: Clock,
@@ -180,7 +180,7 @@ export default function Footer() {
               className="label-xs"
               style={{ color: "oklch(98.5% 0.011 71.9 / 0.55)", letterSpacing: "0.08em" }}
             >
-              {SITE_CONFIG.estate} · {SITE_CONFIG.city} · Uganda
+              {SITE_CONFIG.city} · Uganda
             </p>
           </div>
         </div>
