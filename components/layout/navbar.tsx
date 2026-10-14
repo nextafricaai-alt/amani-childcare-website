@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { X, Menu, Sprout, ArrowUpRight } from "lucide-react";
+import { X, Menu, ArrowUpRight } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 const links = [
@@ -46,15 +46,16 @@ export default function Navbar() {
             className="flex items-center gap-2 px-3 py-1.5 rounded-full group flex-shrink-0 whitespace-nowrap"
             style={{ transition: "background 200ms cubic-bezier(0.23, 1, 0.32, 1)" }}
           >
-            <div
-              className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
-              style={{
-                background: "oklch(22% 0.06 155)",
-                transition: "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-              }}
-            >
-              <Sprout className="w-3.5 h-3.5 text-white" />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/pikadon-icon.svg"
+              alt=""
+              aria-hidden="true"
+              width={24}
+              height={32}
+              className="h-8 w-auto flex-shrink-0 group-hover:-rotate-6"
+              style={{ transition: "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)" }}
+            />
             <span
               className="font-sans font-semibold text-sm whitespace-nowrap"
               style={{ color: "oklch(22% 0.06 155)" }}

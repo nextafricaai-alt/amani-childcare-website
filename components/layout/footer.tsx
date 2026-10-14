@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sprout, MapPin, Clock, Phone, ArrowUpRight } from "lucide-react";
+import { MapPin, Clock, Phone, ArrowUpRight } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 
 const colOne = [
@@ -23,15 +23,16 @@ export default function Footer() {
             {/* Brand */}
             <div className="flex flex-col gap-5">
               <Link href="/" className="flex items-center gap-2.5 group w-fit">
-                <div
-                  className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{
-                    background: "oklch(68% 0.12 75)",
-                    transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-                  }}
-                >
-                  <Sprout className="w-4 h-4 text-white" />
-                </div>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/brand/pikadon-icon.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={30}
+                  height={40}
+                  className="h-10 w-auto flex-shrink-0 group-hover:-rotate-6"
+                  style={{ transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)" }}
+                />
                 <span
                   className="font-sans font-semibold text-base"
                   style={{ color: "oklch(97% 0.012 85)" }}
