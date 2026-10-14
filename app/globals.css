@@ -1,34 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,600;0,700;1,600&family=Nunito:wght@400;500;600;700;800&family=Patrick+Hand&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Happy Hues & Pikadon Design Tokens ───────────────────────── */
+/* ─── PIKADON Brand Tokens (from the Brand Logo Playbook) ─────────
+   Plum   = trust & security  → structure, headings, dark sections
+   Orange = energy & nurture  → actions (Book a Visit), warm accents
+   Yellow = joy & curiosity   → highlights on plum, small delights
+   Never yellow text on light backgrounds; button orange is deepened
+   (orange-600) so white labels pass WCAG AA.                       */
 :root {
-  /* Brand anchors */
-  --green:        #16352A;                   /* Deep Forest Green */
-  --green-mid:    #22483B;
-  --green-light:  #3D6B57;                   /* Warm Sage */
-  --gold:         #B8934A;                   /* Antique Gold */
-  --gold-pale:    #EAD096;                   /* Soft Gold */
-  --gold-rule:    rgba(184, 147, 74, 0.25);
+  /* Plum — trust */
+  --plum-950:     #2C1324;
+  --plum-900:     #431F37;                   /* Brand deep plum */
+  --plum-800:     #55284A;
+  --plum-700:     #802C5E;                   /* Brand plum */
+  --plum-100:     #EEDCE7;
+  --plum-50:      #F8EEF4;
+
+  /* Orange — warmth & action */
+  --orange:       #EA5A2D;                   /* Brand orange */
+  --orange-600:   #C8461C;                   /* Button fill (AA with white) */
+  --orange-700:   #B83F17;                   /* Orange text on light */
+  --orange-100:   #FBDCCF;
+  --orange-50:    #FEF0E9;
+
+  /* Yellow — joy */
+  --sun:          #F5BE14;                   /* Brand yellow */
+  --sun-100:      #FDEBAE;
+  --sun-50:       #FFF7DE;
 
   /* Surfaces */
-  --cream:        #FBF7EE;                   /* Parchment Cream */
-  --cream-deep:   #F3EDE0;
-  --cream-raised: #FFFFFF;
-  --paper:        #F7F2E6;
+  --cream:        #FFF9F2;                   /* Warm base */
+  --cream-deep:   #FBEEE3;                   /* Alternate section */
+  --cream-raised: #FFFDFB;                   /* Cards */
+  --paper:        #FCFBFA;                   /* Playbook off-white */
+  --rule:         rgba(128, 44, 94, 0.16);   /* Plum hairline */
 
   /* Text */
-  --ink:          #28251D;                   /* Deep Charcoal Ink */
-  --ink-body:     #353127;
-  --ink-muted:    #5C574B;
-  --ink-faint:    #857E70;
+  --ink:          #2E1A27;
+  --ink-body:     #4B3A45;
+  --ink-muted:    #6E5C68;
+  --ink-faint:    #8D7B86;
 
-  /* Fonts */
-  --font-heading: 'Fredoka', cursive, sans-serif;
-  --font-body:    'Nunito', sans-serif;
+  /* Fonts — Poppins echoes the PIKADON wordmark */
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-body:    'Nunito', system-ui, sans-serif;
   --font-handwriting: 'Patrick Hand', cursive, sans-serif;
 
   /* Custom beziers */
@@ -60,13 +78,13 @@ body {
 
 /* ─── Typography System ─────────────────────────────────────────── */
 
-/* Display / Headings (Fredoka) */
+/* Display / Headings (Poppins) */
 .display-xl {
   font-family: var(--font-heading);
   font-size: clamp(2.85rem, 6.5vw, 5.5rem);
   font-weight: 600;
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .display-lg {
@@ -74,7 +92,7 @@ body {
   font-size: clamp(2.25rem, 5vw, 4.25rem);
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .display-md {
@@ -116,21 +134,21 @@ body::before {
 
 /* ─── Floating Pill Navbar ──────────────────────────────────────── */
 .navbar-pill {
-  background: oklch(97% 0.012 85 / 0.85);
+  background: rgba(255, 249, 242, 0.86);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid oklch(68% 0.10 75 / 0.18);
+  border: 1px solid var(--rule);
   border-radius: 9999px;
   box-shadow:
-    0 1px 3px oklch(18% 0.02 95 / 0.06),
-    0 8px 32px oklch(18% 0.02 95 / 0.06),
-    inset 0 1px 0 oklch(99% 0.006 85 / 0.8);
+    0 1px 3px rgba(67, 31, 55, 0.06),
+    0 8px 32px rgba(67, 31, 55, 0.07),
+    inset 0 1px 0 rgba(255, 253, 251, 0.8);
 }
 
 /* ─── Double-Bezel Card System ──────────────────────────────────── */
 .card-shell {
-  background: oklch(18% 0.02 95 / 0.04);
-  border: 1px solid oklch(68% 0.10 75 / 0.18);
+  background: rgba(67, 31, 55, 0.035);
+  border: 1px solid var(--rule);
   border-radius: 2rem;
   padding: 0.375rem;
 }
@@ -138,35 +156,35 @@ body::before {
 .card-core {
   background: var(--cream-raised);
   border-radius: calc(2rem - 0.375rem);
-  box-shadow: inset 0 1px 1px oklch(99% 0 0 / 0.6);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
   overflow: hidden;
 }
 
 .card-shell-dark {
-  background: oklch(97% 0.012 85 / 0.06);
-  border: 1px solid oklch(97% 0.012 85 / 0.12);
+  background: rgba(255, 249, 242, 0.06);
+  border: 1px solid rgba(255, 249, 242, 0.12);
   border-radius: 2rem;
   padding: 0.375rem;
 }
 
 .card-core-dark {
-  background: var(--green-mid);
+  background: var(--plum-800);
   border-radius: calc(2rem - 0.375rem);
-  box-shadow: inset 0 1px 1px oklch(97% 0.012 85 / 0.08);
+  box-shadow: inset 0 1px 1px rgba(255, 249, 242, 0.08);
   overflow: hidden;
 }
 
 /* ─── Button System ──────────────────────────────────────────────── */
 
-/* Primary — gold pill with arrow island */
+/* Primary — orange pill with arrow island (Book a Visit) */
 .btn-gold {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 0.75rem 0.75rem 1.5rem;
-  background: var(--gold);
-  color: white;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--orange-600);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
   font-size: 0.875rem;
   font-weight: 600;
   border-radius: 9999px;
@@ -179,8 +197,8 @@ body::before {
 }
 
 .btn-gold:hover {
-  background: var(--gold-pale);
-  box-shadow: 0 4px 24px oklch(68% 0.12 75 / 0.35);
+  background: var(--orange-700);
+  box-shadow: 0 6px 24px rgba(234, 90, 45, 0.35);
 }
 
 .btn-gold:active {
@@ -192,7 +210,7 @@ body::before {
   width: 2rem;
   height: 2rem;
   border-radius: 9999px;
-  background: oklch(97% 0 0 / 0.2);
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,7 +220,8 @@ body::before {
 
 .btn-gold:hover .btn-arrow {
   transform: translate(1px, -1px) scale(1.05);
-  background: oklch(97% 0 0 / 0.3);
+  background: var(--sun);
+  color: var(--plum-900);
 }
 
 /* Ghost / outline */
@@ -212,12 +231,12 @@ body::before {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: transparent;
-  color: var(--green);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--plum-900);
+  font-family: var(--font-heading);
   font-size: 0.875rem;
   font-weight: 600;
   border-radius: 9999px;
-  border: 1.5px solid oklch(22% 0.06 155 / 0.35);
+  border: 1.5px solid rgba(67, 31, 55, 0.3);
   cursor: pointer;
   text-decoration: none;
   min-height: 44px;
@@ -225,8 +244,8 @@ body::before {
 }
 
 .btn-ghost:hover {
-  background: oklch(22% 0.06 155 / 0.06);
-  border-color: var(--green);
+  background: var(--plum-50);
+  border-color: var(--plum-900);
 }
 
 .btn-ghost:active {
@@ -240,20 +259,20 @@ body::before {
   gap: 0.375rem;
   padding: 0.3125rem 0.75rem;
   border-radius: 9999px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-heading);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  border: 1px solid var(--gold-rule);
-  color: var(--gold);
-  background: oklch(68% 0.12 75 / 0.07);
+  border: 1px solid var(--orange-100);
+  color: var(--orange-700);
+  background: var(--orange-50);
 }
 
 .eyebrow-light {
-  border-color: oklch(97% 0.012 85 / 0.25);
-  color: oklch(97% 0.012 85 / 0.7);
-  background: oklch(97% 0.012 85 / 0.07);
+  border-color: rgba(245, 190, 20, 0.35);
+  color: var(--sun);
+  background: rgba(245, 190, 20, 0.1);
 }
 
 /* ─── Scroll Reveal System ───────────────────────────────────────── */
@@ -311,7 +330,7 @@ body::before {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-heading);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -321,7 +340,7 @@ body::before {
 /* ─── Plaque / manifesto block ───────────────────────────────────── */
 .plaque {
   position: relative;
-  border: 1.5px solid var(--gold-rule);
+  border: 1.5px solid var(--rule);
   border-radius: 0.5rem;
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
 }
@@ -330,7 +349,7 @@ body::before {
   content: '';
   position: absolute;
   inset: 6px;
-  border: 1px solid oklch(68% 0.12 75 / 0.12);
+  border: 1px solid rgba(234, 90, 45, 0.14);
   border-radius: 0.25rem;
   pointer-events: none;
 }
@@ -342,14 +361,14 @@ body::before {
 
 .z-card:hover {
   transform: translateY(-4px) rotate(0deg) !important;
-  box-shadow: 0 20px 60px oklch(18% 0.02 95 / 0.12);
+  box-shadow: 0 20px 60px rgba(67, 31, 55, 0.14);
   z-index: 10;
 }
 
 /* ─── Photo placeholder ──────────────────────────────────────────── */
 .photo-slot {
   background: linear-gradient(135deg, var(--cream-deep) 0%, var(--cream) 100%);
-  border: 1.5px dashed oklch(68% 0.12 75 / 0.3);
+  border: 1.5px dashed rgba(128, 44, 94, 0.3);
   border-radius: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -358,7 +377,7 @@ body::before {
   text-align: center;
   padding: 2rem;
   color: var(--ink-faint);
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-heading);
   font-size: 0.75rem;
   font-weight: 500;
   gap: 0.5rem;
@@ -392,14 +411,35 @@ body::before {
 /* ─── Scrollbar ──────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
-::-webkit-scrollbar-thumb { background: var(--gold-rule); border-radius: 9999px; }
+::-webkit-scrollbar-thumb { background: rgba(128, 44, 94, 0.3); border-radius: 9999px; }
 
 /* ─── Focus visible ──────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--orange);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
 /* ─── Perspective helper ─────────────────────────────────────────── */
 .perspective-1200 { perspective: 1200px; }
+
+/* ─── Brand stripe — the four playbook swatches as a ribbon ─────── */
+.brand-stripe {
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--plum-900) 0 25%, var(--plum-700) 25% 50%,
+    var(--orange) 50% 75%, var(--sun) 75% 100%);
+}
+
+/* ─── Text selection in brand yellow ─────────────────────────────── */
+::selection { background: var(--sun-100); color: var(--plum-900); }
+
+/* ─── Sunny closing invitation (yellow = joy) ────────────────────── */
+.cta-sunny {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 80% at 15% 0%, rgba(245, 190, 20, 0.28), transparent 70%),
+    radial-gradient(50% 70% at 90% 100%, rgba(234, 90, 45, 0.14), transparent 70%),
+    var(--sun-50);
+}

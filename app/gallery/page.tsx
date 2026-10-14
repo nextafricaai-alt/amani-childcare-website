@@ -44,7 +44,7 @@ export default function GalleryPage() {
     <div className="pt-20">
 
       {/* ── Full-Bleed Edge-to-Edge Header Hero Section ─────────────────────────────── */}
-      <section className="relative w-full min-h-[460px] sm:min-h-[520px] flex items-center overflow-hidden pt-32 pb-20 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
+      <section className="relative w-full min-h-[460px] sm:min-h-[520px] flex items-center overflow-hidden pt-32 pb-20 px-4 sm:px-6 lg:px-12" style={{ background: "#2C1324" }}>
         
         {/* Full-Bleed Edge-to-Edge Background Image */}
         <img
@@ -54,33 +54,33 @@ export default function GalleryPage() {
         />
 
         {/* Dark Vignette Overlay for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1a11]/95 via-[#0a1a11]/70 to-[#0a1a11]/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2C1324]/95 via-[#2C1324]/70 to-[#2C1324]/45" />
 
         {/* Floating Accent Gradient Ring */}
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full filter blur-[120px] opacity-25 pointer-events-none" style={{ background: "radial-gradient(circle, #e5a93c 0%, transparent 70%)" }} />
+        <div className="absolute top-0 right-0 w-[50vw] h-[50vw] rounded-full filter blur-[120px] opacity-25 pointer-events-none" style={{ background: "radial-gradient(circle, #F5BE14 0%, transparent 70%)" }} />
 
         {/* Content Container */}
         <div className="container relative z-10 w-full max-w-5xl mx-auto text-center">
           <Reveal>
             <span className="eyebrow eyebrow-light mb-6 inline-flex">
-              <Camera className="w-3.5 h-3.5 text-[#e5a93c]" />
+              <Camera className="w-3.5 h-3.5 text-[#F5BE14]" />
               Photo Gallery
             </span>
           </Reveal>
 
           <Reveal delay={80}>
             <h1
-              className="display-lg mb-6 text-[#fcfaf4]"
+              className="display-lg mb-6 text-[#FFF9F2]"
             >
               Life at Pikadon.<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>Real moments.</em>
+              <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>Real moments.</em>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-xl mx-auto text-white/80"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ fontFamily: "var(--font-heading)" }}
             >
               Explore our classrooms, Montessori learning materials, physical play, creative art sessions, and happy daily milestones. Click any card to view full screen.
             </p>
@@ -89,7 +89,7 @@ export default function GalleryPage() {
       </section>
 
       {/* ── Filter Tabs & Grid ─────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container">
 
           {/* Category Filter Pills */}
@@ -102,13 +102,13 @@ export default function GalleryPage() {
                   className="px-4 py-2 rounded-full text-xs font-sans font-semibold transition-all duration-200"
                   style={{
                     background: selectedCategory === cat
-                      ? "oklch(22% 0.06 155)"
-                      : "oklch(97% 0.012 85)",
+                      ? "oklch(29.9% 0.066 341.4)"
+                      : "oklch(98.5% 0.011 71.9)",
                     color: selectedCategory === cat
-                      ? "oklch(97% 0.012 85)"
-                      : "oklch(30% 0.015 90)",
-                    border: `1px solid ${selectedCategory === cat ? "oklch(22% 0.06 155)" : "oklch(68% 0.12 75 / 0.2)"}`,
-                    boxShadow: selectedCategory === cat ? "0 4px 16px oklch(22% 0.06 155 / 0.2)" : "none",
+                      ? "oklch(98.5% 0.011 71.9)"
+                      : "oklch(37.1% 0.030 339.7)",
+                    border: `1px solid ${selectedCategory === cat ? "oklch(29.9% 0.066 341.4)" : "oklch(65.0% 0.188 37.2 / 0.2)"}`,
+                    boxShadow: selectedCategory === cat ? "0 4px 16px oklch(29.9% 0.066 341.4 / 0.2)" : "none",
                   }}
                 >
                   {cat}
@@ -138,21 +138,21 @@ export default function GalleryPage() {
                       {/* Hover Badge */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-sans font-semibold inline-flex items-center gap-2">
-                          <ZoomIn className="w-4 h-4 text-[oklch(68%_0.12_75)]" />
+                          <ZoomIn className="w-4 h-4 text-[oklch(53.5%_0.164_37.2)]" />
                           Expand Photo
                         </span>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-5 flex flex-col justify-between flex-1" style={{ background: "oklch(99% 0.006 85)" }}>
+                    <div className="p-5 flex flex-col justify-between flex-1" style={{ background: "oklch(99.5% 0.003 67.8)" }}>
                       <div>
-                        <span className="label-xs mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
+                        <span className="label-xs mb-1" style={{ color: "oklch(53.5% 0.164 37.2)" }}>
                           {item.category}
                         </span>
                         <h3
                           className="font-display font-medium text-xl leading-snug"
-                          style={{ color: "oklch(22% 0.06 155)" }}
+                          style={{ color: "oklch(29.9% 0.066 341.4)" }}
                         >
                           {item.title}
                         </h3>
@@ -193,7 +193,7 @@ export default function GalleryPage() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="relative max-w-4xl w-full bg-[oklch(99%_0.006_85)] rounded-3xl overflow-hidden shadow-2xl border border-[oklch(68%_0.12_75_/0.25)] flex flex-col md:flex-row"
+              className="relative max-w-4xl w-full bg-[oklch(99.5%_0.003_67.8)] rounded-3xl overflow-hidden shadow-2xl border border-[oklch(65.0%_0.188_37.2_/0.25)] flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Photo */}
@@ -206,18 +206,18 @@ export default function GalleryPage() {
               </div>
 
               {/* Info & WhatsApp CTA */}
-              <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between" style={{ background: "oklch(97% 0.012 85)" }}>
+              <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between" style={{ background: "oklch(98.5% 0.011 71.9)" }}>
                 <div>
                   <span className="eyebrow mb-3 inline-flex">{activeModalItem.category}</span>
-                  <h3 className="font-display font-medium text-2xl md:text-3xl mb-3" style={{ color: "oklch(22% 0.06 155)" }}>
+                  <h3 className="font-display font-medium text-2xl md:text-3xl mb-3" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
                     {activeModalItem.title}
                   </h3>
-                  <p className="body-sm text-[oklch(30%_0.015_90)] font-sans leading-relaxed mb-6">
+                  <p className="body-sm text-[oklch(37.1%_0.030_339.7)] font-sans leading-relaxed mb-6">
                     {activeModalItem.description}
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3 pt-4 border-t border-[oklch(68%_0.12_75_/0.15)]">
+                <div className="flex flex-col gap-3 pt-4 border-t border-[oklch(65.0%_0.188_37.2_/0.15)]">
                   <a
                     href={getWhatsAppUrl()}
                     target="_blank"
@@ -231,7 +231,7 @@ export default function GalleryPage() {
                   </a>
                   <button
                     onClick={() => setActiveModalItem(null)}
-                    className="btn-ghost !py-2 w-full text-center justify-center !border-[oklch(22%_0.06_155_/0.2)]"
+                    className="btn-ghost !py-2 w-full text-center justify-center !border-[oklch(29.9%_0.066_341.4_/0.2)]"
                   >
                     Close Preview
                   </button>
@@ -243,23 +243,23 @@ export default function GalleryPage() {
       </AnimatePresence>
 
       {/* ── CTA ────────────────────────────────────────────── */}
-      <section className="section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="section text-center cta-sunny" >
         <div className="container-narrow">
           <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">Visit Pikadon</span>
+            <span className="eyebrow mb-8 inline-flex">Visit Pikadon</span>
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-6" style={{ color: "oklch(97% 0.012 85)" }}>
+            <h2 className="display-md mb-6" style={{ color: "var(--plum-900)" }}>
               See our centre<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>in person.</em>
+              <em style={{ color: "var(--orange-600)" }}>in person.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-md mx-auto mb-10"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "var(--ink-body)", fontFamily: "var(--font-heading)" }}
             >
               Book a free visit. Take a full tour of all classrooms, outdoor play areas, and meet our staff.
             </p>
@@ -278,7 +278,7 @@ export default function GalleryPage() {
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </a>
-              <Link href="/visit" className="btn-ghost" style={{ borderColor: "oklch(97% 0.012 85 / 0.25)", color: "oklch(97% 0.012 85 / 0.7)" }}>
+              <Link href="/visit" className="btn-ghost">
                 Directions & Hours
               </Link>
             </div>

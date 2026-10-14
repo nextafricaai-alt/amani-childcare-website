@@ -64,7 +64,7 @@ export default function VisitPage() {
     <div className="pt-20">
 
       {/* ── Header ──────────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="section" style={{ background: "oklch(29.9% 0.066 341.4)" }}>
         <div className="container-narrow">
           <Reveal>
             <span className="eyebrow eyebrow-light mb-8 inline-flex">
@@ -76,17 +76,17 @@ export default function VisitPage() {
           <Reveal delay={80}>
             <h1
               className="display-lg mb-6"
-              style={{ color: "oklch(97% 0.012 85)" }}
+              style={{ color: "oklch(98.5% 0.011 71.9)" }}
             >
               Come and see<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
+              <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>everything.</em>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-xl"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "oklch(98.5% 0.011 71.9 / 0.65)", fontFamily: "var(--font-heading)" }}
             >
               Your visit is free. Zero pressure. Bring your partner, bring your questions, bring your scepticism. Parents who ask hard questions become our favourite families.
             </p>
@@ -119,7 +119,7 @@ export default function VisitPage() {
               <span className="eyebrow mb-6 inline-flex">How it works</span>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="display-md" style={{ color: "oklch(22% 0.06 155)" }}>
+              <h2 className="display-md" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
                 Four simple steps.
               </h2>
             </Reveal>
@@ -135,7 +135,7 @@ export default function VisitPage() {
                       className="font-display font-light"
                       style={{
                         fontSize: "clamp(3rem, 6vw, 5rem)",
-                        color: "oklch(68% 0.12 75 / 0.25)",
+                        color: "var(--orange)",
                         lineHeight: 1,
                         letterSpacing: "-0.03em",
                       }}
@@ -145,14 +145,14 @@ export default function VisitPage() {
 
                     <h3
                       className="font-display font-medium"
-                      style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.625rem)", color: "oklch(22% 0.06 155)", lineHeight: 1.2 }}
+                      style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.625rem)", color: "oklch(29.9% 0.066 341.4)", lineHeight: 1.2 }}
                     >
                       {title}
                     </h3>
 
                     <p
                       className="body-sm flex-1"
-                      style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                     >
                       {body}
                     </p>
@@ -165,16 +165,16 @@ export default function VisitPage() {
       </section>
 
       {/* ── What to expect ──────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container-narrow">
           <Reveal>
             <span className="eyebrow mb-8 inline-flex">During your visit</span>
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-10" style={{ color: "oklch(22% 0.06 155)" }}>
+            <h2 className="display-md mb-10" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
               What you'll see<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>when you arrive.</em>
+              <em style={{ color: "oklch(53.5% 0.164 37.2)" }}>when you arrive.</em>
             </h2>
           </Reveal>
 
@@ -185,16 +185,16 @@ export default function VisitPage() {
                   <div className="card-core flex items-start gap-3.5 px-5 py-4">
                     <span
                       className="mt-1 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center"
-                      style={{ background: "oklch(68% 0.12 75 / 0.15)", border: "1px solid oklch(68% 0.12 75 / 0.4)" }}
+                      style={{ background: "oklch(57.0% 0.173 37.0 / 0.15)", border: "1px solid oklch(65.0% 0.188 37.2 / 0.4)" }}
                     >
                       <span
                         className="w-1.5 h-1.5 rounded-full"
-                        style={{ background: "oklch(68% 0.12 75)" }}
+                        style={{ background: "oklch(57.0% 0.173 37.0)" }}
                       />
                     </span>
                     <span
                       className="body-sm"
-                      style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                     >
                       {item}
                     </span>
@@ -218,17 +218,17 @@ export default function VisitPage() {
                   <div className="flex items-start gap-4">
                     <div
                       className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: "oklch(22% 0.06 155)" }}
+                      style={{ background: "oklch(29.9% 0.066 341.4)" }}
                     >
                       <Clock className="text-white" style={{ width: 18, height: 18 }} />
                     </div>
                     <div>
-                      <span className="label-xs block mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
+                      <span className="label-xs block mb-1" style={{ color: "var(--orange-700)" }}>
                         Opening hours
                       </span>
                       <h3
                         className="font-display font-medium"
-                        style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.5rem)", color: "oklch(22% 0.06 155)" }}
+                        style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.5rem)", color: "oklch(29.9% 0.066 341.4)" }}
                       >
                         When we're open
                       </h3>
@@ -245,17 +245,17 @@ export default function VisitPage() {
                       <div
                         key={day}
                         className="flex items-center justify-between py-3 border-b"
-                        style={{ borderColor: "oklch(68% 0.12 75 / 0.1)" }}
+                        style={{ borderColor: "var(--rule)" }}
                       >
                         <span
                           className="body-sm font-medium"
-                          style={{ color: "oklch(22% 0.06 155)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          style={{ color: "oklch(29.9% 0.066 341.4)", fontFamily: "var(--font-heading)" }}
                         >
                           {day}
                         </span>
                         <span
                           className="body-sm"
-                          style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          style={{ color: "oklch(49.6% 0.029 338.4)", fontFamily: "var(--font-heading)" }}
                         >
                           {hours}
                         </span>
@@ -265,7 +265,7 @@ export default function VisitPage() {
 
                   <p
                     className="body-sm mt-auto"
-                    style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "0.8125rem" }}
+                    style={{ color: "oklch(49.6% 0.029 338.4)", fontFamily: "var(--font-heading)", fontSize: "0.8125rem" }}
                   >
                     Visit tours are available weekday mornings 8:00–10:00 and Saturday by prior arrangement.
                   </p>
@@ -302,17 +302,17 @@ export default function VisitPage() {
                       <div className="card-core flex items-start gap-4 px-5 py-4">
                         <div
                           className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                          style={{ background: "oklch(22% 0.06 155 / 0.08)" }}
+                          style={{ background: "var(--orange-50)" }}
                         >
-                          <Icon className="w-4 h-4" style={{ color: "oklch(68% 0.12 75)" }} />
+                          <Icon className="w-4 h-4" style={{ color: "var(--orange-600)" }} />
                         </div>
                         <div>
-                          <p className="label-xs mb-1" style={{ color: "oklch(68% 0.12 75)" }}>
+                          <p className="label-xs mb-1" style={{ color: "var(--orange-700)" }}>
                             {label}
                           </p>
                           <p
                             className="body-sm"
-                            style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                            style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                           >
                             {text}
                           </p>
@@ -328,26 +328,26 @@ export default function VisitPage() {
       </section>
 
       {/* ── CTA ─────────────────────────────────────────────── */}
-      <section className="section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="section text-center cta-sunny" >
         <div className="container-narrow">
           <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">
+            <span className="eyebrow mb-8 inline-flex">
               <Clock className="w-3 h-3" />
               {SITE_CONFIG.foundingSpotsRemaining} places remaining
             </span>
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-6" style={{ color: "oklch(97% 0.012 85)" }}>
+            <h2 className="display-md mb-6" style={{ color: "var(--plum-900)" }}>
               We're ready when<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>you are.</em>
+              <em style={{ color: "var(--orange-600)" }}>you are.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-md mx-auto mb-10"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "var(--ink-body)", fontFamily: "var(--font-heading)" }}
             >
               Message us on WhatsApp right now. We'll respond within a few hours and confirm your tour time.
             </p>

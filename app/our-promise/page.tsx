@@ -14,7 +14,7 @@ const sections = [
     Icon: Users,
     eyebrow: "01 · People",
     title: "Everyone is vetted. No exceptions.",
-    color: "oklch(22% 0.06 155)",
+    color: "oklch(29.9% 0.066 341.4)",
     body: [
       "Every adult at Pikadon — including cleaners, cooks, and visiting trades — is background-checked before they set foot in the building. No exceptions.",
       "Full-time caregivers undergo: police/INTERPOL clearance, three reference calls (we speak to referees, not just receive letters), medical clearance including TB screening, and paediatric first-aid certification before their first shift.",
@@ -34,7 +34,7 @@ const sections = [
     Icon: ShieldCheck,
     eyebrow: "02 · Safety",
     title: "No adult is ever alone with a child",
-    color: "oklch(22% 0.06 155)",
+    color: "oklch(29.9% 0.066 341.4)",
     body: [
       "Safety at Pikadon is a system, not a mood. Every procedure is written down, every staff member is trained on it, and every parent can read it.",
       "Children are counted at every transition — arrival, moving between rooms, outdoor time, meals, nap time, departure. If numbers don't match, we stop everything until they do.",
@@ -57,7 +57,7 @@ const sections = [
     Icon: Heart,
     eyebrow: "03 · Faith & Character",
     title: "Faith, in the open",
-    color: "oklch(22% 0.06 155)",
+    color: "oklch(29.9% 0.066 341.4)",
     body: [
       "Pikadon is openly and unapologetically Christian. We believe children are image-bearers of God — each one deserving of dignity, patience, and delight.",
       "In practice this means: gratitude before every meal, scripture stories told gently and age-appropriately, kindness as the classroom law, and our staff modelling what it looks like to treat people well.",
@@ -77,7 +77,7 @@ const sections = [
     Icon: BookOpen,
     eyebrow: "04 · Daily Life",
     title: "What a day looks like",
-    color: "oklch(22% 0.06 155)",
+    color: "oklch(29.9% 0.066 341.4)",
     body: [
       "Every day follows a written schedule — not a rigid military timetable, but a predictable rhythm that lets children know what is coming next. Predictability is safety for young children.",
       "Each day includes: structured learning time, free play (indoors and out), two meals and two snacks, rest time for younger children, story time, and at least one new thing — a concept, a word, a skill.",
@@ -119,7 +119,7 @@ export default function OurPromisePage() {
     <div className="pt-20">
 
       {/* ── Full-Bleed Edge-to-Edge Header Hero Section ─────────────────────────────── */}
-      <section className="relative w-full min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24 lg:pt-52 lg:pb-28 px-4 sm:px-6 lg:px-12" style={{ background: "#0a1a11" }}>
+      <section className="relative w-full min-h-[640px] sm:min-h-[700px] lg:min-h-[780px] flex items-center overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-24 lg:pt-52 lg:pb-28 px-4 sm:px-6 lg:px-12" style={{ background: "#2C1324" }}>
         
         {/* Full-Bleed Edge-to-Edge Background Image with Headroom Framing */}
         <img
@@ -132,13 +132,13 @@ export default function OurPromisePage() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to right, rgba(10, 26, 17, 0.95) 0%, rgba(10, 26, 17, 0.82) 48%, rgba(10, 26, 17, 0.45) 80%, rgba(10, 26, 17, 0.25) 100%)",
+            background: "linear-gradient(to right, rgba(44, 19, 36, 0.95) 0%, rgba(44, 19, 36, 0.82) 48%, rgba(44, 19, 36, 0.45) 80%, rgba(44, 19, 36, 0.25) 100%)",
           }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to top, rgba(10, 26, 17, 0.92) 0%, transparent 50%, rgba(10, 26, 17, 0.75) 100%)",
+            background: "linear-gradient(to top, rgba(44, 19, 36, 0.92) 0%, transparent 50%, rgba(44, 19, 36, 0.75) 100%)",
           }}
         />
 
@@ -146,8 +146,8 @@ export default function OurPromisePage() {
         <div className="container relative z-10 max-w-5xl mx-auto mt-4 sm:mt-6 lg:mt-8">
           <div className="max-w-2xl">
             <Reveal>
-              <span className="eyebrow eyebrow-light mb-6 inline-flex backdrop-blur-md px-3.5 py-1.5 rounded-full" style={{ background: "rgba(229, 169, 60, 0.15)", border: "1px solid rgba(229, 169, 60, 0.3)" }}>
-                <ShieldCheck className="w-3.5 h-3.5 text-[#e5a93c]" />
+              <span className="eyebrow eyebrow-light mb-6 inline-flex backdrop-blur-md px-3.5 py-1.5 rounded-full" style={{ background: "rgba(245, 190, 20, 0.15)", border: "1px solid rgba(245, 190, 20, 0.3)" }}>
+                <ShieldCheck className="w-3.5 h-3.5 text-[#F5BE14]" />
                 Our Written Safeguarding Promise
               </span>
             </Reveal>
@@ -155,17 +155,17 @@ export default function OurPromisePage() {
             <Reveal delay={80}>
               <h1
                 className="display-lg mb-6 leading-tight drop-shadow-lg"
-                style={{ color: "#fcfaf4" }}
+                style={{ color: "#FFF9F2" }}
               >
                 In the open.<br />
-                <em style={{ color: "#e5a93c" }}>Always.</em>
+                <em style={{ color: "#F5BE14" }}>Always.</em>
               </h1>
             </Reveal>
 
             <Reveal delay={160}>
               <p
                 className="body-lg mb-8 max-w-xl font-sans"
-                style={{ color: "rgba(252, 250, 244, 0.88)", lineHeight: 1.6 }}
+                style={{ color: "rgba(255, 249, 242, 0.88)", lineHeight: 1.6 }}
               >
                 Most childcare providers ask you to hope. We built Pikadon so you can verify. Below are the actual written safeguarding standards we run on — the exact commitments our staff sign and our founders uphold every single day.
               </p>
@@ -188,7 +188,7 @@ export default function OurPromisePage() {
                   href="#people"
                   className="px-6 py-3.5 rounded-full font-sans text-sm font-semibold transition-all duration-200 backdrop-blur-md"
                   style={{
-                    color: "#fcfaf4",
+                    color: "#FFF9F2",
                     background: "rgba(255, 255, 255, 0.12)",
                     border: "1px solid rgba(255, 255, 255, 0.25)",
                   }}
@@ -205,11 +205,11 @@ export default function OurPromisePage() {
           <div
             className="px-5 py-3 rounded-2xl backdrop-blur-md shadow-2xl"
             style={{
-              background: "rgba(10, 26, 17, 0.82)",
-              border: "1px solid rgba(229, 169, 60, 0.4)",
+              background: "rgba(44, 19, 36, 0.82)",
+              border: "1px solid rgba(245, 190, 20, 0.4)",
             }}
           >
-            <p className="font-handwriting text-lg sm:text-xl text-[#fcfaf4]">
+            <p className="font-handwriting text-lg sm:text-xl text-[#FFF9F2]">
               "Hand in hand · Built on trust, dignity & protection"
             </p>
           </div>
@@ -218,14 +218,14 @@ export default function OurPromisePage() {
       </section>
 
       {/* ── Manifesto plaque ────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container-narrow">
           <Reveal direction="scale">
             <div className="plaque">
               <p
                 className="font-handwriting text-2xl sm:text-3xl text-center"
                 style={{
-                  color: "oklch(22% 0.06 155)",
+                  color: "oklch(29.9% 0.066 341.4)",
                   lineHeight: 1.5,
                 }}
               >
@@ -233,7 +233,7 @@ export default function OurPromisePage() {
               </p>
               <p
                 className="label-xs text-center mt-6"
-                style={{ color: "oklch(68% 0.12 75)", letterSpacing: "0.15em" }}
+                style={{ color: "oklch(53.5% 0.164 37.2)", letterSpacing: "0.15em" }}
               >
                 — The Pikadon Promise · Displayed at our gate · Signed by the founders
               </p>
@@ -249,7 +249,7 @@ export default function OurPromisePage() {
           id={id}
           className="section"
           style={{
-            background: sIdx % 2 === 0 ? "oklch(97% 0.012 85)" : "oklch(93% 0.016 82)",
+            background: sIdx % 2 === 0 ? "oklch(98.5% 0.011 71.9)" : "oklch(95.6% 0.020 62.9)",
           }}
         >
           <div className="container">
@@ -267,7 +267,7 @@ export default function OurPromisePage() {
                 <Reveal delay={80}>
                   <h2
                     className="display-md mb-8"
-                    style={{ color: "oklch(22% 0.06 155)" }}
+                    style={{ color: "oklch(29.9% 0.066 341.4)" }}
                   >
                     {title}
                   </h2>
@@ -278,7 +278,7 @@ export default function OurPromisePage() {
                     <Reveal key={i} delay={100 + i * 60}>
                       <p
                         className="body-lg"
-                        style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                        style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                       >
                         {para}
                       </p>
@@ -289,14 +289,14 @@ export default function OurPromisePage() {
                 {/* Key safeguarding checklist items rendered under the body paragraphs */}
                 <Reveal delay={220}>
                   <div className="border-t border-black/10 pt-6 mt-8">
-                    <p className="label-xs mb-4 text-[#e5a93c] tracking-wider uppercase font-bold">
+                    <p className="label-xs mb-4 text-[var(--orange-700)] tracking-wider uppercase font-bold">
                       {id === "faith" ? "Faith & Character Values" : id === "daily" ? "Daily Program & Reporting" : "Key Safeguards & Protocols"}
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                       {items.map((item) => (
                         <li key={item} className="flex items-start gap-3">
-                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#e5a93c]" />
-                          <span className="body-sm text-[#1a2e22] font-semibold">
+                          <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[var(--orange)]" />
+                          <span className="body-sm text-[#431F37] font-semibold">
                             {item}
                           </span>
                         </li>
@@ -362,7 +362,7 @@ export default function OurPromisePage() {
       <section
         id="safeguarding"
         className="section"
-        style={{ background: "oklch(22% 0.06 155)" }}
+        style={{ background: "oklch(29.9% 0.066 341.4)" }}
       >
         <div className="container">
           <div className="text-center mb-14">
@@ -375,7 +375,7 @@ export default function OurPromisePage() {
             <Reveal delay={80}>
               <h2
                 className="display-md max-w-xl mx-auto"
-                style={{ color: "oklch(97% 0.012 85)" }}
+                style={{ color: "oklch(98.5% 0.011 71.9)" }}
               >
                 The lines we will never cross.
               </h2>
@@ -389,11 +389,11 @@ export default function OurPromisePage() {
                   <div className="card-core-dark flex items-start gap-4 px-6 py-5 h-full">
                     <Icon
                       className="w-5 h-5 mt-0.5 flex-shrink-0"
-                      style={{ color: "oklch(68% 0.12 75)" }}
+                      style={{ color: "var(--sun)" }}
                     />
                     <p
                       className="body-sm font-sans font-medium"
-                      style={{ color: "oklch(97% 0.012 85 / 0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ color: "oklch(98.5% 0.011 71.9 / 0.85)", fontFamily: "var(--font-heading)" }}
                     >
                       {text}
                     </p>
@@ -407,13 +407,13 @@ export default function OurPromisePage() {
             <div
               className="mt-10 max-w-3xl mx-auto rounded-2xl px-6 py-5 text-center"
               style={{
-                background: "oklch(97% 0.012 85 / 0.05)",
-                border: "1px solid oklch(97% 0.012 85 / 0.1)",
+                background: "oklch(98.5% 0.011 71.9 / 0.05)",
+                border: "1px solid oklch(98.5% 0.011 71.9 / 0.1)",
               }}
             >
               <p
                 className="body-sm"
-                style={{ color: "oklch(97% 0.012 85 / 0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: "oklch(98.5% 0.011 71.9 / 0.55)", fontFamily: "var(--font-heading)" }}
               >
                 Our full safeguarding policy is available in writing to any prospective or enrolled family. Request it at your visit or WhatsApp us and we will send it immediately.
               </p>
@@ -423,7 +423,7 @@ export default function OurPromisePage() {
       </section>
 
       {/* ── CTA ─────────────────────────────────────────────── */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container-narrow">
           <Reveal direction="scale">
             <div className="card-shell">
@@ -435,17 +435,17 @@ export default function OurPromisePage() {
                 <Reveal delay={80}>
                   <h2
                     className="display-md mb-5"
-                    style={{ color: "oklch(22% 0.06 155)" }}
+                    style={{ color: "oklch(29.9% 0.066 341.4)" }}
                   >
                     Come and ask us<br />
-                    <em style={{ color: "oklch(68% 0.12 75)" }}>anything.</em>
+                    <em style={{ color: "oklch(53.5% 0.164 37.2)" }}>anything.</em>
                   </h2>
                 </Reveal>
 
                 <Reveal delay={160}>
                   <p
                     className="body-lg max-w-md mx-auto mb-10"
-                    style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                   >
                     Book a free visit. Bring your hardest questions — about safety, about faith, about what happens when something goes wrong. We will answer all of them.
                   </p>

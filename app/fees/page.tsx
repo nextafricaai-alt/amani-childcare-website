@@ -54,7 +54,7 @@ const faq = [
 
 export default function FeesPage() {
   return (
-    <div className="relative pt-20 bg-[#0a1a11] min-h-screen overflow-hidden">
+    <div className="relative pt-20 bg-[#2C1324] min-h-screen overflow-hidden">
 
       {/* ── Fixed Background Video Layer ──────────────────────────────── */}
       {/* Play playground sliding child video in background at full clarity */}
@@ -69,7 +69,7 @@ export default function FeesPage() {
           <source src="/sliding-child.mp4" type="video/mp4" />
         </video>
         {/* Soft color overlay to integrate the video with Pikadon green design brand */}
-        <div className="absolute inset-0 bg-[#0a1a11]/70 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[#2C1324]/70 mix-blend-multiply" />
       </div>
 
       {/* ── Header (Seen) ─────────────────────────────────────────── */}
@@ -77,24 +77,24 @@ export default function FeesPage() {
         <div className="container-narrow w-full max-w-5xl mx-auto text-left">
           <Reveal>
             <span className="eyebrow eyebrow-light mb-8 inline-flex">
-              <Banknote className="w-3.5 h-3.5 text-[#e5a93c]" />
+              <Banknote className="w-3.5 h-3.5 text-[#F5BE14]" />
               Fees & Pricing
             </span>
           </Reveal>
 
           <Reveal delay={80}>
             <h1
-              className="display-lg mb-6 text-[#fcfaf4]"
+              className="display-lg mb-6 text-[#FFF9F2]"
             >
               Clear fees.<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>No surprises.</em>
+              <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>No surprises.</em>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-xl text-white/80"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ fontFamily: "var(--font-heading)" }}
             >
               We publish our fees because trust begins with transparency. One registration fee. One monthly fee. Everything included. The same fair price for every family — no negotiation at the gate.
             </p>
@@ -104,7 +104,7 @@ export default function FeesPage() {
 
       {/* ── Fee table (Not Seen) ──────────────────────────────────────── */}
       {/* Opaque solid background blocks out the sliding video completely */}
-      <section className="relative z-10 section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="relative z-10 section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container-narrow">
 
           <Reveal direction="scale">
@@ -112,22 +112,22 @@ export default function FeesPage() {
               <div className="card-core overflow-hidden">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr style={{ background: "oklch(22% 0.06 155)" }}>
+                    <tr style={{ background: "oklch(29.9% 0.066 341.4)" }}>
                       <th
                         className="px-6 py-4 label-xs text-left"
-                        style={{ color: "oklch(97% 0.012 85 / 0.6)" }}
+                        style={{ color: "oklch(98.5% 0.011 71.9 / 0.6)" }}
                       >
                         Service
                       </th>
                       <th
                         className="px-6 py-4 label-xs text-right"
-                        style={{ color: "oklch(97% 0.012 85 / 0.6)" }}
+                        style={{ color: "oklch(98.5% 0.011 71.9 / 0.6)" }}
                       >
                         Price
                       </th>
                       <th
                         className="px-6 py-4 label-xs text-right hidden sm:table-cell"
-                        style={{ color: "oklch(97% 0.012 85 / 0.35)" }}
+                        style={{ color: "oklch(98.5% 0.011 71.9 / 0.7)" }}
                       >
                         Period
                       </th>
@@ -139,26 +139,26 @@ export default function FeesPage() {
                         key={label}
                         style={{
                           background: i % 2 === 0
-                            ? "oklch(99% 0.006 85)"
-                            : "oklch(97% 0.012 85)",
-                          borderTop: "1px solid oklch(68% 0.12 75 / 0.08)",
+                            ? "oklch(99.5% 0.003 67.8)"
+                            : "oklch(98.5% 0.011 71.9)",
+                          borderTop: "1px solid var(--rule)",
                         }}
                       >
                         <td
                           className="px-6 py-4 body-sm"
-                          style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                         >
                           {label}
                         </td>
                         <td
                           className="px-6 py-4 text-right font-sans font-semibold"
-                          style={{ color: "oklch(68% 0.12 75)", fontSize: "0.9375rem" }}
+                          style={{ color: "var(--orange-700)", fontSize: "0.9375rem" }}
                         >
                           {price}
                         </td>
                         <td
                           className="px-6 py-4 text-right hidden sm:table-cell label-xs"
-                          style={{ color: "oklch(50% 0.010 90)", letterSpacing: "0.06em" }}
+                          style={{ color: "oklch(49.6% 0.029 338.4)", letterSpacing: "0.06em" }}
                         >
                           {period}
                         </td>
@@ -175,14 +175,14 @@ export default function FeesPage() {
             <div
               className="mt-4 rounded-2xl px-5 py-4 flex items-start gap-3"
               style={{
-                background: "oklch(68% 0.12 75 / 0.08)",
-                border: "1px solid oklch(68% 0.12 75 / 0.3)",
+                background: "var(--sun-50)",
+                border: "1px solid var(--sun-100)",
               }}
             >
-              <Star className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "oklch(68% 0.12 75)" }} />
-              <p className="body-sm font-sans font-semibold" style={{ color: "oklch(68% 0.12 75)" }}>
+              <Star className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "var(--orange)", fill: "var(--sun)" }} />
+              <p className="body-sm font-sans font-semibold" style={{ color: "var(--orange-700)" }}>
                 Founding families receive 20% off for the first year —{" "}
-                <span style={{ color: "oklch(22% 0.06 155)" }}>
+                <span style={{ color: "oklch(29.9% 0.066 341.4)" }}>
                   {SITE_CONFIG.foundingSpotsRemaining} founding places remain.
                 </span>
               </p>
@@ -200,9 +200,9 @@ export default function FeesPage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-10 text-[#fcfaf4]">
+            <h2 className="display-md mb-10 text-[#FFF9F2]">
               Everything your child needs.<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>Already in the price.</em>
+              <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>Already in the price.</em>
             </h2>
           </Reveal>
 
@@ -212,11 +212,11 @@ export default function FeesPage() {
                 <li className="rounded-2xl overflow-hidden border border-white/15 bg-white/[0.04] backdrop-blur-md shadow-lg">
                   <div className="flex items-start gap-3.5 px-5 py-4">
                     <CheckCircle2
-                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#e5a93c]"
+                      className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#F5BE14]"
                     />
                     <span
-                      className="body-sm text-[#fcfaf4] font-medium"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      className="body-sm text-[#FFF9F2] font-medium"
+                      style={{ fontFamily: "var(--font-heading)" }}
                     >
                       {item}
                     </span>
@@ -234,19 +234,19 @@ export default function FeesPage() {
         <div className="container-narrow">
           <Reveal direction="scale">
             <div className="rounded-3xl border border-white/20 bg-white/[0.04] backdrop-blur-xl shadow-2xl overflow-hidden">
-              <div className="p-8 md:p-12 text-[#fcfaf4]">
+              <div className="p-8 md:p-12 text-[#FFF9F2]">
                 <div className="flex items-start gap-4 mb-6">
                   <div
-                    className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#e5a93c]/20 border border-[#e5a93c]/40"
+                    className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[#F5BE14]/20 border border-[#F5BE14]/40"
                   >
-                    <Banknote className="text-[#e5a93c]" style={{ width: 18, height: 18 }} />
+                    <Banknote className="text-[#F5BE14]" style={{ width: 18, height: 18 }} />
                   </div>
                   <div>
                     <span className="label-xs block mb-1 text-white/60 tracking-wider uppercase font-bold">
                       Payment
                     </span>
                     <h2
-                      className="font-display font-medium text-[#fcfaf4]"
+                      className="font-display font-medium text-[#FFF9F2]"
                       style={{ fontSize: "clamp(1.375rem, 3vw, 1.875rem)", lineHeight: 1.2 }}
                     >
                       How to pay
@@ -256,20 +256,20 @@ export default function FeesPage() {
 
                 <p
                   className="body-lg mb-6 text-white/90"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  We accept <strong className="text-[#e5a93c] font-bold">MTN MoMo</strong>,{" "}
-                  <strong className="text-[#e5a93c] font-bold">Airtel Money</strong>, and{" "}
-                  <strong className="text-[#e5a93c] font-bold">bank transfer</strong>.
+                  We accept <strong className="text-[#F5BE14] font-bold">MTN MoMo</strong>,{" "}
+                  <strong className="text-[#F5BE14] font-bold">Airtel Money</strong>, and{" "}
+                  <strong className="text-[#F5BE14] font-bold">bank transfer</strong>.
                   Pikadon is a cashless centre — every payment gets an instant digital receipt sent directly to your phone.
                 </p>
 
                 <div
                   className="rounded-2xl px-5 py-4 border border-white/10 bg-white/[0.02]"
                 >
-                  <p className="body-sm text-white/70" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                    <Clock className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5 text-[#e5a93c]" />
-                    Monthly fees are due on the <strong className="text-[#fcfaf4]">1st of each month</strong>. A 5% early-payment discount applies to termly payments made before the term begins.
+                  <p className="body-sm text-white/70" style={{ fontFamily: "var(--font-heading)" }}>
+                    <Clock className="inline w-3.5 h-3.5 mr-1.5 -mt-0.5 text-[#F5BE14]" />
+                    Monthly fees are due on the <strong className="text-[#FFF9F2]">1st of each month</strong>. A 5% early-payment discount applies to termly payments made before the term begins.
                   </p>
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default function FeesPage() {
 
       {/* ── FAQ (Not Seen) ────────────────────────────────────────────── */}
       {/* Opaque solid background blocks out the sliding video completely */}
-      <section className="relative z-10 section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="relative z-10 section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container-narrow">
           <Reveal>
             <span className="eyebrow mb-8 inline-flex">
@@ -290,7 +290,7 @@ export default function FeesPage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-12" style={{ color: "oklch(22% 0.06 155)" }}>
+            <h2 className="display-md mb-12" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
               Everything you might want to know.
             </h2>
           </Reveal>
@@ -302,13 +302,13 @@ export default function FeesPage() {
                   <div className="card-core px-6 py-5">
                     <p
                       className="font-sans font-semibold mb-2"
-                      style={{ fontSize: "0.9375rem", color: "oklch(22% 0.06 155)" }}
+                      style={{ fontSize: "0.9375rem", color: "oklch(29.9% 0.066 341.4)" }}
                     >
                       {q}
                     </p>
                     <p
                       className="body-sm"
-                      style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
                     >
                       {a}
                     </p>
@@ -322,23 +322,23 @@ export default function FeesPage() {
 
       {/* ── CTA (Not Seen) ────────────────────────────────────────────── */}
       {/* Opaque solid color header blocks out the sliding video completely */}
-      <section className="relative z-10 section text-center" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="relative z-10 section text-center cta-sunny" >
         <div className="container-narrow">
           <Reveal>
-            <span className="eyebrow eyebrow-light mb-8 inline-flex">Ready to enrol</span>
+            <span className="eyebrow mb-8 inline-flex">Ready to enrol</span>
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-6" style={{ color: "oklch(97% 0.012 85)" }}>
+            <h2 className="display-md mb-6" style={{ color: "var(--plum-900)" }}>
               Come and see<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>for yourself.</em>
+              <em style={{ color: "var(--orange-600)" }}>for yourself.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-md mx-auto mb-10"
-              style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "var(--ink-body)", fontFamily: "var(--font-heading)" }}
             >
               Your visit is free, zero pressure. You'll leave with our safeguarding promise in writing.
             </p>
@@ -357,7 +357,7 @@ export default function FeesPage() {
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </a>
-              <Link href="/our-promise" className="btn-ghost" style={{ borderColor: "oklch(97% 0.012 85 / 0.25)", color: "oklch(97% 0.012 85 / 0.7)" }}>
+              <Link href="/our-promise" className="btn-ghost">
                 Read our promise
               </Link>
             </div>

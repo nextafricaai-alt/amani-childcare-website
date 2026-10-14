@@ -92,7 +92,7 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={80}>
-            <h2 className="display-md mb-8" style={{ color: "oklch(22% 0.06 155)" }}>
+            <h2 className="display-md mb-8" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
               Leaving your child is the hardest part of your day.
             </h2>
           </Reveal>
@@ -100,14 +100,14 @@ export default function HomePage() {
           <Reveal delay={160}>
             <div
               className="plaque body-lg"
-              style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}
             >
               <p>
                 Maybe the maid left again. Maybe grandmother is far away. Maybe the daycare you visited didn't feel right, and you couldn't say why. You're not asking for luxury.
               </p>
               <p className="mt-4">
                 You're asking for one thing: to work without that knot in your stomach.{" "}
-                <strong style={{ color: "oklch(22% 0.06 155)" }}>That is exactly what we built.</strong>
+                <strong style={{ color: "oklch(29.9% 0.066 341.4)" }}>That is exactly what we built.</strong>
               </p>
             </div>
           </Reveal>
@@ -117,7 +117,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════
           EVERY CHILD EVERY DAY — dark green section with looping video background & checklist
       ════════════════════════════════════════════════════════ */}
-      <section className="section relative overflow-hidden" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="section relative overflow-hidden" style={{ background: "oklch(29.9% 0.066 341.4)" }}>
         {/* Background Video Layer with Low Opacity over Dark Forest Green */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <video
@@ -134,7 +134,7 @@ export default function HomePage() {
           <div
             className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              background: "radial-gradient(circle at 50% 50%, transparent 20%, oklch(22% 0.06 155) 90%)",
+              background: "radial-gradient(circle at 50% 50%, transparent 20%, oklch(29.9% 0.066 341.4) 90%)",
             }}
           />
         </div>
@@ -150,14 +150,14 @@ export default function HomePage() {
               <Reveal delay={80}>
                 <h2
                   className="display-md mb-4"
-                  style={{ color: "oklch(97% 0.012 85)" }}
+                  style={{ color: "oklch(98.5% 0.011 71.9)" }}
                 >
                   Every child.<br />
-                  <em style={{ color: "oklch(68% 0.12 75)" }}>Every day.</em>
+                  <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>Every day.</em>
                 </h2>
               </Reveal>
               <Reveal delay={160}>
-                <p className="body-md" style={{ color: "oklch(97% 0.012 85 / 0.65)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="body-md" style={{ color: "oklch(98.5% 0.011 71.9 / 0.65)", fontFamily: "var(--font-heading)" }}>
                   These eight outcomes are non-negotiable. Not on good days. Every day.
                 </p>
               </Reveal>
@@ -174,12 +174,12 @@ export default function HomePage() {
                       <div className="card-core-dark flex items-start gap-4 px-5 py-4">
                         <CheckCircle2
                           className="w-4 h-4 mt-0.5 flex-shrink-0"
-                          style={{ color: "oklch(68% 0.12 75)" }}
+                          style={{ color: "var(--sun)" }}
                           aria-hidden
                         />
                         <span
                           className="body-sm"
-                          style={{ color: "oklch(97% 0.012 85 / 0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          style={{ color: "oklch(98.5% 0.011 71.9 / 0.85)", fontFamily: "var(--font-heading)" }}
                         >
                           {item}
                         </span>
@@ -196,7 +196,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════
           DAILY UPDATES — editorial split
       ════════════════════════════════════════════════════════ */}
-      <section className="section" style={{ background: "oklch(93% 0.016 82)" }}>
+      <section className="section" style={{ background: "oklch(95.6% 0.020 62.9)" }}>
         <div className="container">
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
 
@@ -232,13 +232,13 @@ export default function HomePage() {
               </Reveal>
 
               <Reveal delay={80}>
-                <h2 className="display-md mb-6" style={{ color: "oklch(22% 0.06 155)" }}>
+                <h2 className="display-md mb-6" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
                   You'll never wonder how the day went.
                 </h2>
               </Reveal>
 
               <Reveal delay={160}>
-                <p className="body-lg mb-4" style={{ color: "oklch(30% 0.015 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="body-lg mb-4" style={{ color: "oklch(37.1% 0.030 339.7)", fontFamily: "var(--font-heading)" }}>
                   Every afternoon by 5pm, you receive your child's day on WhatsApp — what they ate, how they napped, what they learned, and one real moment.
                 </p>
               </Reveal>
@@ -247,9 +247,9 @@ export default function HomePage() {
                 <blockquote
                   className="border-l-2 pl-4 py-1 my-6 body-lg italic"
                   style={{
-                    borderColor: "oklch(68% 0.12 75)",
-                    color: "oklch(22% 0.06 155)",
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    borderColor: "oklch(65.0% 0.188 37.2)",
+                    color: "oklch(29.9% 0.066 341.4)",
+                    fontFamily: "var(--font-heading)",
                     fontWeight: 400,
                     fontSize: "clamp(1.125rem, 2vw, 1.375rem)",
                   }}
@@ -259,7 +259,7 @@ export default function HomePage() {
               </Reveal>
 
               <Reveal delay={280}>
-                <p className="body-sm mb-8" style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="body-sm mb-8" style={{ color: "oklch(49.6% 0.029 338.4)", fontFamily: "var(--font-heading)" }}>
                   Not "she was fine." Never just "she was fine."
                 </p>
               </Reveal>
@@ -293,14 +293,14 @@ export default function HomePage() {
               <span className="eyebrow mb-6 inline-flex">Transparency</span>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="display-md mx-auto max-w-2xl" style={{ color: "oklch(22% 0.06 155)" }}>
+              <h2 className="display-md mx-auto max-w-2xl" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
                 Our standards, in the open.
               </h2>
             </Reveal>
             <Reveal delay={140}>
               <p
                 className="body-md mt-4 max-w-xl mx-auto"
-                style={{ color: "oklch(50% 0.010 90)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: "oklch(49.6% 0.029 338.4)", fontFamily: "var(--font-heading)" }}
               >
                 Competitors ask you to hope. We built Pikadon so you can verify.
               </p>
@@ -329,7 +329,7 @@ export default function HomePage() {
                     <div
                       className="absolute inset-0 z-10"
                       style={{
-                        background: "linear-gradient(to bottom, rgba(14, 24, 18, 0.75) 0%, rgba(14, 24, 18, 0.90) 100%)",
+                        background: "linear-gradient(to bottom, rgba(44, 19, 36, 0.75) 0%, rgba(44, 19, 36, 0.90) 100%)",
                       }}
                     />
 
@@ -339,7 +339,7 @@ export default function HomePage() {
                       <div
                         className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
                         style={{
-                          background: "oklch(68% 0.12 75)",
+                          background: "oklch(82.8% 0.166 87.0)",
                           transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                         }}
                       >
@@ -347,7 +347,7 @@ export default function HomePage() {
                       </div>
 
                       {/* Eyebrow */}
-                      <span className="label-xs font-semibold uppercase tracking-wider" style={{ color: "oklch(68% 0.12 75)" }}>
+                      <span className="label-xs font-semibold uppercase tracking-wider" style={{ color: "oklch(82.8% 0.166 87.0)" }}>
                         {eyebrow}
                       </span>
 
@@ -360,13 +360,13 @@ export default function HomePage() {
                       </h3>
 
                       {/* Body */}
-                      <p className="body-sm flex-1 text-white/80" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                      <p className="body-sm flex-1 text-white/80" style={{ fontFamily: "var(--font-heading)" }}>
                         {body}
                       </p>
 
                       {/* Link row */}
                       <span
-                        className="label-xs flex items-center gap-1.5 mt-auto text-[oklch(68%_0.12_75)] group-hover:text-white transition-colors"
+                        className="label-xs flex items-center gap-1.5 mt-auto text-[oklch(82.8%_0.166_87.0)] group-hover:text-white transition-colors"
                       >
                         Read our promise
                         <ArrowUpRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -384,7 +384,7 @@ export default function HomePage() {
       {/* ════════════════════════════════════════════════════════
           FOUNDING FAMILIES CTA — dark editorial block
       ════════════════════════════════════════════════════════ */}
-      <section className="section" style={{ background: "oklch(22% 0.06 155)" }}>
+      <section className="section" style={{ background: "oklch(29.9% 0.066 341.4)" }}>
         <div className="container-narrow">
           <Reveal direction="scale">
             <div className="card-shell-dark">
@@ -392,13 +392,13 @@ export default function HomePage() {
 
                 <Star
                   className="mx-auto mb-6 w-8 h-8"
-                  style={{ color: "oklch(68% 0.12 75)" }}
+                  style={{ color: "var(--sun)", fill: "var(--sun)" }}
                 />
 
                 <Reveal delay={80}>
                   <h2
                     className="display-md mb-4"
-                    style={{ color: "oklch(97% 0.012 85)" }}
+                    style={{ color: "oklch(98.5% 0.011 71.9)" }}
                   >
                     Ten founding families.
                   </h2>
@@ -407,10 +407,10 @@ export default function HomePage() {
                 <Reveal delay={140}>
                   <p
                     className="body-lg mb-2"
-                    style={{ color: "oklch(97% 0.012 85 / 0.75)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                    style={{ color: "oklch(98.5% 0.011 71.9 / 0.75)", fontFamily: "var(--font-heading)" }}
                   >
                     Founding families receive{" "}
-                    <strong style={{ color: "oklch(97% 0.012 85)" }}>20% off for their first year</strong>,
+                    <strong style={{ color: "oklch(98.5% 0.011 71.9)" }}>20% off for their first year</strong>,
                     direct access to the founders, and a voice in shaping the centre.
                   </p>
                 </Reveal>
@@ -418,7 +418,7 @@ export default function HomePage() {
                 <Reveal delay={200}>
                   <p
                     className="font-sans font-bold text-xl mb-10"
-                    style={{ color: "oklch(68% 0.12 75)" }}
+                    style={{ color: "var(--sun)" }}
                   >
                     {SITE_CONFIG.foundingSpotsRemaining} places remain.
                   </p>
@@ -551,7 +551,7 @@ export default function HomePage() {
       ════════════════════════════════════════════════════════ */}
       <section
         className="section text-center relative overflow-hidden"
-        style={{ background: "oklch(22% 0.06 155)" }}
+        style={{ background: "oklch(29.9% 0.066 341.4)" }}
       >
         <div className="container-narrow relative z-10">
           
@@ -578,17 +578,17 @@ export default function HomePage() {
           <Reveal delay={80}>
             <h2
               className="display-md mx-auto max-w-2xl mb-6"
-              style={{ color: "oklch(97% 0.012 85)" }}
+              style={{ color: "oklch(98.5% 0.011 71.9)" }}
             >
               Come and see<br />
-              <em style={{ color: "oklch(68% 0.12 75)" }}>everything.</em>
+              <em style={{ color: "oklch(82.8% 0.166 87.0)" }}>everything.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={160}>
             <p
               className="body-lg max-w-xl mx-auto mb-10"
-              style={{ color: "oklch(97% 0.012 85 / 0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              style={{ color: "oklch(98.5% 0.011 71.9 / 0.7)", fontFamily: "var(--font-heading)" }}
             >
               Bring your hardest questions. Parents who ask hard questions become our favourite families.
             </p>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { X, Menu, ArrowUpRight } from "lucide-react";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
+import Wordmark from "@/components/ui/wordmark";
 
 const links = [
   { href: "/", label: "Home" },
@@ -36,8 +37,8 @@ export default function Navbar() {
             pointerEvents: "auto",
             transition: "box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1)",
             boxShadow: scrolled
-              ? "0 2px 40px oklch(18% 0.02 95 / 0.1), 0 1px 3px oklch(18% 0.02 95 / 0.06), inset 0 1px 0 oklch(99% 0 0 / 0.8)"
-              : "0 1px 3px oklch(18% 0.02 95 / 0.04), inset 0 1px 0 oklch(99% 0 0 / 0.8)",
+              ? "0 2px 40px oklch(25.0% 0.038 341.0 / 0.1), 0 1px 3px oklch(25.0% 0.038 341.0 / 0.06), inset 0 1px 0 oklch(99% 0 0 / 0.8)"
+              : "0 1px 3px oklch(25.0% 0.038 341.0 / 0.04), inset 0 1px 0 oklch(99% 0 0 / 0.8)",
           }}
         >
           {/* Logo */}
@@ -56,12 +57,7 @@ export default function Navbar() {
               className="h-8 w-auto flex-shrink-0 group-hover:-rotate-6"
               style={{ transition: "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)" }}
             />
-            <span
-              className="font-sans font-semibold text-sm whitespace-nowrap"
-              style={{ color: "oklch(22% 0.06 155)" }}
-            >
-              {SITE_CONFIG.name}
-            </span>
+            <Wordmark className="h-[15px] w-auto" title={SITE_CONFIG.name} />
           </Link>
 
           {/* Spacer */}
@@ -75,16 +71,16 @@ export default function Navbar() {
                 href={l.href}
                 className="px-3 py-2 rounded-full font-sans text-xs lg:text-sm font-medium whitespace-nowrap transition-colors duration-150"
                 style={{
-                  color: "oklch(30% 0.015 90)",
+                  color: "oklch(37.1% 0.030 339.7)",
                   transition: "background 160ms cubic-bezier(0.23, 1, 0.32, 1), color 160ms",
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.background = "oklch(22% 0.06 155 / 0.07)";
-                  (e.target as HTMLElement).style.color = "oklch(22% 0.06 155)";
+                  (e.target as HTMLElement).style.background = "oklch(29.9% 0.066 341.4 / 0.07)";
+                  (e.target as HTMLElement).style.color = "oklch(29.9% 0.066 341.4)";
                 }}
                 onMouseLeave={(e) => {
                   (e.target as HTMLElement).style.background = "transparent";
-                  (e.target as HTMLElement).style.color = "oklch(30% 0.015 90)";
+                  (e.target as HTMLElement).style.color = "oklch(37.1% 0.030 339.7)";
                 }}
               >
                 {l.label}
@@ -111,8 +107,8 @@ export default function Navbar() {
             onClick={() => setOpen(!open)}
             className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full ml-1"
             style={{
-              background: open ? "oklch(22% 0.06 155 / 0.08)" : "transparent",
-              color: "oklch(22% 0.06 155)",
+              background: open ? "oklch(29.9% 0.066 341.4 / 0.08)" : "transparent",
+              color: "oklch(29.9% 0.066 341.4)",
               transition: "background 200ms cubic-bezier(0.23, 1, 0.32, 1)",
               border: "none",
               cursor: "pointer",
@@ -124,7 +120,7 @@ export default function Navbar() {
               <span
                 className="block h-px rounded-full"
                 style={{
-                  background: "oklch(22% 0.06 155)",
+                  background: "oklch(29.9% 0.066 341.4)",
                   transformOrigin: "center",
                   transition: "transform 300ms cubic-bezier(0.32, 0.72, 0, 1)",
                   transform: open ? "translateY(6px) rotate(45deg)" : "none",
@@ -133,7 +129,7 @@ export default function Navbar() {
               <span
                 className="block h-px rounded-full"
                 style={{
-                  background: "oklch(22% 0.06 155)",
+                  background: "oklch(29.9% 0.066 341.4)",
                   transition: "opacity 200ms, transform 300ms cubic-bezier(0.32, 0.72, 0, 1)",
                   opacity: open ? 0 : 1,
                 }}
@@ -141,7 +137,7 @@ export default function Navbar() {
               <span
                 className="block h-px rounded-full"
                 style={{
-                  background: "oklch(22% 0.06 155)",
+                  background: "oklch(29.9% 0.066 341.4)",
                   transformOrigin: "center",
                   transition: "transform 300ms cubic-bezier(0.32, 0.72, 0, 1)",
                   transform: open ? "translateY(-6px) rotate(-45deg)" : "none",
@@ -156,7 +152,7 @@ export default function Navbar() {
       <div
         className="fixed inset-0 z-40 lg:hidden flex flex-col"
         style={{
-          background: "oklch(97% 0.012 85 / 0.95)",
+          background: "oklch(98.5% 0.011 71.9 / 0.95)",
           backdropFilter: "blur(32px) saturate(1.4)",
           WebkitBackdropFilter: "blur(32px) saturate(1.4)",
           opacity: open ? 1 : 0,
@@ -173,7 +169,7 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               className="font-display font-light text-5xl"
               style={{
-                color: "oklch(22% 0.06 155)",
+                color: "oklch(29.9% 0.066 341.4)",
                 opacity: open ? 1 : 0,
                 transform: open ? "translateY(0)" : "translateY(16px)",
                 transition: `opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) ${(i + 1) * 80}ms, transform 500ms cubic-bezier(0.23, 1, 0.32, 1) ${(i + 1) * 80}ms`,
@@ -209,7 +205,7 @@ export default function Navbar() {
 
         {/* Subtle brand mark at bottom */}
         <div className="px-8 pb-10" style={{ opacity: 0.3 }}>
-          <span className="label-xs" style={{ color: "oklch(22% 0.06 155)" }}>
+          <span className="label-xs" style={{ color: "oklch(29.9% 0.066 341.4)" }}>
             {SITE_CONFIG.name} · {SITE_CONFIG.estate} · {SITE_CONFIG.city}
           </span>
         </div>

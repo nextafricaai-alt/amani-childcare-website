@@ -8,30 +8,32 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // OKLCH tokens exposed as Tailwind utilities
-        green: {
-          DEFAULT: "oklch(22% 0.06 155)",
-          mid: "oklch(28% 0.07 155)",
-          light: "oklch(35% 0.08 155)",
+        // PIKADON brand palette (see app/globals.css for roles)
+        plum: {
+          50: "#F8EEF4", 100: "#EEDCE7", 700: "#802C5E",
+          800: "#55284A", 900: "#431F37", 950: "#2C1324",
+          DEFAULT: "#431F37",
         },
-        gold: {
-          DEFAULT: "oklch(68% 0.12 75)",
-          pale: "oklch(78% 0.09 78)",
+        orange: {
+          50: "#FEF0E9", 100: "#FBDCCF", DEFAULT: "#EA5A2D",
+          600: "#C8461C", 700: "#B83F17",
         },
+        sun: { 50: "#FFF7DE", 100: "#FDEBAE", DEFAULT: "#F5BE14" },
         cream: {
-          DEFAULT: "oklch(97% 0.012 85)",
-          deep: "oklch(93% 0.016 82)",
-          raised: "oklch(99% 0.006 85)",
+          DEFAULT: "#FFF9F2",
+          deep: "#FBEEE3",
+          raised: "#FFFDFB",
         },
         ink: {
-          DEFAULT: "oklch(18% 0.02 95)",
-          body: "oklch(30% 0.015 90)",
-          muted: "oklch(50% 0.010 90)",
+          DEFAULT: "#2E1A27",
+          body: "#4B3A45",
+          muted: "#6E5C68",
         },
       },
       fontFamily: {
-        display: ["Cormorant Garamond", "Georgia", "serif"],
-        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        display: ["Poppins", "system-ui", "sans-serif"],
+        sans: ["Nunito", "system-ui", "sans-serif"],
+        body: ["Nunito", "system-ui", "sans-serif"],
       },
       borderRadius: {
         "4xl": "2rem",

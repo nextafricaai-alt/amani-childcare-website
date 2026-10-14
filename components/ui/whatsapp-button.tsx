@@ -12,17 +12,17 @@ export default function WhatsAppButton() {
       aria-label="Book a visit on WhatsApp"
       className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5 pl-4 pr-3 py-3 rounded-full text-white font-sans font-semibold text-sm min-h-[44px]"
       style={{
-        background: "#25D366",
-        boxShadow: "0 4px 24px rgba(37, 211, 102, 0.4), 0 1px 4px rgba(0,0,0,0.15)",
+        background: "#0E7A5F", /* WhatsApp green, deepened for AA with white text */
+        boxShadow: "0 4px 24px rgba(14, 122, 95, 0.4), 0 1px 4px rgba(0,0,0,0.15)",
         transition: "transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 300ms cubic-bezier(0.23, 1, 0.32, 1)",
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLElement).style.transform = "scale(1.05) translateY(-2px)";
-        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(37, 211, 102, 0.5), 0 2px 8px rgba(0,0,0,0.2)";
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(14, 122, 95, 0.5), 0 2px 8px rgba(0,0,0,0.2)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.transform = "scale(1) translateY(0)";
-        (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(37, 211, 102, 0.4), 0 1px 4px rgba(0,0,0,0.15)";
+        (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 24px rgba(14, 122, 95, 0.4), 0 1px 4px rgba(0,0,0,0.15)";
       }}
       onMouseDown={(e) => {
         (e.currentTarget as HTMLElement).style.transform = "scale(0.97)";

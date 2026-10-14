@@ -25,9 +25,9 @@ const BG_SLIDES = [
     quote: "Where curiosity ignites, confidence blossoms, and every single child is known by name.",
     author: "Pikadon Campus Vision · Najjera",
     pillBg: "rgba(255, 255, 255, 0.95)",
-    textColor: "#1A2E22",
-    accentColor: "#2D4F39",
-    btnBg: "#2D4F39",
+    textColor: "#431F37",
+    accentColor: "#802C5E",
+    btnBg: "#431F37",
     btnText: "#FFFFFF",
     layoutType: "bottom-right",
     posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
@@ -40,9 +40,9 @@ const BG_SLIDES = [
     quote: "A vibrant haven in Najjera where little leaders discover the thrill of learning every day!",
     author: "Tariq · Age 5 · Senior Kinder",
     pillBg: "rgba(255, 255, 255, 0.95)",
-    textColor: "#1A2E22",
-    accentColor: "#D97706",
-    btnBg: "#D97706",
+    textColor: "#431F37",
+    accentColor: "#B83F17",
+    btnBg: "#C8461C",
     btnText: "#FFFFFF",
     layoutType: "horizontal-below-pikadon",
     posClass: "top-[66%] sm:top-[68%] right-[2%] sm:right-[5%] md:right-[8%]",
@@ -54,11 +54,11 @@ const BG_SLIDES = [
     badge: "🩺 FUTURE DOCTOR PROMISE",
     quote: "My nanny at Pikadon says if I listen to my parents, eat well, and stay curious, I will be a great doctor one day!",
     author: "Kato · Age 5 · Junior Scholar",
-    pillBg: "rgba(15, 23, 42, 0.92)",
-    textColor: "#FCFAF4",
-    accentColor: "#38BDF8",
-    btnBg: "#38BDF8",
-    btnText: "#0F172A",
+    pillBg: "rgba(44, 19, 36, 0.92)",
+    textColor: "#FFF9F2",
+    accentColor: "#F5BE14",
+    btnBg: "#F5BE14",
+    btnText: "#2C1324",
     layoutType: "left-editorial",
     posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
   },
@@ -69,11 +69,11 @@ const BG_SLIDES = [
     badge: "🚀 BIG DREAMS & DISCOVERY",
     quote: "My nanny at Pikadon says if I dream big and keep asking questions, I can explore the universe as an astronaut!",
     author: "Zuri · Age 4 · Explorer Class",
-    pillBg: "rgba(15, 23, 42, 0.92)",
-    textColor: "#FCFAF4",
-    accentColor: "#F472B6",
-    btnBg: "#F472B6",
-    btnText: "#0F172A",
+    pillBg: "rgba(44, 19, 36, 0.92)",
+    textColor: "#FFF9F2",
+    accentColor: "#FF8A5C",
+    btnBg: "#EA5A2D",
+    btnText: "#2C1324",
     layoutType: "left-editorial",
     posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
   },
@@ -84,11 +84,11 @@ const BG_SLIDES = [
     badge: "💡 CREATIVE THINKING",
     quote: "Nurturing brilliant young minds with hands-on discovery, problem solving, and endless wonder.",
     author: "Montessori Discovery Method",
-    pillBg: "rgba(26, 46, 34, 0.94)",
-    textColor: "#FCFAF4",
-    accentColor: "#FBBF24",
-    btnBg: "#FBBF24",
-    btnText: "#1A2E22",
+    pillBg: "rgba(67, 31, 55, 0.94)",
+    textColor: "#FFF9F2",
+    accentColor: "#F5BE14",
+    btnBg: "#F5BE14",
+    btnText: "#2C1324",
     layoutType: "bottom-right",
     posClass: "bottom-16 sm:bottom-20 right-4 sm:right-10 md:right-14",
   },
@@ -100,9 +100,9 @@ const BG_SLIDES = [
     quote: "A warm, loving family of certified caregivers dedicated to guiding your child's growth step by step.",
     author: "Caregiver & Nanny Excellence",
     pillBg: "rgba(255, 255, 255, 0.95)",
-    textColor: "#1A2E22",
-    accentColor: "#059669",
-    btnBg: "#059669",
+    textColor: "#431F37",
+    accentColor: "#802C5E",
+    btnBg: "#802C5E",
     btnText: "#FFFFFF",
     layoutType: "left-editorial",
     posClass: "top-28 sm:top-36 left-4 sm:left-10 md:left-14",
@@ -115,9 +115,9 @@ const BG_SLIDES = [
     quote: "Safe, sanitized, and playful spaces designed to make every morning feel like a magical adventure.",
     author: "Pikadon Health Standard",
     pillBg: "rgba(255, 255, 255, 0.95)",
-    textColor: "#1A2E22",
-    accentColor: "#2563EB",
-    btnBg: "#2563EB",
+    textColor: "#431F37",
+    accentColor: "#B83F17",
+    btnBg: "#C8461C",
     btnText: "#FFFFFF",
     layoutType: "horizontal-below-pikadon",
     posClass: "top-[70%] sm:top-[72%] right-[2%] sm:right-[5%] md:right-[8%]",
@@ -154,7 +154,7 @@ export default function ScrollMorphHero() {
           inset: 0;
           pointer-events: none;
           z-index: 30;
-          color: #1a2e22;
+          color: #431F37;
           text-transform: uppercase;
           letter-spacing: 0.16em;
         }
@@ -170,7 +170,7 @@ export default function ScrollMorphHero() {
           left: 30px;
           font-weight: 800;
           letter-spacing: 0.06em;
-          color: #2d4f39;
+          color: #431F37;
         }
         .kpf-tr {
           top: 26px;
@@ -261,7 +261,7 @@ export default function ScrollMorphHero() {
                     <span style={{ color: slide.accentColor }}>●</span>
                     <span>{slide.badge}</span>
                   </div>
-                  <blockquote className="font-[family-name:var(--font-fredoka)] text-xs sm:text-sm font-semibold leading-tight">
+                  <blockquote className="font-[family-name:var(--font-heading)] text-xs sm:text-sm font-semibold leading-tight">
                     "{slide.quote}"
                   </blockquote>
                 </div>
@@ -299,7 +299,7 @@ export default function ScrollMorphHero() {
                   <span style={{ color: slide.accentColor }}>●</span>
                   <span>{slide.badge}</span>
                 </div>
-                <blockquote className="font-[family-name:var(--font-fredoka)] text-sm sm:text-base md:text-lg font-semibold leading-snug tracking-wide mb-3.5">
+                <blockquote className="font-[family-name:var(--font-heading)] text-sm sm:text-base md:text-lg font-semibold leading-snug tracking-wide mb-3.5">
                   "{slide.quote}"
                 </blockquote>
                 <div className="flex items-center justify-between pt-2.5 border-t border-black/10 dark:border-white/10 text-xs sm:text-sm">
@@ -327,8 +327,8 @@ export default function ScrollMorphHero() {
             aria-label={`Go to slide ${idx + 1}`}
             className={`h-2.5 rounded-full transition-all duration-300 ${
               idx === slideIdx
-                ? "w-8 bg-[#2D4F39]"
-                : "w-2.5 bg-[#2D4F39]/40 hover:bg-[#2D4F39]/70"
+                ? "w-8 bg-[#431F37]"
+                : "w-2.5 bg-[#431F37]/40 hover:bg-[#431F37]/70"
             }`}
           />
         ))}

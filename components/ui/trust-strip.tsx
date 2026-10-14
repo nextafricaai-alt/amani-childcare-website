@@ -14,9 +14,9 @@ export default function TrustStrip() {
     <div
       className="w-full py-5 px-4"
       style={{
-        background: "oklch(28% 0.07 155)",
-        borderTop: "1px solid oklch(68% 0.12 75 / 0.15)",
-        borderBottom: "1px solid oklch(68% 0.12 75 / 0.15)",
+        background: "oklch(35.1% 0.082 337.3)",
+        borderTop: "1px solid oklch(82.8% 0.166 87.0 / 0.15)",
+        borderBottom: "1px solid oklch(82.8% 0.166 87.0 / 0.15)",
       }}
     >
       <ul
@@ -25,10 +25,10 @@ export default function TrustStrip() {
       >
         {items.map(({ Icon, label }, i) => (
           <Reveal key={label} delay={i * 50}>
-            <li className="trust-item" style={{ color: "oklch(97% 0.012 85 / 0.7)" }}>
+            <li className="trust-item" style={{ color: "oklch(98.5% 0.011 71.9 / 0.7)" }}>
               <Icon
                 className="w-4 h-4"
-                style={{ color: "oklch(68% 0.12 75)" }}
+                style={{ color: "oklch(82.8% 0.166 87.0)" }}
                 aria-hidden
               />
               {label}

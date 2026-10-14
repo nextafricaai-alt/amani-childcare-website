@@ -37,10 +37,10 @@ export default function FadedKidsNamesBackground() {
 
     // Slightly higher contrast colors tailored against background surfaces
     const colors = [
-      "rgba(22, 53, 42, 0.32)",     // Pikadon Forest Green (rich contrast)
-      "rgba(165, 125, 45, 0.35)",    // Antique Amber Gold
-      "rgba(40, 37, 29, 0.28)",      // Deep Charcoal Ink
-      "rgba(45, 90, 70, 0.32)",      // Warm Sage Green
+      "rgba(67, 31, 55, 0.32)",     // Pikadon Forest Green (rich contrast)
+      "rgba(234, 90, 45, 0.35)",    // Antique Amber Gold
+      "rgba(46, 26, 39, 0.28)",      // Deep Charcoal Ink
+      "rgba(128, 44, 94, 0.32)",      // Warm Sage Green
     ];
 
     let count = 0;
