@@ -22,10 +22,18 @@ function must<T>(res: { data: T | null; error: { message: string } | null }): T 
   return (res.data ?? ([] as unknown)) as T;
 }
 
+const LIVE_URL = "https://eztgwiujujaxswlslqbf.supabase.co";
+const LIVE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6dGd3aXVqdWpheHN3bHNscWJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMxNzE5NjEsImV4cCI6MjA5ODc0Nzk2MX0.mzyC4DLlC-s3YznfQLTfNxa227_hQlLAt0VhL_dGxr0";
+
 let client: SupabaseClient | null = null;
 export function supabaseClient(): SupabaseClient | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  // Public project address + browser key (safe to ship: the database's row
+  // security decides what each person sees). Env vars override them; set
+  // NEXT_PUBLIC_SUPABASE_URL=demo to build the sample-data version.
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || LIVE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || LIVE_KEY;
+  if (url === "demo") return null;
   if (!url || !key) return null;
   if (!client) client = createClient(url, key, { auth: { persistSession: true, autoRefreshToken: true } });
   return client;

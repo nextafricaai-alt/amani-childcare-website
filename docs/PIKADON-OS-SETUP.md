@@ -38,6 +38,11 @@ Everyone else is invited from inside the app.
    built-in mailer is rate-limited.
 
 ## 5. Connect the website build
+> **Already done for the live project** (`eztgwiujujaxswlslqbf`): its address and
+> browser key are built into `lib/os/supabase.ts`, so no GitHub secrets are
+> needed. The secrets below only *override* them (e.g. a different project).
+> Sample-data version: open `/app?demo`, or build with `NEXT_PUBLIC_SUPABASE_URL=demo`.
+
 Project Settings → API → copy the **Project URL** and the **anon public** key.
 
 **For the live site** (GitHub builds and deploys it on every push):
