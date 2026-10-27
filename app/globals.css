@@ -443,3 +443,87 @@ body::before {
     radial-gradient(50% 70% at 90% 100%, rgba(234, 90, 45, 0.14), transparent 70%),
     var(--sun-50);
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PIKADON OS — app styles (/app). Same brand tokens as the website.
+   Status colours (ok / alert) are reserved for safety states only.
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --ok:        #2E7D4F;
+  --ok-50:     #EAF5EE;
+  --alert:     #B42318;
+  --alert-50:  #FDEDEB;
+  --alert-100: #F7CFCA;
+}
+
+@layer components {
+.os-root { min-height: 100vh; background: var(--cream); color: var(--ink); font-family: var(--font-body); }
+.os-eyebrow { font-family: var(--font-heading); font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange-700); }
+.os-title { font-family: var(--font-heading); font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.15rem); line-height: 1.12; letter-spacing: -0.02em; color: var(--plum-900); }
+
+.os-card { min-width: 0; background: var(--cream-raised); border: 1px solid var(--rule); border-radius: 22px; padding: 20px; box-shadow: 0 1px 2px rgba(67,31,55,0.04); }
+.os-card--sun { background: var(--sun-50); border-color: var(--sun-100); }
+.os-card--plum { background: var(--plum-900); border-color: var(--plum-900); color: var(--cream); }
+.os-card--alert { background: var(--alert-50); border-color: var(--alert-100); }
+
+.os-stat { background: var(--cream-raised); border: 1px solid var(--rule); border-radius: 20px; padding: 16px 18px; }
+.os-stat-label { font-size: 12.5px; font-weight: 700; color: var(--ink-muted); letter-spacing: 0.02em; }
+.os-stat-value { font-family: var(--font-heading); font-weight: 700; font-size: 28px; line-height: 1.1; margin-top: 6px; color: var(--plum-900); letter-spacing: -0.02em; }
+.os-stat--ok { border-color: rgba(46,125,79,0.25); }
+.os-stat--ok .os-stat-value { color: var(--ok); }
+.os-stat--warn { background: var(--sun-50); border-color: var(--sun-100); }
+.os-stat--alert { background: var(--alert-50); border-color: var(--alert-100); }
+.os-stat--alert .os-stat-value { color: var(--alert); }
+
+.os-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+.os-chip--plum { background: var(--plum-50); color: var(--plum-700); }
+.os-chip--orange { background: var(--orange-50); color: var(--orange-700); }
+.os-chip--sun { background: var(--sun-100); color: #6B4500; }
+.os-chip--ok { background: var(--ok-50); color: var(--ok); }
+.os-chip--alert { background: var(--alert-50); color: var(--alert); }
+.os-chip--muted { background: rgba(67,31,55,0.06); color: var(--ink-muted); }
+
+.os-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; font-family: var(--font-heading); font-weight: 600; border: 1.5px solid transparent; cursor: pointer; transition: background-color 150ms var(--ease-out), border-color 150ms, transform 120ms var(--ease-out), box-shadow 150ms; white-space: nowrap; }
+.os-btn:active:not(:disabled) { transform: scale(0.97); }
+.os-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.os-btn--sm { min-height: 36px; padding: 0 14px; font-size: 13px; }
+.os-btn--md { min-height: 44px; padding: 0 18px; font-size: 14px; }
+.os-btn--lg { min-height: 52px; padding: 0 24px; font-size: 15px; }
+.os-btn--primary { background: var(--orange-600); color: #fff; }
+.os-btn--primary:hover:not(:disabled) { background: var(--orange-700); box-shadow: 0 6px 18px rgba(234,90,45,0.28); }
+.os-btn--plum { background: var(--plum-900); color: var(--cream); }
+.os-btn--plum:hover:not(:disabled) { background: var(--plum-800); }
+.os-btn--secondary { background: var(--cream-raised); color: var(--plum-900); border-color: rgba(67,31,55,0.22); }
+.os-btn--secondary:hover:not(:disabled) { background: var(--plum-50); border-color: var(--plum-900); }
+.os-btn--ghost { background: transparent; color: var(--plum-700); }
+.os-btn--ghost:hover:not(:disabled) { background: var(--plum-50); }
+.os-btn--danger { background: var(--alert); color: #fff; }
+
+.os-input { width: 100%; min-height: 46px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid rgba(67,31,55,0.16); background: #fff; font-size: 15px; color: var(--ink); transition: border-color 150ms, box-shadow 150ms; }
+.os-input:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 4px rgba(234,90,45,0.14); }
+textarea.os-input { min-height: 92px; resize: vertical; }
+
+.os-segmented { display: inline-flex; padding: 4px; gap: 2px; background: rgba(67,31,55,0.06); border-radius: 999px; overflow-x: auto; max-width: 100%; }
+.os-segmented-item { padding: 8px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 700; color: var(--ink-muted); white-space: nowrap; min-height: 38px; }
+.os-segmented-item.is-active { background: var(--cream-raised); color: var(--plum-900); box-shadow: 0 1px 3px rgba(67,31,55,0.12); }
+
+.os-row { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-top: 1px solid var(--rule); }
+.os-row:first-child { border-top: 0; }
+
+.os-nav-link { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 14px; font-weight: 700; font-size: 14.5px; color: rgba(255,249,242,0.72); transition: background-color 150ms, color 150ms; }
+.os-nav-link:hover { background: rgba(255,249,242,0.08); color: var(--cream); }
+.os-nav-link.is-active { background: rgba(245,190,20,0.16); color: var(--sun); }
+.os-tab-link { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 2px 6px; font-size: 11px; font-weight: 700; color: var(--ink-muted); min-height: 56px; justify-content: center; }
+.os-tab-link.is-active { color: var(--orange-700); }
+
+.os-spinner { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--orange-100); border-top-color: var(--orange); animation: os-spin 0.8s linear infinite; }
+@keyframes os-spin { to { transform: rotate(360deg); } }
+.os-sheet-in { animation: os-sheet 260ms var(--ease-out); }
+@keyframes os-sheet { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.os-pulse { animation: os-pulse 1.6s ease-in-out infinite; }
+@keyframes os-pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .os-sheet-in, .os-pulse, .os-spinner { animation: none; } }
+
+.os-timeline { position: relative; }
+.os-timeline::before { content: ""; position: absolute; left: 19px; top: 8px; bottom: 8px; width: 2px; background: var(--orange-100); border-radius: 2px; }
+}

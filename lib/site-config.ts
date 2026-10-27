@@ -15,7 +15,7 @@ export const SITE_CONFIG = {
   // Contact & Links
   hours: "Mon–Fri 7:00–18:00, Sat by arrangement",
   email: "hello@pikadon.ug",
-  appUrl: "https://app.pikadon.ug",
+  appUrl: "/app", // Pikadon OS — parents, staff, managers, director, investors
 
   // Founding cohort
   foundingSpots: 10,

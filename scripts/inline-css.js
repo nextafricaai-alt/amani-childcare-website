@@ -42,13 +42,17 @@ if (fs.existsSync(nextSrc)) {
   console.log('Successfully copied _next to next_assets');
 }
 
-// List html files to process
-const htmlFiles = ['index.html', 'fees.html', 'gallery.html', 'visit.html', 'our-promise.html', '404.html'];
+// Every exported page, including nested app pages (app/branch/child.html …)
+function listHtml(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+    const full = path.join(dir, d.name);
+    if (d.isDirectory()) return d.name === '_next' || d.name === 'next_assets' ? [] : listHtml(full);
+    return d.name.endsWith('.html') ? [full] : [];
+  });
+}
+const htmlFiles = listHtml(outDir);
 
-htmlFiles.forEach(file => {
-  const filePath = path.join(outDir, file);
-  if (!fs.existsSync(filePath)) return;
-
+htmlFiles.forEach(filePath => {
   let html = fs.readFileSync(filePath, 'utf8');
 
   // Replace external link rel="stylesheet" with inlined <style> tag
@@ -58,25 +62,22 @@ htmlFiles.forEach(file => {
   html = html.replace(/\/_next\//g, '/next_assets/');
 
   fs.writeFileSync(filePath, html, 'utf8');
-  console.log(`Successfully inlined CSS & updated assets in ${file}`);
 });
+console.log(`Successfully inlined CSS & updated assets in ${htmlFiles.length} pages`);
 
-// Create folder routes so both /fees and /fees.html work on Hostinger
-const routeFolders = [
-  { file: 'fees.html', folder: 'fees' },
-  { file: 'gallery.html', folder: 'gallery' },
-  { file: 'visit.html', folder: 'visit' },
-  { file: 'our-promise.html', folder: 'our-promise' }
-];
+// Create folder routes so both /fees and /fees.html work on Hostinger.
+// Needed wherever a page and a folder share a name (e.g. /app and /app/branch),
+// because the clean-URL rewrite below skips real folders.
+const routeFolders = htmlFiles
+  .filter((f) => path.basename(f) !== 'index.html' && path.basename(f) !== '404.html')
+  .map((f) => ({ src: f, dir: f.slice(0, -'.html'.length) }))
+  .filter(({ src }) => ['fees.html', 'gallery.html', 'visit.html', 'our-promise.html'].includes(path.relative(outDir, src))
+                     || fs.existsSync(src.slice(0, -'.html'.length)));
 
-routeFolders.forEach(({ file, folder }) => {
-  const srcPath = path.join(outDir, file);
-  const targetDir = path.join(outDir, folder);
-  if (fs.existsSync(srcPath)) {
-    fs.mkdirSync(targetDir, { recursive: true });
-    fs.copyFileSync(srcPath, path.join(targetDir, 'index.html'));
-    console.log(`Created route folder ${folder}/index.html`);
-  }
+routeFolders.forEach(({ src, dir }) => {
+  fs.mkdirSync(dir, { recursive: true });
+  fs.copyFileSync(src, path.join(dir, 'index.html'));
+  console.log(`Created route folder ${path.relative(outDir, dir)}/index.html`);
 });
 
 // Create .htaccess for Hostinger clean URL rewrites

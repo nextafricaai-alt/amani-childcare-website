@@ -3,6 +3,7 @@ import { ArrowUpRight, MapPin, Clock, Car, Bus, Navigation } from "lucide-react"
 import Reveal from "@/components/ui/reveal";
 import { SITE_CONFIG, getWhatsAppUrl } from "@/lib/site-config";
 import RequestLocationModal from "@/components/ui/request-location-modal";
+import VisitRequestForm from "@/components/ui/visit-request-form";
 
 export const metadata: Metadata = {
   title: "Visit Us",
@@ -365,6 +366,12 @@ export default function VisitPage() {
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
+          </Reveal>
+
+          <Reveal delay={280}>
+            <div className="mt-12">
+              <VisitRequestForm />
+            </div>
           </Reveal>
         </div>
       </section>

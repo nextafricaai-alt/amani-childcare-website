@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/site-config";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
-import WhatsAppButton from "@/components/ui/whatsapp-button";
-import FadedKidsNamesBackground from "@/components/ui/faded-kids-names";
 
 export const metadata: Metadata = {
   title: {
@@ -63,10 +59,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[var(--cream)] text-[var(--ink)] font-body min-h-screen">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        {children}
       </body>
     </html>
   );

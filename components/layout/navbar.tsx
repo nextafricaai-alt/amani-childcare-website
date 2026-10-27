@@ -88,6 +88,15 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Pikadon OS sign-in (parents & staff) */}
+          <Link
+            href={SITE_CONFIG.appUrl}
+            className="hidden lg:inline-flex px-3 py-2 rounded-full font-sans text-sm font-semibold whitespace-nowrap"
+            style={{ color: "var(--plum-700)" }}
+          >
+            Log in
+          </Link>
+
           {/* CTA (640px+) */}
           <a
             href={getWhatsAppUrl()}
@@ -200,6 +209,9 @@ export default function Navbar() {
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
             </a>
+            <Link href={SITE_CONFIG.appUrl} onClick={() => setOpen(false)} className="block mt-5 font-sans font-semibold" style={{ color: "var(--plum-700)" }}>
+              Parent & staff login →
+            </Link>
           </div>
         </div>
 

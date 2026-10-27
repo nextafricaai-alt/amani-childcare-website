@@ -88,8 +88,6 @@ export default function Footer() {
               ))}
               <a
                 href={SITE_CONFIG.appUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="body-sm w-fit mt-2 font-semibold"
                 style={{
                   color: "oklch(82.8% 0.166 87.0)",
@@ -99,7 +97,7 @@ export default function Footer() {
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "oklch(98.5% 0.011 71.9)")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "oklch(82.8% 0.166 87.0)")}
               >
-                Parent Login (App) →
+                Parent & staff login →
               </a>
             </div>
 

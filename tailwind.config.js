@@ -5,6 +5,9 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // App component classes are composed at runtime (e.g. `os-chip--${tone}`),
+  // so keep every os-* class in the build.
+  safelist: [{ pattern: /^os-/ }],
   theme: {
     extend: {
       colors: {

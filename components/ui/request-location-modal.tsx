@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { X, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { submitLocationRequest, isLiveSite } from "@/lib/os/public";
+import { SITE_CONFIG } from "@/lib/site-config";
 
 interface RequestLocationModalProps {
   buttonText?: string;
@@ -20,32 +22,27 @@ export default function RequestLocationModal({
   const [location, setLocation] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !location) return;
 
-    // Generate pre-filled WhatsApp message for location requests
-    const whatsappNumber = "256706028899";
-    const textMessage = `Hello Pikadon! I would love to request a Pikadon Child Development Centre campus in my area. 
-
-📍 Proposed Location: ${location}
-👤 Name: ${name}
-📞 Phone: ${phone || "Not provided"}`;
-
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textMessage)}`;
-
+    // Saved straight into Pikadon OS (director's "where parents want us" view).
+    await submitLocationRequest(location, name, phone);
     setSubmitted(true);
 
-    // Short delay to let the user see the success screen before opening WhatsApp
+    // Until the live database is connected, also hand over on WhatsApp.
+    const whatsappUrl = isLiveSite() ? null : `https://wa.me/${SITE_CONFIG.phone}?text=${encodeURIComponent(
+      `Hello Pikadon! I would love to request a Pikadon Child Development Centre campus in my area.\n\n📍 Proposed Location: ${location}\n👤 Name: ${name}\n📞 Phone: ${phone || "Not provided"}`
+    )}`;
+
     setTimeout(() => {
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      if (whatsappUrl) window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       setIsOpen(false);
-      // Reset form
       setName("");
       setPhone("");
       setLocation("");
       setSubmitted(false);
-    }, 1500);
+    }, whatsappUrl ? 1500 : 2600);
   };
 
   return (
@@ -91,7 +88,7 @@ export default function RequestLocationModal({
           />
 
           {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#0e2518] to-[#2C1324] p-6 sm:p-8 text-[#FFF9F2] shadow-2xl transition-all duration-300 transform scale-100">
+          <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-b from-[#55284A] to-[#2C1324] p-6 sm:p-8 text-[#FFF9F2] shadow-2xl transition-all duration-300 transform scale-100">
             {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
@@ -180,7 +177,9 @@ export default function RequestLocationModal({
                 <div>
                   <h4 className="text-xl font-bold">Thank You!</h4>
                   <p className="text-sm text-white/70 mt-2">
-                    Opening WhatsApp to submit your request for <strong className="text-white">{location}</strong>. We'll be in touch!
+                    {isLiveSite()
+                      ? <>Your request for <strong className="text-white">{location}</strong> is with the Pikadon team. Every request counts toward where we open next.</>
+                      : <>Opening WhatsApp to submit your request for <strong className="text-white">{location}</strong>. We&apos;ll be in touch!</>}
                   </p>
                 </div>
               </div>
