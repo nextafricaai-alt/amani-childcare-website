@@ -38,24 +38,40 @@ Everyone else is invited from inside the app.
    built-in mailer is rate-limited.
 
 ## 5. Connect the website build
-Project Settings → API → copy **Project URL** and the **anon public** key
-into `.env.local` (never commit it):
+Project Settings → API → copy the **Project URL** and the **anon public** key.
 
+**For the live site** (GitHub builds and deploys it on every push):
+GitHub repo → Settings → Secrets and variables → Actions → New repository
+secret, twice:
+
+| Name | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://xxxx.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `eyJ...` (anon public key) |
+
+**For your own computer** (`npm.cmd run dev`): put the same two lines in
+`.env.local` (never commit it):
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 ```
 
 The anon key is safe in the browser — the database rules decide what each
-person can see. **Never** put the `service_role` key in this repo or app.
+person can see. **Never** use the `service_role` key anywhere in this repo.
 
-## 6. Build and deploy
-```
-npm run build      # builds website + app and prepares the Hostinger folder
-npm run deploy     # uploads out/ by FTP (needs FTP_* in .env.local)
-```
+## 6. Realtime (live updates)
+The migration already adds the live tables (attendance, daily logs, sleep
+checks, incidents, absences, messages, pickups) to Supabase Realtime.
+Check: Database → Publications → `supabase_realtime` lists those 7 tables.
+If a table is missing, switch it on there. Realtime respects the same
+security rules — a parent only receives updates about their own child.
 
-## 7. First day
+## 7. Deploy
+Push to `main` (or re-run the last workflow in GitHub → Actions). When the
+run is green, open pikadon.ug/app — the sign-in page now asks for an email
+instead of showing demo people.
+
+## 8. First day
 1. Sign in at pikadon.ug/app with your email → you land on **Network**.
 2. **Branches → Add a branch** for each centre, with its manager's email.
 3. Each manager signs in, invites caregivers (Team & families) and enrols

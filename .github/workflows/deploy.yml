@@ -24,6 +24,11 @@ jobs:
         run: npm ci
 
       - name: 🏗️ Build static site & inline CSS
+        env:
+          # Pikadon OS database (Settings → Secrets → Actions). If these are
+          # empty the app builds in demo mode with sample data.
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: 📁 Deploy static site to Hostinger FTP
