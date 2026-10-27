@@ -17,7 +17,6 @@
 -- ═══════════════════════════════════════════════════════════════════════
 
 create extension if not exists pgcrypto;
-create extension if not exists citext;
 
 -- ─── Types ──────────────────────────────────────────────────────────────
 do $$ begin
@@ -100,7 +99,7 @@ create index if not exists children_branch_idx on children(branch_id);
 
 create table if not exists invites (
   id            uuid primary key default gen_random_uuid(),
-  email         citext not null,
+  email         text not null check (email = lower(email)),
   role          app_role not null,
   branch_id     uuid references branches(id) on delete cascade,
   child_id      uuid references children(id) on delete cascade,
@@ -125,7 +124,7 @@ create table if not exists guardians (
   full_name     text not null,
   relationship  text not null default 'Parent',
   phone         text,
-  email         citext,
+  email         text check (email = lower(email)),
   is_primary    boolean not null default false,
   created_at    timestamptz not null default now()
 );
@@ -359,6 +358,17 @@ create table if not exists audit_log (
   detail     jsonb,
   at         timestamptz not null default now()
 );
+
+-- Emails are stored lower-case so invites match however people type them.
+create or replace function lower_email() returns trigger language plpgsql as $$
+begin
+  if new.email is not null then new.email := lower(trim(new.email)); end if;
+  return new;
+end $$;
+drop trigger if exists invites_lower_email on invites;
+create trigger invites_lower_email before insert or update on invites for each row execute function lower_email();
+drop trigger if exists guardians_lower_email on guardians;
+create trigger guardians_lower_email before insert or update on guardians for each row execute function lower_email();
 
 -- ═══════════════════════════════════════════════════════════════════════
 -- Access helpers (security definer so policies don't recurse)
@@ -624,7 +634,12 @@ create policy audit_read on audit_log for select to authenticated using (
 );
 
 -- The public website needs the list of open branches (name/area only).
-create or replace view public_branches with (security_invoker = false) as
+-- Column grant keeps anon away from address/phone/capacity; the view runs
+-- with the caller's rights so row security still applies.
+create policy branches_public on branches for select to anon
+  using (status in ('open', 'planning'));
+grant select (id, name, area, opens_at, closes_at, status) on branches to anon;
+create or replace view public_branches with (security_invoker = true) as
   select id, name, area, opens_at, closes_at, status from branches where status in ('open', 'planning');
 grant select on public_branches to anon, authenticated;
 
@@ -639,7 +654,7 @@ language plpgsql security definer set search_path = public as $$
 declare
   inv invites;
   n int := 0;
-  me_email citext := (auth.jwt() ->> 'email')::citext;
+  me_email text := lower(auth.jwt() ->> 'email');
 begin
   if auth.uid() is null or me_email is null then
     raise exception 'Not signed in';
@@ -701,7 +716,7 @@ begin
 
   if p_manager_email is not null and length(trim(p_manager_email)) > 3 then
     insert into invites (email, role, branch_id, full_name, invited_by)
-    values (trim(p_manager_email), 'manager', b, p_manager_name, auth.uid());
+    values (lower(trim(p_manager_email)), 'manager', b, p_manager_name, auth.uid());
   end if;
 
   insert into audit_log (actor, action, entity, entity_id, branch_id, detail)
@@ -850,7 +865,14 @@ $$;
 -- ─── Grants ─────────────────────────────────────────────────────────────
 grant usage on schema public to anon, authenticated;
 grant select, insert, update, delete on all tables in schema public to authenticated;
+-- Anon (the public website) gets nothing except: list open branches, send
+-- an enquiry, request a new area. Supabase's defaults grant more; remove it.
+revoke all on all tables in schema public from anon;
+grant select (id, name, area, opens_at, closes_at, status) on branches to anon;
+grant select on public_branches to anon;
 grant insert on enquiries, location_requests to anon;
+alter default privileges in schema public revoke all on tables from anon;
+alter default privileges in schema public revoke execute on functions from anon, public;
 revoke execute on all functions in schema public from public, anon;
 grant execute on all functions in schema public to authenticated;
 
